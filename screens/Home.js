@@ -8,13 +8,23 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  FlatList,
 } from 'react-native';
-import {SIZES, COLORS, icons, FONTS} from '../constants';
+import {SIZES, COLORS, icons, FONTS, images} from '../constants';
 
 const Home = ({navigation}) => {
+
+  // Dummy Data
+  const [introImages,setIntroImages] = React.useState([
+    {id:0,img:images.real_estate},
+    {id:0,img:images.real_estate}
+  ])
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{marginHorizontal: SIZES.padding}}>
+      <ScrollView style={{marginHorizontal: SIZES.padding}} showsVerticalScrollIndicator={false}>
+   
         <View style={{height: 0.05* SIZES.height}}>
           <View style={{flex: 1,justifyContent:"center"}}>
             <View>
@@ -42,7 +52,7 @@ const Home = ({navigation}) => {
                 <TouchableOpacity style={{ width: 0.05*SIZES.height}} onPress={()=>{navigation.navigate("Map")}}>
                 <View
                   style={{
-                    backgroundColor: 'blue',
+                    backgroundColor: '#0099CC',
                     borderRadius:50,
                     justifyContent: 'center',
                     alignItems: 'center'
@@ -50,12 +60,30 @@ const Home = ({navigation}) => {
                   <Image source={icons.map} resizeMode="contain" style={{height:0.03*SIZES.height,width:0.03*SIZES.height,margin:0.01*SIZES.height,tintColor:COLORS.white}}/>
                 </View>
                 </TouchableOpacity>
-
-
               </View>
             </View>
           </View>
         </View>
+
+       
+        <View style={{height:0.20*SIZES.height,backgroundColor:"red"}}>
+          <View style={{flex:1,justifyContent:"center"}}>
+            <View>
+              {/* <FlatList
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                data={introImages}
+                keyExtractor={(item)=> 'key'+item.id}
+                pagingEnabled
+                snapToAlignment="center"
+                scrollEventThrottle={16}
+                decelerationRate={"fast"}
+              ></FlatList> */}
+            </View>
+          </View>
+        </View>
+        <View style={{height:0.31*SIZES.height,backgroundColor:"blue"}}></View>
+        <View style={{height:0.35*SIZES.height,backgroundColor:"green"}}></View>
       </ScrollView>
     </SafeAreaView>
   );
