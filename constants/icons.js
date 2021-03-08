@@ -5,7 +5,8 @@ export const message = require("../assets/icons/message.png");
 export const like = require("../assets/icons/like.png");
 export const pin = require("../assets/icons/pin.png");
 export const search = require("../assets/icons/search.png");
-export const account = require("../assets/icons/account.png")
+export const account = require("../assets/icons/account.png");
+export const map = require("../assets/icons/map.png")
 
 export default {
   home,
@@ -15,5 +16,6 @@ export default {
   like,
   pin,
   search,
-  account
+  account,
+  map
 };

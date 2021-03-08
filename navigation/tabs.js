@@ -23,7 +23,7 @@ const Tabs = ()=>{
           tabBarIcon:({focused})=>(
             <Image source={icons.home}
             resizeMode="contain"
-            style={{width:25,height:25,tintColor:focused?COLORS.primary:COLORS.secondary}}
+            style={{width:23,height:23,tintColor:focused?COLORS.primary:COLORS.secondary}}
 
             />
           ) 
