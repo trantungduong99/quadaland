@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS} from '../constants';
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{marginHorizontal: SIZES.padding}}>
@@ -25,7 +25,7 @@ const Home = () => {
                   alignItems: 'center',
                 }}>
 
-                <TouchableOpacity style={{ width: '85%'}}>
+                <TouchableOpacity style={{ width: '85%'}} onPress={()=>{navigation.navigate("Search")}}>
                 <View
                   style={{
                     flexDirection:"row",
@@ -39,7 +39,7 @@ const Home = () => {
                 </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ width: 0.05*SIZES.height}}>
+                <TouchableOpacity style={{ width: 0.05*SIZES.height}} onPress={()=>{navigation.navigate("Map")}}>
                 <View
                   style={{
                     backgroundColor: 'blue',
