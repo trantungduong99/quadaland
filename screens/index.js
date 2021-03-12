@@ -5,5 +5,9 @@ import Message from './Message';
 import Account from "./Account";
 import Search from './Search';
 import Map from './Map';
+import News from './News';
+import Project from './Project';
+import Rent from './Rent';
+import Shopping from './Shopping';
 
-export {Home, Community, Notification, Message, Account,Search,Map};
+export {Home, Community, Notification, Message, Account,Search,Map,News,Project,Rent,Shopping};

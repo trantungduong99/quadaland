@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Tabs from './navigation/tabs';
-import {Search, Map} from './screens/';
+import {Search, Map,Project,Shopping,Rent,News} from './screens/';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +20,10 @@ const App = () => {
         {/* Hiding tab bar in specific screens */}
         <Stack.Screen name="Search" component={Search} />
         <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Project" component={Project} />
+        <Stack.Screen name="Shopping" component={Shopping} />
+        <Stack.Screen name="Rent" component={Rent} />
+        <Stack.Screen name="News" component={News} />
       </Stack.Navigator>
     </NavigationContainer>
   );

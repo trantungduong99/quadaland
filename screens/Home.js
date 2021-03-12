@@ -10,9 +10,8 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
-import { FlingGestureHandler } from 'react-native-gesture-handler';
-import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants'; 
+import Menu from '../components/Menu';
 
 
 const Home = ({navigation}) => {
@@ -100,7 +99,9 @@ const Home = ({navigation}) => {
             {/* <Image source={images.banner1} style={{width:"100%", height:"100%"}} resizeMode="cover"/> */}
           </View>
         </View>
-        <View style={{height:0.30*SIZES.height,backgroundColor:"blue"}}></View>
+        <View style={{height:0.30*SIZES.height}}>
+            <Menu />
+        </View>
         <View style={{height:0.33*SIZES.height,backgroundColor:"green"}}></View>
       </ScrollView>
     </SafeAreaView>
