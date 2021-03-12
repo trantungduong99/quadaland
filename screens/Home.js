@@ -10,16 +10,34 @@ import {
   SafeAreaView,
   FlatList,
 } from 'react-native';
-import {SIZES, COLORS, icons, FONTS, images} from '../constants';
+import { FlingGestureHandler } from 'react-native-gesture-handler';
+import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
+import {SIZES, COLORS, icons, FONTS, images} from '../constants'; 
+
 
 const Home = ({navigation}) => {
 
   // Dummy Data
   const [introImages,setIntroImages] = React.useState([
-    {id:0,img:images.real_estate},
-    {id:0,img:images.real_estate}
+    {id:0,img:images.banner1},
+    {id:1,img:images.banner2},
+    {id:2,img:images.banner3},
+    {id:3,img:images.banner4},
+    {id:4,img:images.banner5},
+    {id:5,img:images.banner6},
   ])
-
+ 
+  function renderBanner(item, index){
+    return(
+     <View style={{
+      flex:1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+        <Image source={item.img} resizeMode="cover" style={{width:SIZES.width-2*SIZES.padding,height:"100%",borderRadius:10}}/>
+     </View>
+    )
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -66,24 +84,24 @@ const Home = ({navigation}) => {
         </View>
 
        
-        <View style={{height:0.20*SIZES.height,backgroundColor:"red"}}>
-          <View style={{flex:1,justifyContent:"center"}}>
-            <View>
-              {/* <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={introImages}
-                keyExtractor={(item)=> 'key'+item.id}
-                pagingEnabled
-                snapToAlignment="center"
-                scrollEventThrottle={16}
-                decelerationRate={"fast"}
-              ></FlatList> */}
-            </View>
+        <View style={{height:0.23*SIZES.height}}>
+          <View style={{flex:1, marginVertical:SIZES.base}}>
+            <FlatList 
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              decelerationRate={"normal"}
+              scrollEventThrottle={16}
+              pagingEnabled
+              scrollEnabled
+              data={introImages}
+              keyExtractor={(item)=>item.id.toString()}
+              renderItem={({item,index})=>renderBanner(item,index)}
+            />
+            {/* <Image source={images.banner1} style={{width:"100%", height:"100%"}} resizeMode="cover"/> */}
           </View>
         </View>
-        <View style={{height:0.31*SIZES.height,backgroundColor:"blue"}}></View>
-        <View style={{height:0.35*SIZES.height,backgroundColor:"green"}}></View>
+        <View style={{height:0.30*SIZES.height,backgroundColor:"blue"}}></View>
+        <View style={{height:0.33*SIZES.height,backgroundColor:"green"}}></View>
       </ScrollView>
     </SafeAreaView>
   );
