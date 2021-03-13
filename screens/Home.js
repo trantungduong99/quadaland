@@ -11,7 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants'; 
-import {Menu,ProductIntro} from '../components';
+import {Menu,ProductIntro,Shopping} from '../components';
 
 
 const Home = ({navigation}) => {
@@ -105,6 +105,12 @@ const Home = ({navigation}) => {
         <View style={{height:0.37*SIZES.height}}>
           <ProductIntro />
         </View>
+        <View style={{height: 0.40*SIZES.height}}>
+           <Shopping />
+        </View>
+        <View style={{height: 0.30*SIZES.height}}>
+        
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -113,5 +119,5 @@ const Home = ({navigation}) => {
 export default Home;
 
 const styles = StyleSheet.create({
-  container: {flex: 1,paddingVertical:SIZES.padding},
+  container: {flex: 1,paddingTop:SIZES.padding},
 });

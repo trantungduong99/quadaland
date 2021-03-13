@@ -13,5 +13,10 @@ const project5 = require("../assets/images/project5.jpg");
 const project6 = require("../assets/images/project6.jpg");
 const project7 = require("../assets/images/project7.jpg");
 const project8 = require("../assets/images/project8.jpg");
+const shopping1 = require("../assets/images/shopping1.jpg");
+const shopping2 = require("../assets/images/shopping2.jpg");
+const shopping3 = require("../assets/images/shopping3.jpg");
+const shopping4 = require("../assets/images/shopping4.jpg");
+const shopping5 = require("../assets/images/shopping5.jpg");
 
-export default {banner1,banner2,banner3,banner4, banner5,banner6,project1,project2,project3,project4,project5,project6,project7,project8}
+export default {banner1,banner2,banner3,banner4, banner5,banner6,project1,project2,project3,project4,project5,project6,project7,project8,shopping1,shopping2,shopping3,shopping4,shopping5}

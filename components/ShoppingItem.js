@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import {SIZES, FONTS, COLORS, icons, images} from '../constants';
 
-const ProductIntroItem = ({item}) => {
+const ShoppingItem = ({item}) => {
   return (
     <View style={{marginRight: SIZES.padding, marginLeft: 1}}>
       <View style={{flex: 1}}>
@@ -17,21 +17,22 @@ const ProductIntroItem = ({item}) => {
             shadowOpacity: 0.5,
             shadowRadius: 2.62,
             elevation: 3,
+           
           }}
           onPress={() => {
             console.log('project' + item.id);
           }}>
           <Image
             source={item.img}
-            style={{width: SIZES.width * 0.8, height: '97%', borderRadius: 10}}
+            style={{width: SIZES.width * 0.4, height: "97%", borderRadius: 10}}
             resizeMode="cover"
           />
           <View
             style={{
               position: 'absolute',
               bottom: 0,
-              height: '60%',
-              width: SIZES.width * 0.8,
+              height: '50%',
+              width: SIZES.width * 0.4,
               backgroundColor: '#FAFAFA',
               borderBottomLeftRadius: 10,
               borderBottomRightRadius: 10,
@@ -55,36 +56,13 @@ const ProductIntroItem = ({item}) => {
               alignItems: 'center',
             }}>
             <Text style={{color: COLORS.white, ...FONTS.body4}}>
-              {item.status == 1 ? 'Đang mở bán' : 'Sắp mở bán'}
+              Hot
             </Text>
           </View>
-          <TouchableOpacity
-            style={{position: 'absolute', bottom:12, left: 24}}
-            onPress={() => {
-              console.log("Favorite on Pressed")
-            }}>
-            <Image
-              source={icons.heart_outline}
-              resizeMode="contain"
-              style={{width: 27, height: 27, tintColor: COLORS.primary}}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={{position: 'absolute', bottom:12, right: 24}}
-            onPress={() => {
-              console.log('Favorite On Pressed');
-            }}>
-            <Image
-              source={icons.save_outline}
-              resizeMode="contain"
-              style={{width: 27, height: 27, tintColor: COLORS.primary}}
-            />
-          </TouchableOpacity>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-export default ProductIntroItem;
+export default ShoppingItem;

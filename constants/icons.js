@@ -18,6 +18,8 @@ export const save = require('../assets/icons/save.png');
 export const sofa = require('../assets/icons/sofa.png');
 export const next = require('../assets/icons/next.png');
 export const right_arrow = require('../assets/icons/right-arrow.png');
+export const heart_outline = require('../assets/icons/heart-outline.png');
+export const save_outline = require('../assets/icons/save-outline.png');
 
 export default {
   home,
@@ -40,4 +42,6 @@ export default {
   sofa,
   next,
   right_arrow,
+  heart_outline,
+  save_outline,
 };
