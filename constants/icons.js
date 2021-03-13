@@ -16,6 +16,8 @@ export const newspaper = require('../assets/icons/newspaper.png');
 export const rent = require('../assets/icons/rent.png');
 export const save = require('../assets/icons/save.png');
 export const sofa = require('../assets/icons/sofa.png');
+export const next = require('../assets/icons/next.png');
+export const right_arrow = require('../assets/icons/right-arrow.png');
 
 export default {
   home,
@@ -36,4 +38,6 @@ export default {
   rent,
   save,
   sofa,
+  next,
+  right_arrow,
 };

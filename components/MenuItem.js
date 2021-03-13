@@ -8,7 +8,7 @@ const MenuItem = ({icon, name, target}) => {
   return (
     <View style={{flex: 1, flexDirection: 'column', paddingTop: SIZES.padding}}>
       <TouchableOpacity
-        style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+        style={{flex: 0.7, justifyContent: 'center', alignItems: 'center'}}
         onPress={() => {
           navigation.navigate(target)
         }}>
@@ -16,8 +16,8 @@ const MenuItem = ({icon, name, target}) => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            width: 50,
-            height: 50,
+            width: 45,
+            height: 45,
             backgroundColor: COLORS.lightGray,
             borderRadius: 15,
             padding: SIZES.base,
@@ -29,8 +29,8 @@ const MenuItem = ({icon, name, target}) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={{flex: 0.4, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={{color: COLORS.black, ...FONTS.body4}}>{name}</Text>
+      <View style={{flex: 0.3,alignItems:"center"}}>
+        <Text style={{marginTop:0,color: COLORS.black, ...FONTS.body5}}>{name}</Text>
       </View>
     </View>
   );
