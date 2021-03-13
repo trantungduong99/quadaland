@@ -78,47 +78,104 @@ export const dummyProjectData = [
 export const dummmyShoppingData = [
   {
     id: 0,
-    img:images.shopping1,
+    img: images.shopping1,
     title: 'Nhà phố 1 trệt 1 lầu 110m2, sổ hồng riêng, giá 1.1 tỷ 100% mới xây',
     address:
       'Đường Đinh Đức Thiện - Xã An Phú Tây, Huyện Bình Chánh, TP Hồ Chí Minh',
-    price: '1,1 Tỷ',
+    price: '1,1Tỷ',
     acreage: '120 m2',
   },
   {
     id: 1,
-    img:images.shopping2,
+    img: images.shopping2,
     title:
       'Forest Hill - đất nền sổ sẵn trung tâm TP Bảo Lộc - Lâm Đồng giá chỉ 390 triệu/100m2',
     address: 'Phường 1 - Thành phố Bảo Lộc, Lâm Đồng',
-    price: '390 Triệu',
+    price: '390Tr',
     acreage: '100 m2',
   },
   {
     id: 2,
-    img:images.shopping3,
+    img: images.shopping3,
     title:
       'Siêu phẩm Green Valley Bảo Lộc - Đất nền biệt thự 500m2 - Đã có sổ riêng từng nền - Chỉ 450 triệu',
     address: 'Đường Lý Thái Tổ, Xã Đam Bri, Thành phố Bảo Lộc, Lâm Đồng',
-    price: '450 - 650 Triệu',
-    acreage: '500 - 800 m2',
+    price: '650Tr',
+    acreage: '500m2',
   },
   {
     id: 3,
-    img:images.shopping4,
+    img: images.shopping4,
     title:
       'Bán suất ngoại giao căn biệt thự đơn lập siêu VIP Khai Sơn Hill 62tr/m2 tiền đất, có bể bơi riêng',
     address: 'Đường Ngọc Thụy, Phường Ngọc Thụy, Quận Long Biên, Hà Nội',
-    price: '20 Tỷ',
+    price: '20Tỷ',
     acreage: '318 m2',
   },
   {
     id: 4,
-    img:images.shopping5,
+    img: images.shopping5,
     title:
       'Chính chủ sang tay lại lô đất quận Gò Vấp sát ngay ĐH Văn Lang - giá 3.15 Tỷ có thương lượng',
     address: 'Phường 5, Quận Gò Vấp, TP Hồ Chí Minh',
-    price: '3,15 Tỷ',
+    price: '3,15Tỷ',
     acreage: '40,3 m2',
+  },
+];
+
+export const dummyRentData = [
+  {
+    id: 0,
+    img: images.rent1,
+    title:
+      'Cho thuê căn hộ dịch vụ quận Bình Thạnh - Tiên nghi 4 sao - Dịch vụ tiêu chuẩn - Gần cầu Thị Nghè',
+    address: 'Phường 17, Quận Bình Thạnh, TP Hồ Chí Minh',
+    price: '8tr/tháng',
+    acreage: '47m2',
+  },
+  {
+    id: 1,
+    img: images.rent2,
+    title:
+      'Căn hộ 35m2, ban công, full NT cao cấp - Khai trương căn hộ cao cấp Điện Biên Phủ, Bình Thạnh mới',
+    address: 'Đường Điện Biên Phủ - Quận Bình Thạnh, TP Hồ Chí Minh',
+    price: '5tr/tháng',
+    acreage: '40m2',
+  },
+  {
+    id: 2,
+    img: images.rent3,
+    title:
+      'Căn hộ dịch vụ full tiện nghi, đối diện chợ Bà Chiểu, ưu đãi lớn dành cho sinh viên',
+    address: 'Phố Nguyễn Thiện Thuật - Phường 24, Quận Bình Thạnh, TP Hồ Chí Minh',
+    price: '4,5tr/tháng',
+    acreage: '28m2',
+  },
+  {
+    id: 3,
+    img: images.rent4,
+    title:
+      'Cho thuê căn hộ dịch vụ cao cấp đường Nguyễn Cửu Vân - Quận Bình Thạnh',
+    address: 'Đường Nguyễn Cửu Vân - Phường 17, Quận Bình Thạnh, TP Hồ Chí Minh',
+    price: '7,9tr/tháng',
+    acreage: '47m2',
+  },
+  {
+    id: 4,
+    img: images.rent5,
+    title:
+      'Căn hộ balcon rộng, đầy đủ tiện nghi - Thoáng mát - An ninh - View đẹp',
+    address: 'Đường Bình Quới - Phường 27, Quận Bình Thạnh, TP Hồ Chí Minh',
+    price: '6,5tr/tháng',
+    acreage: '35m2',
+  },
+  {
+    id: 5,
+    img: images.rent6,
+    title:
+      'Cho thuê căn hộ dịch vụ quận Bình Thạnh - TP Hồ Chí Minh - Căn hộ có gác lửng cao không đụng đầu',
+    address: 'Quận Bình Thạnh, TP Hồ Chí Minh',
+    price: '8tr/tháng',
+    acreage: '45m2',
   },
 ];

@@ -11,7 +11,7 @@ import {
   FlatList,
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants'; 
-import {Menu,ProductIntro,Shopping} from '../components';
+import {Menu,ProductIntro,RentIntro,Shopping} from '../components';
 
 
 const Home = ({navigation}) => {
@@ -105,11 +105,11 @@ const Home = ({navigation}) => {
         <View style={{height:0.37*SIZES.height}}>
           <ProductIntro />
         </View>
-        <View style={{height: 0.40*SIZES.height}}>
+        <View style={{height: 0.37*SIZES.height}}>
            <Shopping />
         </View>
-        <View style={{height: 0.30*SIZES.height}}>
-        
+        <View style={{height: 0.37*SIZES.height}}>
+            <RentIntro />
         </View>
       </ScrollView>
     </SafeAreaView>

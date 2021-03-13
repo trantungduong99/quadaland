@@ -37,10 +37,10 @@ const ProductIntroItem = ({item}) => {
               borderBottomRightRadius: 10,
               padding: SIZES.padding,
             }}>
-            <Text style={{color: COLORS.black, ...FONTS.h4}}>
+            <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>
               {item.projectName}
             </Text>
-            <Text style={{color: COLORS.black, ...FONTS.body3}}>
+            <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={2}>
               {item.projectAddress}
             </Text>
           </View>
