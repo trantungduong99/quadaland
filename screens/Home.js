@@ -11,7 +11,8 @@ import {
   FlatList,
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants'; 
-import {Menu,ProductIntro,RentIntro,Shopping} from '../components';
+import {Carousel, Menu,ProductIntro,RentIntro,Shopping} from '../components';
+import {dummyImageData} from '../data/Data';
 
 
 const Home = ({navigation}) => {
@@ -85,7 +86,7 @@ const Home = ({navigation}) => {
        
         <View style={{height:0.23*SIZES.height}}>
           <View style={{flex:1, marginVertical:SIZES.base}}>
-            <FlatList 
+            {/* <FlatList 
               horizontal
               showsHorizontalScrollIndicator={false}
               decelerationRate={"normal"}
@@ -95,8 +96,9 @@ const Home = ({navigation}) => {
               data={introImages}
               keyExtractor={(item)=>item.id.toString()}
               renderItem={({item,index})=>renderBanner(item,index)}
-            />
+            /> */}
             {/* <Image source={images.banner1} style={{width:"100%", height:"100%"}} resizeMode="cover"/> */}
+            <Carousel data={dummyImageData}/>
           </View>
         </View>
         <View style={{height:0.26*SIZES.height}}>
