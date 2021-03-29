@@ -1,6 +1,8 @@
 import React from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
+import {Text, View, Image, TouchableOpacity, FlatList} from 'react-native';
+import ProjectVertival from '../components/ProjectVertical';
 import {icons, SIZES, COLORS} from '../constants';
+import {dummyProjectData} from '../data/Data';
 
 const Project = ({navigation}) => {
   return (
@@ -32,7 +34,7 @@ const Project = ({navigation}) => {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{width: '80%'}}
+              style={{width: '75%'}}
               onPress={() => {
                 console.log('click vao input');
               }}>
@@ -101,6 +103,21 @@ const Project = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+
+      <View style={{height:"100%"}}>
+          <View style={{flex:1}}>
+              <View style={{flex:1,marginTop:SIZES.padding}}>
+                <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+                  <FlatList
+                  data={dummyProjectData}
+                  keyExtractor={(item)=>{"keyprojectinscreen"+item.id}}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({item})=>{return(<ProjectVertival item={item}/>)}}
+                  />
+                </View>
+              </View>
+          </View>
       </View>
     </View>
   );
