@@ -9,5 +9,9 @@ import News from './News';
 import Project from './Project';
 import Rent from './Rent';
 import Shopping from './Shopping';
+import ProjectDetail from './ProjectDetail';
+import RentDetail from './RentDetail';
+import ShoppingDetail from './ShoppingDetail';
 
-export {Home, Community, Notification, Message, Account,Search,Map,News,Project,Rent,Shopping};
+
+export {Home, Community, Notification, Message, Account,Search,Map,News,Project,Rent,Shopping,ProjectDetail,RentDetail,ShoppingDetail};

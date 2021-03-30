@@ -1,7 +1,10 @@
 import React from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {SIZES, FONTS, COLORS, icons} from '../constants';
+import {useNavigation} from '@react-navigation/native';
 const ProjectVertival = ({item}) => {
+  const navigation = useNavigation();
+  
   return (
     <View>
       <View style={{flex: 1}}>
@@ -26,7 +29,7 @@ const ProjectVertival = ({item}) => {
               elevation: 3,
             }}
             onPress={() => {
-              console.log('project' + item.id);
+              navigation.navigate("ProjectDetail",{item:item})
             }}
             >
             <Image

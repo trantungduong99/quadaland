@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 import Tabs from './navigation/tabs';
-import {Search, Map,Project,Shopping,Rent,News} from './screens/';
+import {Search, Map,Project,Shopping,Rent,News,ProjectDetail,RentDetail,ShoppingDetail} from './screens/';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +24,10 @@ const App = () => {
         <Stack.Screen name="Shopping" component={Shopping} />
         <Stack.Screen name="Rent" component={Rent} />
         <Stack.Screen name="News" component={News} />
+        <Stack.Screen name="ProjectDetail" component={ProjectDetail} />
+        <Stack.Screen name="RentDetail" component={RentDetail} />
+        <Stack.Screen name="ShoppingDetail" component={ShoppingDetail} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
