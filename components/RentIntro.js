@@ -2,9 +2,11 @@ import React from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import {images, icons, SIZES, FONTS, COLORS} from '../constants';
 import {dummyRentData} from '../data/Data';
-import RentIntroItem from './RentIntroItem'
+import RentIntroItem from './RentIntroItem';
+import {useNavigation} from '@react-navigation/native';
 
 const RentIntro = () => {
+  const navigation = useNavigation()
   return (
     <View style={{flex: 1}}>
       <View style={{marginTop: SIZES.font}}>
@@ -23,7 +25,7 @@ const RentIntro = () => {
               justifyContent: 'flex-end',
             }}
             onPress={() => {
-              console.log('Xem tat ca');
+              navigation.navigate("Rent")
             }}>
             <Text style={{color: COLORS.primary, ...FONTS.body4}}>
               Xem tất cả

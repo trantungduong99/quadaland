@@ -28,7 +28,7 @@ const ProjectVertival = ({item}) => {
             onPress={() => {
               console.log('project' + item.id);
             }}
-            S>
+            >
             <Image
               source={item.img}
               style={{

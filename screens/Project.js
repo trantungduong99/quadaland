@@ -105,7 +105,7 @@ const Project = ({navigation}) => {
         </View>
       </View>
 
-      <View style={{height:"100%"}}>
+      <View style={{flex:1}}>
           <View style={{flex:1}}>
               <View style={{flex:1,marginTop:SIZES.padding}}>
                 <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
