@@ -111,7 +111,7 @@ const Project = ({navigation}) => {
                 <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
                   <FlatList
                   data={dummyProjectData}
-                  keyExtractor={(item)=>{"keyprojectinscreen"+item.id}}
+                  keyExtractor={(item)=>{return("projectID"+item.id.toString())}}
                   showsVerticalScrollIndicator={false}
                   renderItem={({item})=>{return(<ProjectVertival item={item}/>)}}
                   />

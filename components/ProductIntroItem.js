@@ -52,9 +52,9 @@ const ProductIntroItem = ({item}) => {
               backgroundColor: item.status == 1 ? '#0D9B06' : '#D86519',
               padding: 2,
               justifyContent: 'center',
-              alignItems: 'center',
+              alignItems: 'center',borderRadius:10
             }}>
-            <Text style={{color: COLORS.white, ...FONTS.body4}}>
+            <Text style={{color: COLORS.white, ...FONTS.body4,marginHorizontal:2}}>
               {item.status == 1 ? 'Đang mở bán' : 'Sắp mở bán'}
             </Text>
           </View>

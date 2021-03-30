@@ -58,8 +58,9 @@ const ShoppingItem = ({item}) => {
               padding: 2,
               justifyContent: 'center',
               alignItems: 'center',
+              borderRadius:10
             }}>
-            <Text style={{color: COLORS.white, ...FONTS.body4}}>
+            <Text style={{color: COLORS.white, ...FONTS.body4,marginHorizontal:2}}>
               Hot
             </Text>
           </View>
