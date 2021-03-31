@@ -24,6 +24,7 @@ export const back = require('../assets/icons/back.png');
 export const call = require('../assets/icons/call.png');
 export const more = require('../assets/icons/more.png');
 export const left_arrow = require('../assets/icons/left-arrow.png');
+export const avatar = require('../assets/icons/avatar.png');
 
 export default {
   home,
@@ -52,4 +53,5 @@ export default {
   call,
   more,
   left_arrow,
+  avatar
 };

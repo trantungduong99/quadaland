@@ -23,6 +23,7 @@ const rent3 = require('../assets/images/rent3.jpg');
 const rent4 = require('../assets/images/rent4.jpg');
 const rent5 = require('../assets/images/rent5.jpg');
 const rent6 = require('../assets/images/rent6.jpg');
+const avatar = require('../assets/images/avatar.jpg');
 
 export default {
   banner1,
@@ -50,4 +51,5 @@ export default {
   rent4,
   rent5,
   rent6,
+  avatar
 };
