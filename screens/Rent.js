@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, View, Image, TouchableOpacity, FlatList} from 'react-native';
-import ShoppingVertical from '../components/ShoppingVertical';
+import RentVertical from '../components/RentVertical';
 import {icons, SIZES, COLORS} from '../constants';
 import {dummyRentData} from '../data/Data';
 
@@ -68,7 +68,7 @@ const Rent = ({navigation}) => {
                       padding: 5,
                     }}>
                     <Image
-                      source={icons.buy}
+                      source={icons.rent}
                       style={{height: '100%', width: '100%'}}
                       resizeMode="contain"
                     />
@@ -113,7 +113,7 @@ const Rent = ({navigation}) => {
                   data={dummyRentData}
                   keyExtractor={(item)=>{return("RentID"+item.id.toString())}}
                   showsVerticalScrollIndicator={false}
-                  renderItem={({item})=>{return(<ShoppingVertical item={item}/>)}}
+                  renderItem={({item})=>{return(<RentVertical item={item}/>)}}
                   />
                 </View>
               </View>

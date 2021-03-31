@@ -1,7 +1,9 @@
 import React from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {SIZES, FONTS, COLORS, icons} from '../constants';
+import {useNavigation} from '@react-navigation/native';
 const ShoppingVertical = ({item}) => {
+  const navigation = useNavigation()
   return (
     <View>
       <View style={{flex: 1}}>
@@ -29,7 +31,7 @@ const ShoppingVertical = ({item}) => {
               width: SIZES.width - 2 * SIZES.padding,
             }}
             onPress={() => {
-              console.log('shopping' + item.id);
+              navigation.navigate("ShoppingDetail",{item,item})
             }}>
             <Image
               source={item.img}

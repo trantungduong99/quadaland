@@ -1,8 +1,9 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import {SIZES, FONTS, COLORS, icons, images} from '../constants';
-
+import {useNavigation} from '@react-navigation/native';
 const ProductIntroItem = ({item}) => {
+  const navigation = useNavigation()
   return (
     <View style={{marginRight: SIZES.padding, marginLeft: 1}}>
       <View style={{flex: 1}}>
@@ -19,7 +20,7 @@ const ProductIntroItem = ({item}) => {
             elevation: 3,
           }}
           onPress={() => {
-            console.log('project' + item.id);
+            navigation.navigate("ProjectDetail",{item:item})
           }}>
           <Image
             source={item.img}

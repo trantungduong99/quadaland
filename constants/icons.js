@@ -21,7 +21,9 @@ export const right_arrow = require('../assets/icons/right-arrow.png');
 export const heart_outline = require('../assets/icons/heart-outline.png');
 export const save_outline = require('../assets/icons/save-outline.png');
 export const back = require('../assets/icons/back.png');
-
+export const call = require('../assets/icons/call.png');
+export const more = require('../assets/icons/more.png');
+export const left_arrow = require('../assets/icons/left-arrow.png');
 
 export default {
   home,
@@ -46,5 +48,8 @@ export default {
   right_arrow,
   heart_outline,
   save_outline,
-  back
+  back,
+  call,
+  more,
+  left_arrow,
 };
