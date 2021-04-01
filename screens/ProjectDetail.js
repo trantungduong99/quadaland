@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
-  ColorPropType,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {dummyProjectData} from '../data/Data';
@@ -15,6 +15,18 @@ import {SIZES, icons, COLORS, FONTS, images} from '../constants';
 const ProjectDetail = ({route}) => {
   const navigation = useNavigation();
   const project = route.params.item;
+  const phoneNumber = '0935028053';
+  function hidePhoneNumber(phoneNumber) {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{4})(\d{3})(\d{3})$/);
+    if (match) {
+      const newPhoneNumber = match[1] + ' ' + match[2] + ' ' + match[3];
+      const hideLast4Digits = newPhoneNumber.slice(0, -3);
+      const maskedNumber = hideLast4Digits.padEnd(newPhoneNumber.length, '*');
+      return maskedNumber;
+    }
+    return null;
+  }
   return (
     <View style={{flex: 1}}>
       <ScrollView>
@@ -255,51 +267,98 @@ const ProjectDetail = ({route}) => {
                 </Text>
               </View>
             </View>
-
-            <View
-              style={{
-                backgroundColor: COLORS.primary,
-                height: 30,
-                width: 90,
-                borderRadius: 15,
-                justifyContent: 'center',
-                alignItems: 'center',
+            <TouchableOpacity
+              onPress={() => {
+                console.log('Follow on Pressed');
               }}>
-              <Text style={{color: COLORS.white, ...FONTS.body4}}>
-                Theo dõi
-              </Text>
-            </View>
+              <View
+                style={{
+                  backgroundColor: COLORS.primary,
+                  height: 30,
+                  width: 90,
+                  borderRadius: 15,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: COLORS.white, ...FONTS.body4}}>
+                  Theo dõi
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <View
-              style={{
-                flex: 1,
-                backgroundColor: COLORS.primary,
-                marginTop: SIZES.padding,
-                marginRight: SIZES.padding,
-                borderRadius: 5,
-                borderColor: COLORS.primary,
-                borderWidth: 1,
-                justifyContent:'center',
-                alignItems:"center",flexDirection:"row"
-              }}>
-                <Image source={icons.message} style={{width:25,height:25,tintColor:COLORS.white}} resizeMode="contain"/>
-                <Text style={{color:COLORS.white,...FONTS.body4,marginLeft:SIZES.padding}}>Chat ngay</Text>
-              </View>
-            <View
+            <TouchableOpacity
               style={{
                 flex: 1,
                 marginTop: SIZES.padding,
-                marginLeft: SIZES.padding,
+                marginRight: 0.5 * SIZES.padding,
                 borderRadius: 5,
-                borderColor: COLORS.primary,
-                borderWidth: 1,
-                justifyContent:"center",
-                alignItems:"center",flexDirection:"row"
+              }}
+              onPress={() => {
+                console.log('Chatnow on Pressed');
               }}>
-                <Image source={icons.call} style={{width:25,height:25,tintColor:COLORS.primary}} resizeMode="contain"/>
-                <Text style={{color:COLORS.primary,...FONTS.body4,marginLeft:SIZES.padding}}>0915 207 ***</Text>
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: COLORS.primary,
+                  borderRadius: 5,
+                  borderColor: COLORS.primary,
+                  borderWidth: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <Image
+                  source={icons.message}
+                  style={{width: 25, height: 25, tintColor: COLORS.white}}
+                  resizeMode="contain"
+                />
+                <Text
+                  style={{
+                    color: COLORS.white,
+                    ...FONTS.body4,
+                    marginLeft: SIZES.padding,
+                  }}>
+                  Chat ngay
+                </Text>
               </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                flex: 1,
+                marginTop: SIZES.padding,
+                marginLeft: 0.5 * SIZES.padding,
+                borderRadius: 5,
+              }}
+              onPress={() => {
+                Linking.openURL(`tel:${'0935028053'}`);
+              }}>
+              <View
+                style={{
+                  flex: 1,
+                  borderRadius: 5,
+                  borderColor: COLORS.primary,
+                  borderWidth: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <Image
+                  source={icons.call}
+                  style={{width: 25, height: 25, tintColor: COLORS.primary}}
+                  resizeMode="contain"
+                />
+                <Text
+                  style={{
+                    color: COLORS.primary,
+                    ...FONTS.body4,
+                    marginLeft: SIZES.padding,
+                  }}>
+                  {hidePhoneNumber(phoneNumber)}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
