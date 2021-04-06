@@ -55,49 +55,6 @@ const ProjectDetail = ({route}) => {
               }}
             />
           </View>
-          <View
-            style={{
-              position: 'absolute',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: SIZES.width,
-              padding: SIZES.padding,
-            }}>
-            <TouchableOpacity
-              style={{width: 0.03 * SIZES.height}}
-              onPress={() => {
-                navigation.goBack();
-              }}>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Image
-                  source={icons.back}
-                  resizeMode="contain"
-                  style={{
-                    height: 0.03 * SIZES.height,
-                    width: 0.03 * SIZES.height,
-                    tintColor: COLORS.white,
-                  }}
-                />
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{width: 0.03 * SIZES.height}}
-              onPress={() => {
-                console.log('MoreAction in ProjectDetail on Pressed');
-              }}>
-              <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Image
-                  source={icons.more}
-                  resizeMode="contain"
-                  style={{
-                    height: 0.03 * SIZES.height,
-                    width: 0.03 * SIZES.height,
-                    tintColor: COLORS.white,
-                  }}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
         </View>
         <View style={{flex: 1, padding: SIZES.padding}}>
           <View
@@ -361,6 +318,49 @@ const ProjectDetail = ({route}) => {
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          position: 'absolute',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          width: SIZES.width,
+          padding: SIZES.padding,
+        }}>
+        <TouchableOpacity
+          style={{width: 0.03 * SIZES.height}}
+          onPress={() => {
+            navigation.goBack();
+          }}>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Image
+              source={icons.back}
+              resizeMode="contain"
+              style={{
+                height: 0.03 * SIZES.height,
+                width: 0.03 * SIZES.height,
+                tintColor: COLORS.orange,
+              }}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{width: 0.03 * SIZES.height}}
+          onPress={() => {
+            console.log('MoreAction in ProjectDetail on Pressed');
+          }}>
+          <View style={{justifyContent: 'center', alignItems: 'center'}}>
+            <Image
+              source={icons.more}
+              resizeMode="contain"
+              style={{
+                height: 0.03 * SIZES.height,
+                width: 0.03 * SIZES.height,
+                tintColor: COLORS.orange,
+              }}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

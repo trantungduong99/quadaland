@@ -19,9 +19,9 @@ export const dummyProjectData = [
     id: 0,
     status: '1',
     img: images.project1,
-    projectName: 'Bảo Lộc Park Hills',
+    projectName: 'Đà Nẵng PEARL',
     projectAddress:
-      'Đường Lý Thái Tổ, xã Đambri, thành phố Bảo Lộc, tỉnh Lâm Đồng',
+      'Đường Trần Đại Nghĩa, Hoà Hải, Ngũ Hành Sơn, Đà Nẵng',
   },
   {
     id: 1,
