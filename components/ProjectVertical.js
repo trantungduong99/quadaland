@@ -4,7 +4,7 @@ import {SIZES, FONTS, COLORS, icons} from '../constants';
 import {useNavigation} from '@react-navigation/native';
 const ProjectVertival = ({item}) => {
   const navigation = useNavigation();
-  
+
   return (
     <View>
       <View style={{flex: 1}}>
@@ -29,9 +29,8 @@ const ProjectVertival = ({item}) => {
               elevation: 3,
             }}
             onPress={() => {
-              navigation.navigate("ProjectDetail",{item:item})
-            }}
-            >
+              navigation.navigate('ProjectDetail', {item: item});
+            }}>
             <Image
               source={item.img}
               style={{
@@ -72,18 +71,39 @@ const ProjectVertival = ({item}) => {
                 padding: 2,
                 justifyContent: 'center',
                 alignItems: 'center',
-                borderRadius:10
+                borderRadius: 10,
               }}>
-                <Text style={{color: COLORS.white, ...FONTS.body4,marginHorizontal:2}}>
-              {item.status == 1 ? 'Đang mở bán' : 'Sắp mở bán'}
-            </Text>
-              </View>
-          <TouchableOpacity style={{position:"absolute",bottom:12,left:24}} onPress={()=>{console.log("Favorite on Pressed")}}>
-              <Image source={icons.heart_outline} resizeMode="contain" style={{width:27,height:27,tintColor:COLORS.primary}}/>
-          </TouchableOpacity>
-          <TouchableOpacity style={{position:"absolute",bottom:12,right:24}} onPress={()=>{console.log("Save on Pressed")}}>
-              <Image source={icons.save_outline} resizeMode="contain" style={{width:27,height:27,tintColor:COLORS.primary}}/>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.body4,
+                  marginHorizontal: 2,
+                }}>
+                {item.status == 1 ? 'Đang mở bán' : 'Sắp mở bán'}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{position: 'absolute', bottom: 12, left: 24}}
+              onPress={() => {
+                console.log('Favorite on Pressed');
+              }}>
+              <Image
+                source={icons.heart_outline}
+                resizeMode="contain"
+                style={{width: 27, height: 27, tintColor: COLORS.primary}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{position: 'absolute', bottom: 12, right: 24}}
+              onPress={() => {
+                console.log('Save on Pressed');
+              }}>
+              <Image
+                source={icons.save_outline}
+                resizeMode="contain"
+                style={{width: 27, height: 27, tintColor: COLORS.primary}}
+              />
+            </TouchableOpacity>
           </TouchableOpacity>
         </View>
       </View>

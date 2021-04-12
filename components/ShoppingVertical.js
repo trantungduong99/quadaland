@@ -31,7 +31,7 @@ const ShoppingVertical = ({item}) => {
               width: SIZES.width - 2 * SIZES.padding,
             }}
             onPress={() => {
-              navigation.navigate("ShoppingDetail",{item,item})
+              navigation.navigate("ShoppingDetail",{item:item})
             }}>
             <Image
               source={item.img}

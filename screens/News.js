@@ -29,7 +29,7 @@ function hidePhoneNumber(phoneNumber) {
 const project = dummyProjectData[1];
 import {dummyProjectData} from '../data/Data';
 
-export default class App extends Component {
+export default class News extends Component {
   constructor(props) {
     super(props);
 
