@@ -24,7 +24,7 @@ function hidePhoneNumber(phoneNumber) {
 }
 
 
-class Cat extends Component {
+class Map extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
@@ -384,4 +384,4 @@ class Cat extends Component {
   }
 }
 
-export default Cat;
+export default Map
