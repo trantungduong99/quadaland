@@ -36,7 +36,7 @@ const Project = ({navigation}) => {
             <TouchableOpacity
               style={{width: '75%'}}
               onPress={() => {
-                console.log('click vao input');
+                navigation.navigate("Search",{searchOption:"project"})
               }}>
               <View
                 style={{

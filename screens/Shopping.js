@@ -36,7 +36,7 @@ const Shopping = ({navigation}) => {
             <TouchableOpacity
               style={{width: '75%'}}
               onPress={() => {
-                console.log('click vao input');
+                navigation.navigate("Search",{searchOption:"shopping"})
               }}>
               <View
                 style={{

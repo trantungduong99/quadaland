@@ -3,7 +3,7 @@ import {Text,View} from 'react-native';
 
 const Map = ()=>{
   return(
-    <View>
+    <View style={{justifyContent:"center",alignItems:"center"}}>
       <Text>Map</Text>
     </View>
   )

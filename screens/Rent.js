@@ -36,7 +36,7 @@ const Rent = ({navigation}) => {
             <TouchableOpacity
               style={{width: '75%'}}
               onPress={() => {
-                console.log('click vao input');
+                navigation.navigate("Search",{searchOption:"rent"})
               }}>
               <View
                 style={{

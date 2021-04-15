@@ -53,7 +53,7 @@ const Home = ({navigation}) => {
                   alignItems: 'center',
                 }}>
 
-                <TouchableOpacity style={{ width: '85%'}} onPress={()=>{navigation.navigate("Search")}}>
+                <TouchableOpacity style={{ width: '85%'}} onPress={()=>{navigation.navigate("Search",{searchOption:"project"})}}>
                 <View
                   style={{
                     flexDirection:"row",
