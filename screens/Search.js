@@ -34,7 +34,7 @@ class Search extends Component {
 
   render() {
     const {input, modalVisible,searchOption} = this.state;
-    console.log(searchOption);
+    
     return (
       <View style={{flex: 1}}>
         {/* Header Search input */}
@@ -190,7 +190,6 @@ class Search extends Component {
                   }}
                   onPress={() => {
                     this.setSearchOption('shopping');
-                    console.log(this.state.option)
                   }}>
                   <View
                     style={{

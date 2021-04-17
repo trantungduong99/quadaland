@@ -25,6 +25,11 @@ export const call = require('../assets/icons/call.png');
 export const more = require('../assets/icons/more.png');
 export const left_arrow = require('../assets/icons/left-arrow.png');
 export const avatar = require('../assets/icons/avatar.png');
+export const listmore = require('../assets/icons/listmore.png');
+export const headphones = require('../assets/icons/headphones.png');
+export const settings = require('../assets/icons/settings.png');
+export const shutdown = require('../assets/icons/shutdown.png');
+export const right = require('../assets/icons/right.png');
 
 export default {
   home,
@@ -53,5 +58,10 @@ export default {
   call,
   more,
   left_arrow,
-  avatar
+  avatar,
+  listmore,
+  headphones,
+  settings,
+  shutdown,
+  right,
 };

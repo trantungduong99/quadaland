@@ -1,12 +1,52 @@
-import React from 'react';
-import {Text,View} from 'react-native';
+import React, {Component} from 'react';
+import {Text, TouchableOpacity, View, Image} from 'react-native';
+import MapView, {Circle, Marker,Polygon} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 
-const Map = ()=>{
-  return(
-    <View style={{justifyContent:"center",alignItems:"center"}}>
-      <Text>Map</Text>
-    </View>
-  )
+class Map extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      latitude: 0,
+      longitude: 0,
+      error: null,
+    };
+  }
+
+  componentDidMount() {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        return this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => {
+        this.setState({error: error.message});
+      },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 2000},
+    );
+  }
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <MapView
+          style={{flex: 1}}
+          initialRegion={{
+            latitude: 16.066627,
+            longitude: 108.151134,
+            latitudeDelta: 0.00922,
+            longitudeDelta: 0.00421,
+          }}
+        >
+          <Marker coordinate={this.state} />
+          <Circle center={this.state} radius={200} fillColor="rgba(255,106,106,0.2)"/>
+        </MapView>
+      </View>
+    );
+  }
 }
 
 export default Map;

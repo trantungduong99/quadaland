@@ -8,6 +8,8 @@ target 'HomedyApp' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+
   target 'HomedyAppTests' do
     inherit! :complete
     # Pods for testing
