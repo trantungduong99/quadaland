@@ -30,6 +30,7 @@ export const headphones = require('../assets/icons/headphones.png');
 export const settings = require('../assets/icons/settings.png');
 export const shutdown = require('../assets/icons/shutdown.png');
 export const right = require('../assets/icons/right.png');
+export const quadalandLogo = require('../assets/icons/quadalandLogo.png');
 
 export default {
   home,
@@ -64,4 +65,5 @@ export default {
   settings,
   shutdown,
   right,
+  quadalandLogo
 };
