@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity,StatusBar} from 'react-native';
 import {icons, FONTS, COLORS, images, SIZES} from '../constants';
 
 
@@ -13,6 +13,7 @@ class SplashScreen extends Component {
           justifyContent: 'center',
           alignItems: 'center',
         }}> 
+        <StatusBar backgroundColor="#F2F2F2" barStyle="dark-content" />
         <Image
           source={images.logo}
           resizeMode="contain"

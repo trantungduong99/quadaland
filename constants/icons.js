@@ -31,6 +31,13 @@ export const settings = require('../assets/icons/settings.png');
 export const shutdown = require('../assets/icons/shutdown.png');
 export const right = require('../assets/icons/right.png');
 export const quadalandLogo = require('../assets/icons/quadalandLogo.png');
+export const user = require('../assets/icons/user.png');
+export const padlock = require('../assets/icons/padlock.png');
+export const eye_off = require('../assets/icons/eye-off.png');
+export const eye = require('../assets/icons/eye.png');
+export const checkmark = require('../assets/icons/checkmark.png');
+export const google = require('../assets/icons/google.png');
+export const facebook = require('../assets/icons/facebook.png');
 
 export default {
   home,
@@ -65,5 +72,12 @@ export default {
   settings,
   shutdown,
   right,
-  quadalandLogo
+  quadalandLogo,
+  user,
+  padlock,
+  eye_off,
+  eye,
+  checkmark,
+  google,
+  facebook,
 };
