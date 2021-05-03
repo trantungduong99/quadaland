@@ -38,6 +38,7 @@ export const eye = require('../assets/icons/eye.png');
 export const checkmark = require('../assets/icons/checkmark.png');
 export const google = require('../assets/icons/google.png');
 export const facebook = require('../assets/icons/facebook.png');
+export const mail = require('../assets/icons/mail.png');
 
 export default {
   home,
@@ -80,4 +81,5 @@ export default {
   checkmark,
   google,
   facebook,
+  mail,
 };

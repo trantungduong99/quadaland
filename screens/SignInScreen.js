@@ -10,7 +10,8 @@ import {
   Animated,
 } from 'react-native';
 import {COLORS, FONTS, icons, images, SIZES} from '../constants';
-import LinearGradient from '../components/LinearGradient';
+import * as Animatable from 'react-native-animatable';
+
 
 class SignInScreen extends Component {
   constructor(props) {
@@ -64,10 +65,13 @@ class SignInScreen extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor="#00AEDD" barStyle="light-content" />
         <View style={styles.header}>
-          <Image source={images.supportTeam} resizeMode="contain" style={{width:"100%",height:"90%"}}/>
-          <Text style={styles.text_header}>Welcome!</Text>
+          <Image
+            source={images.supportTeam}
+            resizeMode="contain"
+            style={{width: '100%', height: '100%'}}
+          />
         </View>
-        <View style={styles.footer}>
+        <Animatable.View animation="fadeInUpBig" style={styles.footer}>
           <Text style={styles.text_footer}>Email</Text>
           <View style={styles.action}>
             <Image
@@ -76,7 +80,7 @@ class SignInScreen extends Component {
               resizeMode="contain"
             />
             <TextInput
-              placeholder="Your Username"
+              placeholder="Your Email"
               placeholderTextColor="#666666"
               autoCapitalize="none"
               style={styles.TextInput}
@@ -162,23 +166,30 @@ class SignInScreen extends Component {
             <Text style={[styles.text1, {marginRight: SIZES.base}]}>
               Do you have an account?
             </Text>
-            <TouchableOpacity onPress={()=>{this.props.navigation.navigate("SignUpScreen")}}>
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.navigate('SignUpScreen');
+              }}>
               <Text style={styles.text2}>Sign up</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.signUp}>
-            <Image
-              source={icons.google}
-              resizeMode="contain"
-              style={{width: 25, height: 25,marginRight:25}}
-            />
-            <Image
-              source={icons.facebook}
-              resizeMode="contain"
-              style={{width: 25, height: 25}}
-            />
+            <TouchableOpacity>
+              <Image
+                source={icons.google}
+                resizeMode="contain"
+                style={{width: 25, height: 25, marginRight: 25}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={icons.facebook}
+                resizeMode="contain"
+                style={{width: 25, height: 25}}
+              />
+            </TouchableOpacity>
           </View>
-        </View>
+        </Animatable.View>
       </View>
     );
   }
@@ -195,7 +206,7 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'flex-end',
     paddingHorizontal: 20,
-    paddingBottom:SIZES.padding
+    paddingBottom: SIZES.padding,
   },
   text_header: {
     color: COLORS.black,
@@ -211,7 +222,8 @@ const styles = StyleSheet.create({
   },
   text_footer: {
     color: '#05375a',
-    ...FONTS.h4,
+    fontWeight:"bold",
+    ...FONTS.body4,
   },
   action: {
     flexDirection: 'row',
@@ -219,14 +231,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F2F2F2',
     alignItems: 'flex-end',
-    paddingBottom: 5,
+    paddingBottom: 3,
   },
   TextInput: {
     flex: 1,
     paddingLeft: 10,
     color: '#05375a',
     marginBottom: -18,
-    ...FONTS.body3,
+    ...FONTS.body4,
   },
   errMsg: {
     color: '#FF0000',

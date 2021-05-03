@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, Image, TouchableOpacity,StatusBar} from 'react-native';
+import {View, Text, Image, TouchableOpacity, StatusBar} from 'react-native';
 import {icons, FONTS, COLORS, images, SIZES} from '../constants';
-
+import * as Animatable from 'react-native-animatable';
 
 class SplashScreen extends Component {
   render() {
@@ -12,16 +12,17 @@ class SplashScreen extends Component {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-        }}> 
+        }}>
         <StatusBar backgroundColor="#F2F2F2" barStyle="dark-content" />
-        <Image
+        <Animatable.Image
+          animation="fadeInRight"
           source={images.logo}
           resizeMode="contain"
           style={{height: 350, width: 350}}
         />
-        <Text style={{color: COLORS.black, ...FONTS.body3}}>
+        <Animatable.Text animation="fadeInLeft" style={{color: COLORS.black, ...FONTS.body3}}>
           Chào mừng bạn đến với QuadaLand!
-        </Text>
+        </Animatable.Text>
         <TouchableOpacity
           style={{
             height: 60,
@@ -30,8 +31,9 @@ class SplashScreen extends Component {
             borderRadius: 20,
             marginTop: 70,
           }}
-          onPress={()=>{this.props.navigation.navigate("SignInScreen")}}
-          >
+          onPress={() => {
+            this.props.navigation.navigate('SignInScreen');
+          }}>
           <View
             style={{
               flex: 1,
@@ -52,8 +54,9 @@ class SplashScreen extends Component {
             borderColor: '#00ADEE',
             borderWidth: 1,
           }}
-          onPress={()=>{this.props.navigation.navigate("SignUpScreen") }}
-          >
+          onPress={() => {
+            this.props.navigation.navigate('SignUpScreen');
+          }}>
           <View
             style={{
               flex: 1,
