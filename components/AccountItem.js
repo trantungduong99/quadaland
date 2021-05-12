@@ -1,8 +1,30 @@
 import React from 'react';
 import {Text, View, TouchableOpacity,Image} from 'react-native';
 import {icons, SIZES, COLORS,FONTS} from '../constants';
+import {signOut} from '../services/authService';
+import {useAuthDispatch} from '../contexts/authContext';
+import {SIGN_OUT} from '../actions/actionTypes';
+import asyncStorage from '@react-native-community/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 const AccountItem = ({item, title, target}) => {
+  const navigation = useNavigation()
+  const dispatch = useAuthDispatch();
+  const handleTarget = async (target)=>{
+    if(target=='signOut'){
+      const token = await asyncStorage.getItem('token');
+      console.log('token logout: ',token)
+      try{ 
+        await signOut(token);
+        dispatch({type:SIGN_OUT})
+      }catch(e){
+        console.log("Log out error. Component AcountItem.js")
+      }
+    }
+    if(target=="changePassword"){
+      navigation.navigate("ChangePassword");
+    }
+  }
   return (
     <View>
       <TouchableOpacity
@@ -12,7 +34,7 @@ const AccountItem = ({item, title, target}) => {
           justifyContent: 'space-between',
           paddingHorizontal: SIZES.padding,
           alignItems: 'center',
-        }}>
+        }} onPress={()=>{handleTarget(target)}}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image
             source={item}

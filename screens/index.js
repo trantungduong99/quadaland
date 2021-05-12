@@ -16,6 +16,9 @@ import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import SplashScreen from './SplashScreen';
 import RootStackScreen from './RootStackScreen';
+import PerInfoRegistScreen from './PerInfoRegistScreen';
+import ChangePassword from './ChangePassword';
+import MyProfile from './MyProfile';
 
 export {
   Home,
@@ -36,4 +39,7 @@ export {
   SignUpScreen,
   SplashScreen,
   RootStackScreen,
+  PerInfoRegistScreen,
+  ChangePassword,
+  MyProfile,
 };

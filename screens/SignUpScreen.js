@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -7,361 +7,271 @@ import {
   TextInput,
   StyleSheet,
   StatusBar,
-  Animated,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
 import {COLORS, FONTS, icons, images, SIZES} from '../constants';
+import * as Animatable from 'react-native-animatable';
+import {signUp} from '../services/authService';
+import {useAuthDispatch} from '../contexts/authContext';
+import {SIGN_IN} from '../actions/actionTypes';
 
-class SignUpScreen extends Component {
-  constructor(props) {
-    super(props);
+const SignUpScreen = ({navigation}) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [check_textInputChange, setCheckTextInputChange] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [secureTextEntryConfirm, setSecureTextEntryConfirm] = useState(true);
+  const [isValidUser, setIsValidUser] = useState(true);
+  const [isValidPassword, setIsValidPassword] = useState(true);
+  const [isValidPasswordConfirm, setIsValidPasswordConfirm] = useState(true);
+  const [signUpLoading, setSignUpLoading] = useState(false);
+  const [signUpSuccess, setSignUpSuccess] = useState(true);
 
-    this.state = {
-      fullname: '',
-      email: '',
-      username: '',
-      password: '',
-      passwordConfirm: '',
-      phoneNumber: '',
-      check_textInputChange: false,
-      check_textPhoneNumberChange: false,
-      check_textEmailChange: false,
-      secureTextEntry: true,
-      secureTextConfirmEntry: true,
-      isValidUser: true,
-      isValidPassword: true,
-      isValidPhoneNumber: true,
-      isValidEmail: true,
-      isValidPasswordConfirm: true,
-    };
-    console.log(props);
-    console.log(this.state);
-  }
-  textInputChange = (val) => {
-    if (val.trim().length >= 4) {
-      this.setState({
-        username: val,
-        check_textInputChange: true,
-        isValidUser: true,
-      });
-    } else {
-      this.setState({
-        username: val,
-        check_textInputChange: false,
-        isValidUser: false,
-      });
-    }
-  };
-  textPhoneNumberChange = (val) => {
-    if (val.trim().length >= 10) {
-      this.setState({
-        phoneNumber: val,
-        check_textPhoneNumberChange: true,
-        isValidPhoneNumber: true,
-      });
-    } else {
-      this.setState({
-        phoneNumber: val,
-        check_textPhoneNumberChange: false,
-        isValidPhoneNumber: false,
-      });
-    }
-  };
-  textEmailChange = (val) => {
-    if (val.endsWith('@gmail.com')) {
-      this.setState({
-        email: val,
-        check_textEmailChange: true,
-        isValidEmail: true,
-      });
-    } else {
-      this.setState({
-        email: val,
-        check_textEmailChange: false,
-        isValidEmail: false,
-      });
-    }
-  };
+  const dispatch = useAuthDispatch();
 
-  handleValidUser = (val) => {
-    if (val.trim().length >= 4) {
-      this.setState({isValidUser: true});
-    } else {
-      this.setState({isValidUser: false});
-    }
-  };
-  handleValidPhoneNumber = (val) => {
-    if (val.trim().length >= 10) {
-      this.setState({isValidPhoneNumber: true});
-    } else {
-      this.setState({isValidPhoneNumber: false});
-    }
-  };
-  handleValidEmail = (val) => {
-    if (val.endsWith('@gmail.com')) {
-      this.setState({isValidEmail: true});
-    } else {
-      this.setState({isValidEmail: false});
-    }
-  };
-  handlePasswordChange = (val) => {
+  const textInputChange = (val) => {
     if (val.trim().length >= 8) {
-      this.setState({password: val, isValidPassword: true});
+      setUsername(val);
+      setCheckTextInputChange(true);
+      setIsValidUser(true);
     } else {
-      this.setState({password: val, isValidPassword: false});
-    }
-  };
-  handlePasswordConfirmChange = (val) => {
-    if (val == this.state.password) {
-      this.setState({passwordConfirm: val, isValidPasswordConfirm: true});
-    } else {
-      this.setState({passwordConfirm: val, isValidPasswordConfirm: false});
+      setUsername(val);
+      setCheckTextInputChange(false);
+      setIsValidUser(false);
     }
   };
 
-  componentDidUpdate() {}
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <StatusBar backgroundColor="#00AEDD" barStyle="light-content" />
-        <View style={styles.header}>
+  const handleValidUser = (val) => {
+    if (val.trim().length >= 8) {
+      setIsValidUser(true);
+    } else {
+      setIsValidUser(false);
+    }
+  };
+  const handlePasswordChange = (val) => {
+    if (val.trim().length >= 8) {
+      setPassword(val);
+      setIsValidPassword(true);
+    } else {
+      setPassword(val);
+      setIsValidPassword(false);
+    }
+  };
+  const handlePasswordConfirmChange =(val)=>{
+    if(val==password){
+      setPasswordConfirm(val);
+      setIsValidPasswordConfirm(true)
+    }else{
+      setPasswordConfirm(val);
+      setIsValidPasswordConfirm(false)
+    }
+  }
+  const signUpUser = async (values) => {
+    const {email, password} = values;
+    setSignUpLoading(true);
+    signUp(email, password)
+      .then((response) => {
+        if (response.success == true) {
+          setSignUpSuccess(true);
+          setSignUpLoading(false);
+        }
+      })
+      .catch((e) => {
+        console.log('Error in signUpUser at autService.js:84 ', e);
+        setSignUpLoading(false);
+      })
+      .finally(() => {
+        if(signUpSuccess){
+          console.log('Thực hiện navigate sang trang đăng kí thông tin cá nhân');
+          navigation.navigate("PerInfoRegistScreen",{username:email, password:password})
+        }
+      });
+  };
+  const handleSignUp = async (values) => {
+    if (isValidPassword && isValidUser&&password&&username) {
+      await signUpUser(values);
+    } else {
+      return;
+    }
+  };
+  return (
+    <View style={styles.container}>
+      {signUpLoading?(<View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#00AEDD',
+          }}>
+          <StatusBar backgroundColor="#00AEDD" barStyle="light-content" />
           <Image
             source={images.supportTeam}
+            style={{height: "100%", width: "100%"}}
             resizeMode="contain"
-            style={{width: '100%', height: '100%'}}
           />
-        </View>
-        <Animatable.View style={styles.footer} animation="fadeInUpBig">
-          <Text style={styles.text_footer}>Full Name</Text>
-          <View style={styles.action}>
+        </View>):(<>
+          <StatusBar backgroundColor="#00AEDD" barStyle="light-content" />
+          <View style={styles.header}>
             <Image
-              source={icons.user}
-              style={{height: 20, width: 20}}
+              source={images.supportTeam}
               resizeMode="contain"
+              style={{width: '100%', height: '100%'}}
             />
-            <TextInput
-              placeholder="Your Username"
-              placeholderTextColor="#666666"
-              autoCapitalize="none"
-              style={styles.TextInput}
-              onChangeText={(val) => {
-                this.textInputChange(val);
-              }}
-              onEndEditing={(e) => {
-                this.handleValidUser(e.nativeEvent.text);
-              }}
-            />
-
-            {this.state.check_textInputChange ? (
+          </View>
+          <Animatable.View animation="fadeInUpBig" style={styles.footer}>
+            <Text style={styles.text_footer}>Username</Text>
+            <View style={styles.action}>
               <Image
-                source={icons.checkmark}
-                style={{height: 20, width: 20, tintColor: 'green'}}
+                source={icons.user}
+                style={{height: 20, width: 20}}
                 resizeMode="contain"
               />
-            ) : null}
-          </View>
-          {this.state.isValidUser ? (
-            <View style={{height: 22}}></View>
-          ) : (
-            <Text style={styles.errMsg}>
-              Fullname must be 4 characters long.
-            </Text>
-          )}
-          <Text style={styles.text_footer}>Phone number</Text>
-          <View style={styles.action}>
-            <Image
-              source={icons.call}
-              style={{height: 20, width: 20}}
-              resizeMode="contain"
-            />
-            <TextInput
-              placeholder="Your Phone Number"
-              placeholderTextColor="#666666"
-              autoCapitalize="none"
-              style={styles.TextInput}
-              onChangeText={(val) => {
-                this.textPhoneNumberChange(val);
-              }}
-              onEndEditing={(e) => {
-                this.handleValidPhoneNumber(e.nativeEvent.text);
-              }}
-            />
-
-            {this.state.check_textPhoneNumberChange ? (
-              <Image
-                source={icons.checkmark}
-                style={{height: 20, width: 20, tintColor: 'green'}}
-                resizeMode="contain"
+              <TextInput
+                placeholder="Username"
+                placeholderTextColor="#666666"
+                autoCapitalize="none"
+                style={styles.TextInput}
+                onChangeText={(val) => {
+                  textInputChange(val);
+                }}
+                onEndEditing={(e) => {
+                  handleValidUser(e.nativeEvent.text);
+                }}
               />
-            ) : null}
-          </View>
-          {this.state.isValidPhoneNumber ? (
-            <View style={{height: 22}}></View>
-          ) : (
-            <Text style={styles.errMsg}>
-              Phone number must be 10 characters long.
-            </Text>
-          )}
-          <Text style={styles.text_footer}>Email</Text>
-          <View style={styles.action}>
-            <Image
-              source={icons.mail}
-              style={{height: 20, width: 20}}
-              resizeMode="contain"
-            />
-            <TextInput
-              placeholder="Enter your Email"
-              placeholderTextColor="#666666"
-              autoCapitalize="none"
-              style={styles.TextInput}
-              onChangeText={(val) => {
-                this.textEmailChange(val);
-              }}
-              onEndEditing={(e) => {
-                this.handleValidEmail(e.nativeEvent.text);
-              }}
-            />
 
-            {this.state.check_textEmailChange ? (
-              <Image
-                source={icons.checkmark}
-                style={{height: 20, width: 20, tintColor: 'green'}}
-                resizeMode="contain"
-              />
-            ) : null}
-          </View>
-          {this.state.isValidEmail ? (
-            <View style={{height: 22}}></View>
-          ) : (
-            <Text style={styles.errMsg}>
-              Email must be in the correct format.(abd@domain.com)
-            </Text>
-          )}
-          <Text style={[styles.text_footer, {marginTop: 2}]}>Password</Text>
-          <View style={styles.action}>
-            <Image
-              source={icons.padlock}
-              style={{height: 20, width: 20}}
-              resizeMode="contain"
-            />
-            <TextInput
-              placeholder="Enter your Password"
-              placeholderTextColor="#666666"
-              autoCapitalize="none"
-              secureTextEntry={this.state.secureTextEntry}
-              style={styles.TextInput}
-              onChangeText={(val) => {
-                this.handlePasswordChange(val);
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({secureTextEntry: !this.state.secureTextEntry});
-              }}>
-              {this.state.secureTextEntry ? (
+              {check_textInputChange ? (
                 <Image
-                  source={icons.eye_off}
-                  style={{height: 20, width: 20, tintColor: 'gray'}}
+                  source={icons.checkmark}
+                  style={{height: 20, width: 20, tintColor: 'green'}}
                   resizeMode="contain"
                 />
+              ) : null}
+            </View>
+            {isValidUser ? (
+              <View style={{height: 22}}></View>
+            ) : (
+              <Text style={styles.errMsg}>
+                Username must be 8 characters long.
+              </Text>
+            )}
+            <Text style={[styles.text_footer, {marginTop: 2}]}>Password</Text>
+            <View style={styles.action}>
+              <Image
+                source={icons.padlock}
+                style={{height: 20, width: 20}}
+                resizeMode="contain"
+              />
+              <TextInput
+                placeholder="Password"
+                placeholderTextColor="#666666"
+                autoCapitalize="none"
+                secureTextEntry={secureTextEntry}
+                style={styles.TextInput}
+                onChangeText={(val) => {
+                  handlePasswordChange(val);
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  setSecureTextEntry(!secureTextEntry);
+                }}>
+                {secureTextEntry ? (
+                  <Image
+                    source={icons.eye_off}
+                    style={{height: 20, width: 20, tintColor: 'gray'}}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Image
+                    source={icons.eye}
+                    style={{height: 20, width: 20, tintColor: 'gray'}}
+                    resizeMode="contain"
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              {isValidPassword ? (
+                <View style={{height: 22, width: 30}}></View>
               ) : (
-                <Image
-                  source={icons.eye}
-                  style={{height: 20, width: 20, tintColor: 'gray'}}
-                  resizeMode="contain"
-                />
+                <Text style={styles.errMsg}>
+                  Password must be 8 characters long.
+                </Text>
               )}
-            </TouchableOpacity>
-          </View>
-
-          {this.state.isValidPassword ? (
-            <View style={{height: 22, width: 30}}></View>
-          ) : (
-            <Text style={styles.errMsg}>
-              Password must be 8 characters long.
-            </Text>
-          )}
-          <Text style={[styles.text_footer, {marginTop: 2}]}>
-            Confirm Password
-          </Text>
-          <View style={styles.action}>
-            <Image
-              source={icons.padlock}
-              style={{height: 20, width: 20}}
-              resizeMode="contain"
-            />
-            <TextInput
-              placeholder="Confirm Password"
-              placeholderTextColor="#666666"
-              autoCapitalize="none"
-              secureTextEntry={this.state.secureTextConfirmEntry}
-              style={styles.TextInput}
-              onChangeText={(val) => {
-                this.handlePasswordConfirmChange(val);
-              }}
-            />
-            <TouchableOpacity
-              onPress={() => {
-                this.setState({
-                  secureTextConfirmEntry: !this.state.secureTextConfirmEntry,
-                });
-              }}>
-              {this.state.secureTextConfirmEntry ? (
-                <Image
-                  source={icons.eye_off}
-                  style={{height: 20, width: 20, tintColor: 'gray'}}
-                  resizeMode="contain"
-                />
+            </View>
+            <Text style={[styles.text_footer, {marginTop: 2}]}>Confirm Password</Text>
+            <View style={styles.action}>
+              <Image
+                source={icons.padlock}
+                style={{height: 20, width: 20}}
+                resizeMode="contain"
+              />
+              <TextInput
+                placeholder="Confirm Password"
+                placeholderTextColor="#666666"
+                autoCapitalize="none"
+                secureTextEntry={secureTextEntryConfirm}
+                style={styles.TextInput}
+                onChangeText={(val) => {
+                  handlePasswordConfirmChange(val);
+                }}
+              />
+              <TouchableOpacity
+                onPress={() => {
+                  setSecureTextEntryConfirm(!secureTextEntryConfirm);
+                }}>
+                {secureTextEntryConfirm ? (
+                  <Image
+                    source={icons.eye_off}
+                    style={{height: 20, width: 20, tintColor: 'gray'}}
+                    resizeMode="contain"
+                  />
+                ) : (
+                  <Image
+                    source={icons.eye}
+                    style={{height: 20, width: 20, tintColor: 'gray'}}
+                    resizeMode="contain"
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{justifyContent: 'space-between', flexDirection: 'row'}}>
+              {isValidPasswordConfirm ? (
+                <View style={{height: 22, width: 30}}></View>
               ) : (
-                <Image
-                  source={icons.eye}
-                  style={{height: 20, width: 20, tintColor: 'gray'}}
-                  resizeMode="contain"
-                />
+                <Text style={styles.errMsg}>
+                Password & Confirm Password must be same.
+                </Text>
               )}
-            </TouchableOpacity>
-          </View>
+            </View>
+            <View>
+              <Text style={styles.errMsg}>{signUpSuccess==false?"Đăng kí thất bại! Xin vui lòng thử lại.":""}</Text>
+            </View>
+            <View style={styles.button}>
+              <TouchableOpacity style={styles.signIn} onPress={()=>{handleSignUp({email:username,password:passwordConfirm})}}>
+                <Text style={styles.textSignIn}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
 
-          {this.state.isValidPasswordConfirm ? (
-            <View style={{height: 22, width: 30}}></View>
-          ) : (
-            <Text style={styles.errMsg}>
-              Comfirm password must be same as password.
-            </Text>
-          )}
-
-          <View style={styles.button}>
-            <TouchableOpacity
-              style={styles.signIn}
-              onPress={() => {
-                console.log(this.state);
-              }}>
-              <Text style={styles.textSignIn}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.signUp}>
-            <TouchableOpacity>
-              <Image
-                source={icons.google}
-                resizeMode="contain"
-                style={{width: 25, height: 25, marginRight: 25}}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image
-                source={icons.facebook}
-                resizeMode="contain"
-                style={{width: 25, height: 25}}
-              />
-            </TouchableOpacity>
-          </View>
-        </Animatable.View>
-      </View>
-    );
-  }
-}
+            <View style={styles.signUp}>
+              <Text style={[styles.text1, {marginRight: SIZES.base}]}>
+                Have an account?
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('SignUpScreen');
+                }}>
+                <Text style={styles.text2}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
+          </Animatable.View>
+        </>)}
+    </View>
+  );
+  // }
+};
 
 export default SignUpScreen;
 
@@ -381,7 +291,7 @@ const styles = StyleSheet.create({
     ...FONTS.h2,
   },
   footer: {
-    flex: 11,
+    flex: 3,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

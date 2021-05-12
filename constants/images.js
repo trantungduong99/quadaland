@@ -26,6 +26,8 @@ const rent6 = require('../assets/images/rent6.jpg');
 const avatar = require('../assets/images/avatar.jpg');
 const logo = require('../assets/images/logo.png');
 const supportTeam = require('../assets/images/support-team.png');
+const logoSplash = require('../assets/images/logoSplash.png');
+
 
 export default {
   banner1,
@@ -55,5 +57,6 @@ export default {
   rent6,
   avatar,
   logo,
-  supportTeam
+  supportTeam,
+  logoSplash
 };

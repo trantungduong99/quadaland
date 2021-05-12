@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {COLORS, FONTS, icons, images, SIZES} from '../constants';
 import {AccountItem} from '../components';
 
-const Account = () => {
+const Account = ({navigation}) => {
   return (
     <View
       style={{flex: 1, backgroundColor: '#D8D8D8', flexDirection: 'column'}}>
@@ -49,7 +49,9 @@ const Account = () => {
             padding: SIZES.padding,
             flexDirection: 'row',
             alignItems: 'center',
-          }}>
+          }}
+          onPress={()=>{navigation.navigate('MyProfile')}}
+          >
           <Image
             source={images.avatar}
             resizeMode="cover"
@@ -92,7 +94,8 @@ const Account = () => {
         <AccountItem item={icons.account} title="Tiện ích" target="tienich" />
         <AccountItem item={icons.headphones} title="Liên hệ" target="lienhe" />
         <AccountItem item={icons.settings} title="Cài đặt" target="caidat" />
-        <AccountItem item={icons.shutdown} title="Đăng xuất" target="dangxuat" />
+        <AccountItem item={icons.password} title="Đổi mật khẩu" target="changePassword" />
+        <AccountItem item={icons.shutdown} title="Đăng xuất" target="signOut" />
         <View style={{alignItems:"center",marginTop:SIZES.base}}>
             <Text style={{color:COLORS.secondary,...FONTS.body5}}>Version 3.3.8</Text>
             <Text style={{color:COLORS.secondary,...FONTS.body5}}>© 2021 Hwilee All Rights Reserved</Text>

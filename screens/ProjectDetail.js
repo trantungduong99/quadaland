@@ -7,7 +7,7 @@ import {
   View,
   RefreshControl,
   Image,
-  TouchableOpacity,
+  TouchableOpacity,Linking
 } from 'react-native';
 import {FONTS, SIZES, COLORS, images, icons} from '../constants';
 const HEADER_MAX_HEIGHT = 300;

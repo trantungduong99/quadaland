@@ -39,6 +39,10 @@ export const checkmark = require('../assets/icons/checkmark.png');
 export const google = require('../assets/icons/google.png');
 export const facebook = require('../assets/icons/facebook.png');
 export const mail = require('../assets/icons/mail.png');
+export const changepassword = require('../assets/icons/changepassword.png');
+export const password = require('../assets/icons/password.png');
+export const key = require('../assets/icons/key.png');
+export const edit = require('../assets/icons/edit.png');
 
 export default {
   home,
@@ -82,4 +86,8 @@ export default {
   google,
   facebook,
   mail,
+  changepassword,
+  password,
+  key,
+  edit,
 };
