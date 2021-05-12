@@ -1,9 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {COLORS, FONTS, icons, images, SIZES} from '../constants';
 import {AccountItem} from '../components';
+import {readMyProfile} from '../services/authService';
+import asyncStorage from '@react-native-community/async-storage';
 
 const Account = ({navigation}) => {
+  // const [name, setName] = useState('anonymous');
+  // const getName = async () => {
+  //   readMyProfile()
+  //     .then((r) => {
+  //       console.log(r.data)
+  //       setName(r.data.full_name);
+  //     })
+  //     .catch((e) => {
+  //       setName("anonymous")
+  //       console.log('error in Account.js:16', e);
+  //     });
+  // };
+  // getName();
+  const handleDataToProfile = async () => {
+    readMyProfile()
+      .then((response) => {
+        const {full_name, phone, email, address} = response.data;
+        navigation.navigate('MyProfile', {
+          full_name: full_name,
+          phone: phone,
+          email: email,
+          address: address,
+        });
+      })
+      .catch((e) => {
+        navigation.navigate('MyProfile', {
+          full_name: "",
+          phone: "",
+          email: "",
+          address: "",
+        });
+        console.log(e);
+      });
+  };
   return (
     <View
       style={{flex: 1, backgroundColor: '#D8D8D8', flexDirection: 'column'}}>
@@ -50,26 +86,25 @@ const Account = ({navigation}) => {
             flexDirection: 'row',
             alignItems: 'center',
           }}
-          onPress={()=>{navigation.navigate('MyProfile')}}
-          >
+          onPress={() => {
+            handleDataToProfile();
+          }}>
           <Image
-            source={images.avatar}
+            source={icons.user}
             resizeMode="cover"
             style={{
               height: 46,
               width: 46,
-              borderRadius: 23,
               marginRight: SIZES.padding,
             }}
           />
           <View
             style={{
-              flexDirection: 'column',
-              justifyContent: 'space-between',
+              
+              justifyContent: 'center',
               height: '100%',
             }}>
-            <Text style={{color: COLORS.black, ...FONTS.h4}}>Hồ Lê Huy</Text>
-            <Text style={{color: COLORS.primary, ...FONTS.body4}}>
+            <Text style={{color: COLORS.primary, ...FONTS.body3}}>
               Xem trang cá nhân của bạn
             </Text>
           </View>
@@ -90,15 +125,27 @@ const Account = ({navigation}) => {
 
           elevation: 2,
         }}>
-        <AccountItem item={icons.save} title="Nội dung đã lưu" target="noidungdaluu" />
+        <AccountItem
+          item={icons.save}
+          title="Nội dung đã lưu"
+          target="noidungdaluu"
+        />
         <AccountItem item={icons.account} title="Tiện ích" target="tienich" />
         <AccountItem item={icons.headphones} title="Liên hệ" target="lienhe" />
         <AccountItem item={icons.settings} title="Cài đặt" target="caidat" />
-        <AccountItem item={icons.password} title="Đổi mật khẩu" target="changePassword" />
+        <AccountItem
+          item={icons.password}
+          title="Đổi mật khẩu"
+          target="changePassword"
+        />
         <AccountItem item={icons.shutdown} title="Đăng xuất" target="signOut" />
-        <View style={{alignItems:"center",marginTop:SIZES.base}}>
-            <Text style={{color:COLORS.secondary,...FONTS.body5}}>Version 3.3.8</Text>
-            <Text style={{color:COLORS.secondary,...FONTS.body5}}>© 2021 Hwilee All Rights Reserved</Text>
+        <View style={{alignItems: 'center', marginTop: SIZES.base}}>
+          <Text style={{color: COLORS.secondary, ...FONTS.body5}}>
+            Version 3.3.8
+          </Text>
+          <Text style={{color: COLORS.secondary, ...FONTS.body5}}>
+            © 2021 Hwilee All Rights Reserved
+          </Text>
         </View>
       </View>
     </View>

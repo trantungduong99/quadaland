@@ -2,6 +2,7 @@ import {API} from '../constants';
 import asyncStorage from '@react-native-community/async-storage';
 const axios = require('axios');
 const signIn = async (email, password) => {
+  await asyncStorage.clear()
   try {
     const response = await axios.post(API.LOGIN_URL, {
       username: email,
@@ -19,6 +20,7 @@ const signIn = async (email, password) => {
     await asyncStorage.setItem('expires_at', expires_at.toString());
     await asyncStorage.setItem('role', role);
     await asyncStorage.setItem('username', email);
+    // await readMyProfile();
     return {
       token: response.data.access_token,
     };
@@ -105,7 +107,8 @@ const updateCustomer = async (full_name, phone, address, email) => {
   const username = await asyncStorage.getItem('username');
   const token = await asyncStorage.getItem('token');
   try {
-    const response = await axios.patch(API.UPDATE_CUSTOMER_URL+'/'+username,
+    const response = await axios.patch(
+      API.UPDATE_CUSTOMER_URL + '/' + username,
       {
         full_name: full_name,
         phone: phone,
@@ -114,11 +117,42 @@ const updateCustomer = async (full_name, phone, address, email) => {
       },
       {headers: {Authorization: `Bearer ${token}`}},
     );
-    console.log("tra ve cua server update ",response)
+    console.log('tra ve cua server update ', response);
     return response;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-export {signIn, signOut, checkAuth, signUp, changePassword,updateCustomer};
+const readMyProfile = async () => {
+  const username = await asyncStorage.getItem('username');
+  const token = await asyncStorage.getItem('token');
+  const role = await asyncStorage.getItem('role');
+  if (role == 'customer') {
+    try {
+      const response = await axios.get(
+        API.UPDATE_CUSTOMER_URL + '/' + username,
+        {headers: {Authorization: `Bearer ${token}`}},
+      );
+      const {full_name, phone, email, address} = response.data;
+      await asyncStorage.setItem('full_name', full_name);
+      await asyncStorage.setItem('phone', phone);
+      await asyncStorage.setItem('email', email);
+      await asyncStorage.setItem('address', address);
+      console.log('Read My Profile Response in authService ', response);
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+};
+
+export {
+  signIn,
+  signOut,
+  checkAuth,
+  signUp,
+  changePassword,
+  updateCustomer,
+  readMyProfile,
+};

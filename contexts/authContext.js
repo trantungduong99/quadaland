@@ -22,7 +22,7 @@ const AuthProvider = ({children}) => {
 
 const useAuthState = () => {
   const context = React.useContext(AuthStateContext);
-  console.log(context)
+  console.log(context);
   if (context === undefined) {
     throw new Error('useAuthState must be used within a AuthProvider');
   }
@@ -31,7 +31,7 @@ const useAuthState = () => {
 
 const useAuthDispatch = () => {
   const context = React.useContext(AuthDispatchContext);
-  
+
   if (context === undefined) {
     throw new Error('useAuthDispatch must be used within a AuthProvider');
   }
