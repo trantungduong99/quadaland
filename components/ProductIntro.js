@@ -1,10 +1,11 @@
-import React from "react"
+import React,{useEffect} from "react"
 import {View,Text,TouchableOpacity,Image,FlatList} from 'react-native';
 import {SIZES,FONTS,COLORS,icons,images} from '../constants';
 import {dummyProjectData} from '../data/Data';
 import ProductIntroItem from './ProductIntroItem';
 import {useNavigation} from '@react-navigation/native';
 const ProductIntro = ()=>{
+ 
   const navigation = useNavigation();
   return(
     <View style={{flex:1}}>

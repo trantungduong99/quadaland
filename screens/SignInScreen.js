@@ -59,8 +59,13 @@ const SignInScreen = ({navigation}) => {
     setSignInLoading(true);
     signIn(email, password)
       .then((r) => {
-        console.log(r);
-        dispatch({type: SIGN_IN, token: r.token});
+        console.log('signin 62:', r);
+        dispatch({
+          type: SIGN_IN,
+          token: r.token,
+          role: r.role,
+          username: r.username,
+        });
       })
       .catch((e) => {
         setIsLoginSuccess(false);
@@ -71,7 +76,7 @@ const SignInScreen = ({navigation}) => {
       });
   };
   const handleSignIn = async (values) => {
-    if (isValidPassword && isValidUser&&username&&password) {
+    if (isValidPassword && isValidUser && username && password) {
       await signInUser(values);
     } else {
       return;

@@ -2,7 +2,7 @@ import {API} from '../constants';
 import asyncStorage from '@react-native-community/async-storage';
 const axios = require('axios');
 const signIn = async (email, password) => {
-  await asyncStorage.clear()
+  await asyncStorage.clear();
   try {
     const response = await axios.post(API.LOGIN_URL, {
       username: email,
@@ -23,6 +23,8 @@ const signIn = async (email, password) => {
     // await readMyProfile();
     return {
       token: response.data.access_token,
+      role: response.data.role,
+      username: email,
     };
   } catch (error) {
     throw new Error(error.message);
@@ -103,24 +105,34 @@ const changePassword = async (
     throw new Error(error.message);
   }
 };
-const updateCustomer = async (full_name, phone, address, email) => {
+const updateCustomer = async (values) => {
   const username = await asyncStorage.getItem('username');
   const token = await asyncStorage.getItem('token');
-  try {
-    const response = await axios.patch(
-      API.UPDATE_CUSTOMER_URL + '/' + username,
-      {
-        full_name: full_name,
-        phone: phone,
-        address: address,
-        email: email,
-      },
-      {headers: {Authorization: `Bearer ${token}`}},
-    );
-    console.log('tra ve cua server update ', response);
-    return response;
-  } catch (error) {
-    throw new Error(error.message);
+  const role = await asyncStorage.getItem('role');
+  if (role == 'customer') {
+    try {
+      const response = await axios.patch(
+        API.UPDATE_CUSTOMER_URL + '/' + username,
+        values,
+        {headers: {Authorization: `Bearer ${token}`}},
+      );
+      console.log('tra ve cua server update ', response);
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  if (role == 'company') {
+    try {
+      const response = await axios.patch(
+        API.UPDATE_COMPANY_URL + '/' + username,
+        values,
+        {headers: {Authorization: `Bearer ${token}`}},
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 };
 
@@ -145,6 +157,67 @@ const readMyProfile = async () => {
       throw new Error(error.message);
     }
   }
+  if (role == 'company') {
+    try {
+      const response = await axios.get(
+        API.UPDATE_COMPANY_URL + '/' + username,
+        {headers: {Authorization: `Bearer ${token}`}},
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+};
+
+const createProperty = async (values) => {
+  const token = await asyncStorage.getItem('token');
+  const role = await asyncStorage.getItem('role');
+  console.log('called to create');
+  if (role === 'company') {
+    try {
+      const response = await axios.post(API.CREAT_PROPERTY_URL, values, {
+        headers: {Authorization: `Bearer ${token}`},
+      });
+      console.log('Response create property:', response);
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  } else {
+    console.log('Mày đâu phải company =))');
+  }
+};
+
+const getIntroSale = async () => {
+  const token = await asyncStorage.getItem('token');
+  try {
+    const response = await axios.get(API.GET_INTROSALE_URL, {
+      headers: {Authorization: `Bearer ${token}`},
+    });
+    return response;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const getPropertyByCoordinate = async (coordinate, radius) => {
+  console.log('cood', coordinate);
+  console.log(radius);
+  const {latitude, longitude} = coordinate;
+  const token = await asyncStorage.getItem('token');
+  console.log(`${API.GET_PROPERTY_BYCOORDINATE_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`);
+  try {
+    const response = await axios.get(
+      `${API.GET_PROPERTY_BYCOORDINATE_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`,
+      {
+        headers: {Authorization: `Bearer ${token}`},
+      },
+    );
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 
 export {
@@ -155,4 +228,7 @@ export {
   changePassword,
   updateCustomer,
   readMyProfile,
+  createProperty,
+  getIntroSale,
+  getPropertyByCoordinate,
 };

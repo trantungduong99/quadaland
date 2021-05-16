@@ -25,7 +25,7 @@ const ShoppingItem = ({item}) => {
           }}>
           <Image
             source={item.img}
-            style={{width: SIZES.width * 0.4, height: "97%", borderRadius: 10}}
+            style={{width: SIZES.width * 0.8, height: "97%", borderRadius: 10}}
             resizeMode="cover"
           />
           <View
@@ -33,7 +33,7 @@ const ShoppingItem = ({item}) => {
               position: 'absolute',
               bottom: 0,
               height: '50%',
-              width: SIZES.width * 0.4,
+              width: SIZES.width * 0.8,
               backgroundColor: '#FAFAFA',
               borderBottomLeftRadius: 10,
               borderBottomRightRadius: 10,
@@ -43,10 +43,10 @@ const ShoppingItem = ({item}) => {
               <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.price}</Text>
               <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.acreage}</Text>
             </View>
-            <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={2}>
+            <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>
               {item.title}
             </Text>
-            <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={1}>
+            <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={2}>
               {item.address}
             </Text>
           </View>

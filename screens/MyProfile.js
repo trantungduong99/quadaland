@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,27 +9,71 @@ import {
   TextInput,
 } from 'react-native';
 import {icons, images, COLORS, FONTS, SIZES, API} from '../constants';
-import {updateCustomer, signIn} from '../services/authService';
+import {updateCustomer, signIn, readMyProfile} from '../services/authService';
+import {useAuthState} from '../contexts/authContext';
 
-const MyProfile = ({route, navigation}) => {
-  const {full_name, phone, email, address} = route.params;
-  const [fullnameText, setFullName] = useState(full_name);
-  const [phoneText, setPhone] = useState(phone);
-  const [emailText, setEmail] = useState(email);
-  const [addressText, setAddress] = useState(address);
-  const [displayName, setDisplayName] = useState(full_name);
+const MyProfile = ({navigation}) => {
+  const {role} = useAuthState();
+  const [fullnameText, setFullName] = useState(null);
+  const [phoneText, setPhone] = useState(null);
+  const [emailText, setEmail] = useState(null);
+  const [addressText, setAddress] = useState(null);
+  const [facebookText, setFacebook] = useState(null);
+  const [instagramText, setInstagram] = useState(null);
+  const [twitterText, setTwitter] = useState(null);
   const [checkEditFullName, setCheckEditFullName] = useState(false);
   const [checkEditPhone, setCheckEditPhone] = useState(false);
   const [checkEditEmail, setCheckEditEmail] = useState(false);
   const [checkEditAddress, setCheckEditAddress] = useState(false);
+  const [checkEditFacebook, setCheckEditFacebook] = useState(false);
+  const [checkEditInstagram, setCheckEditInstagram] = useState(false);
+  const [checkEditTwitter, setCheckEditTwitter] = useState(false);
   const [isValidFullName, setIsValidFullName] = useState(true);
   const [isValidPhone, setIsValidPhone] = useState(true);
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidAddress, setIsValidAddress] = useState(true);
+  const [isValidFaceBook, setIsValidFacebook] = useState(true);
+  const [isValidInstagram, setIsValidInstagram] = useState(true);
+  const [isValidTwitter, setIsValidTwitter] = useState(true);
   const ref_FullName = useRef();
   const ref_Phone = useRef();
   const ref_Email = useRef();
   const ref_Address = useRef();
+  const ref_Facebook = useRef();
+  const ref_Twitter = useRef();
+  const ref_Instagram = useRef();
+  useEffect(() => {
+    console.log('role :', role);
+    readMyProfile()
+      .then((r) => {
+        if (role == 'customer') {
+          const {full_name, phone, email, address} = r.data;
+          setFullName(full_name), setPhone(phone), setEmail(email);
+          setAddress(address);
+        }
+        if (role == 'company') {
+          const {
+            full_name,
+            phone,
+            email,
+            address,
+            facebook,
+            instagram,
+            twitter,
+          } = r.data;
+          setFullName(full_name);
+          setPhone(phone);
+          setEmail(email);
+          setAddress(address);
+          setFacebook(facebook);
+          setInstagram(instagram);
+          setTwitter(twitter);
+        }
+      })
+      .catch((e) => {
+        console.log('error in MyProfilejs', e);
+      });
+  }, []);
   const text_FullNameChange = (val) => {
     if (val.trim().length >= 5) {
       setFullName(val);
@@ -88,13 +132,60 @@ const MyProfile = ({route, navigation}) => {
     }
   };
   const handleValidAddress = (val) => {
-    if (val.trim().length >= 5) {
+    if (val.trim().length >= 20) {
       setIsValidAddress(true);
     } else {
       setIsValidAddress(false);
     }
   };
-
+  const text_FacebookChange = (val) => {
+    if (val.trim().length >= 5) {
+      setFacebook(val);
+      setIsValidFacebook(true);
+    } else {
+      setFacebook(val);
+      setIsValidFacebook(false);
+    }
+  };
+  const handleValidFacebook = (val) => {
+    if (val.trim().length >= 5) {
+      setIsValidFacebook(true);
+    } else {
+      setIsValidFacebook(false);
+    }
+  };
+  const text_InstagramChange = (val) => {
+    if (val.trim().length >= 5) {
+      setInstagram(val);
+      setIsValidInstagram(true);
+    } else {
+      setInstagram(val);
+      setIsValidInstagram(false);
+    }
+  };
+  const handleValidInstagram = (val) => {
+    if (val.trim().length >= 5) {
+      setIsValidInstagram(true);
+    } else {
+      setIsValidInstagram(false);
+    }
+  };
+  const text_TwitterChange = (val) => {
+    if (val.trim().length >= 5) {
+      setTwitter(val);
+      setIsValidTwitter(true);
+    } else {
+      setTwitter(val);
+      setIsValidTwitter(false);
+    }
+  };
+  const handleValidTwitter = (val) => {
+    if (val.trim().length >= 5) {
+      setIsValidTwitter(true);
+    } else {
+      setIsValidTwitter(false);
+    }
+  };
   const handleClick = async (x) => {
     if (x == 'fullname') {
       await setCheckEditFullName(true);
@@ -112,38 +203,94 @@ const MyProfile = ({route, navigation}) => {
       await setCheckEditAddress(true);
       ref_Address.current.focus();
     }
+    if (x == 'facebook') {
+      await setCheckEditFacebook(true);
+      ref_Facebook.current.focus();
+    }
+    if (x == 'instagram') {
+      await setCheckEditInstagram(true);
+      ref_Instagram.current.focus();
+    }
+    if (x == 'twitter') {
+      await setCheckEditTwitter(true);
+      ref_Twitter.current.focus();
+    }
   };
-  const handleUpdateMyProfile = async (values) => {
-    const {full_name, phone, email, address} = values;
-    console.log(values);
-    if (
-      isValidFullName &&
-      isValidPhone &&
-      isValidEmail &&
-      isValidAddress &&
-      fullnameText &&
-      phoneText &&
-      emailText &&
-      addressText
-    ) {
-      updateCustomer(full_name, phone, address, email)
+  const handleUpdateMyProfile = async () => {
+    if (role == 'customer') {
+      const values = {
+        full_name: fullnameText,
+        phone: phoneText,
+        address: addressText,
+        email: emailText,
+      };
+      // console.log(values);
+      if (
+        isValidFullName &&
+        isValidPhone &&
+        isValidEmail &&
+        isValidAddress &&
+        fullnameText &&
+        phoneText &&
+        emailText &&
+        addressText
+      ) {
+        updateCustomer(values)
+          .then((response) => {
+            if (response.data.updated_at) {
+              setFullName(response.data.full_name);
+              setPhone(response.data.phone);
+              setEmail(response.data.email);
+              setAddress(response.data.address);
+              setCheckEditFullName(false);
+              setCheckEditPhone(false);
+              setCheckEditEmail(false);
+              setCheckEditAddress(false);
+            } else {
+              console.log('error update');
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        return;
+      }
+    }
+    if (role == 'company') {
+      const values = {
+        full_name: fullnameText,
+        phone: phoneText,
+        address: addressText,
+        email: emailText,
+        facebook: facebookText,
+        instagram: instagramText,
+        twitter: twitterText,
+      };
+      // console.log(values);
+      updateCustomer(values)
         .then((response) => {
           if (response.data.updated_at) {
             setFullName(response.data.full_name);
-            setDisplayName(response.data.full_name);
             setPhone(response.data.phone);
             setEmail(response.data.email);
             setAddress(response.data.address);
+            setFacebook(response.data.facebook);
+            setInstagram(response.data.instagram);
+            setTwitter(response.data.twitter);
             setCheckEditFullName(false);
             setCheckEditPhone(false);
             setCheckEditEmail(false);
             setCheckEditAddress(false);
+            setCheckEditFacebook(false);
+            setCheckEditInstagram(false);
+            setCheckEditTwitter(false);
           } else {
             console.log('error update');
           }
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((e) => {
+          console.log(e);
         });
     } else {
       return;
@@ -168,26 +315,6 @@ const MyProfile = ({route, navigation}) => {
         <Text style={styles.text_title}>Thông tin tài khoản</Text>
       </View>
       <View style={styles.profile_container}>
-        <View style={styles.image_name_container}>
-          <View style={styles.image_container}>
-            <Image
-              source={images.avatar}
-              style={styles.image}
-              resizeMode="cover"
-            />
-          </View>
-          <View style={styles.name_container}>
-            <Text style={styles.text_name}>{displayName}</Text>
-          </View>
-        </View>
-        <View style={{alignItems: 'center'}}>
-          <View
-            style={{
-              height: 2,
-              backgroundColor: COLORS.darkgray,
-              width: SIZES.width * 0.8,
-            }}></View>
-        </View>
         <View
           style={{paddingTop: SIZES.padding, paddingHorizontal: SIZES.padding}}>
           <View style={styles.action}>
@@ -298,6 +425,133 @@ const MyProfile = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+        {role == 'company' && (
+          <>
+            <View
+              style={{
+                paddingTop: SIZES.padding,
+                paddingHorizontal: SIZES.padding,
+              }}>
+              <View style={styles.action}>
+                <Image
+                  source={icons.fb}
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+                <TextInput
+                  placeholder="Facebook"
+                  placeholderTextColor="#666666"
+                  autoCapitalize="none"
+                  editable={checkEditFacebook}
+                  ref={ref_Facebook}
+                  value={facebookText}
+                  onChangeText={(val) => {
+                    text_FacebookChange(val);
+                  }}
+                  onEndEditing={(e) => {
+                    handleValidFacebook(e.nativeEvent.text);
+                  }}
+                  style={
+                    checkEditFacebook
+                      ? styles.text_inputOnEditing
+                      : styles.text_input
+                  }></TextInput>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleClick('facebook');
+                  }}>
+                  <Image
+                    source={icons.edit}
+                    style={{height: 20, width: 20, tintColor: 'green'}}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View
+              style={{
+                paddingTop: SIZES.padding,
+                paddingHorizontal: SIZES.padding,
+              }}>
+              <View style={styles.action}>
+                <Image
+                  source={icons.instagram}
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+                <TextInput
+                  placeholder="Instagram"
+                  placeholderTextColor="#666666"
+                  autoCapitalize="none"
+                  editable={checkEditInstagram}
+                  ref={ref_Instagram}
+                  value={instagramText}
+                  onChangeText={(val) => {
+                    text_InstagramChange(val);
+                  }}
+                  onEndEditing={(e) => {
+                    handleValidInstagram(e.nativeEvent.text);
+                  }}
+                  style={
+                    checkEditInstagram
+                      ? styles.text_inputOnEditing
+                      : styles.text_input
+                  }></TextInput>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleClick('instagram');
+                  }}>
+                  <Image
+                    source={icons.edit}
+                    style={{height: 20, width: 20, tintColor: 'green'}}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View
+              style={{
+                paddingTop: SIZES.padding,
+                paddingHorizontal: SIZES.padding,
+              }}>
+              <View style={styles.action}>
+                <Image
+                  source={icons.twitter}
+                  style={styles.icon}
+                  resizeMode="contain"
+                />
+                <TextInput
+                  placeholder="Twitter"
+                  placeholderTextColor="#666666"
+                  autoCapitalize="none"
+                  editable={checkEditTwitter}
+                  ref={ref_Twitter}
+                  value={twitterText}
+                  onChangeText={(val) => {
+                    text_TwitterChange(val);
+                  }}
+                  onEndEditing={(e) => {
+                    handleValidTwitter(e.nativeEvent.text);
+                  }}
+                  style={
+                    checkEditTwitter
+                      ? styles.text_inputOnEditing
+                      : styles.text_input
+                  }></TextInput>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleClick('twitter');
+                  }}>
+                  <Image
+                    source={icons.edit}
+                    style={{height: 20, width: 20, tintColor: 'green'}}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </>
+        )}
         <View
           style={{paddingTop: SIZES.padding, paddingHorizontal: SIZES.padding}}>
           <View
@@ -349,7 +603,10 @@ const MyProfile = ({route, navigation}) => {
         {checkEditAddress ||
         checkEditEmail ||
         checkEditFullName ||
-        checkEditPhone ? (
+        checkEditPhone ||
+        checkEditFacebook ||
+        checkEditInstagram ||
+        checkEditTwitter ? (
           <View
             style={{
               alignItems: 'center',
@@ -374,12 +631,7 @@ const MyProfile = ({route, navigation}) => {
                 elevation: 2,
               }}
               onPress={() => {
-                handleUpdateMyProfile({
-                  full_name: fullnameText,
-                  phone: phoneText,
-                  email: emailText,
-                  address: addressText,
-                });
+                handleUpdateMyProfile();
               }}>
               <Text style={{color: COLORS.white, ...FONTS.h4}}>
                 Lưu thay đổi
@@ -413,7 +665,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image_name_container: {
-    height: 140,
+    height: 50,
     alignItems: 'center',
     paddingTop: SIZES.padding,
   },
@@ -450,7 +702,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   icon: {height: 25, width: 25},
-  text_input: {flex: 1, paddingLeft: 10, color: '#00AEDD', ...FONTS.body3},
+  text_input: {flex: 1, paddingLeft: 10, color: '#666666', ...FONTS.body3},
   text_inputOnEditing: {
     flex: 1,
     paddingLeft: 10,

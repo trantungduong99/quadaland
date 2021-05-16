@@ -9,6 +9,14 @@ const AuthProvider = ({children}) => {
     isLoading: true,
     isSignOut: false,
     userToken: null,
+    username: '',
+    role: '',
+    coordinate: {
+      latitude: '',
+      longitude: '',
+    },
+    introSale:{},
+    searchList:[],
   });
 
   return (
@@ -22,7 +30,7 @@ const AuthProvider = ({children}) => {
 
 const useAuthState = () => {
   const context = React.useContext(AuthStateContext);
-  console.log(context);
+  // console.log(context);
   if (context === undefined) {
     throw new Error('useAuthState must be used within a AuthProvider');
   }

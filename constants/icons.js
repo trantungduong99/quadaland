@@ -43,6 +43,19 @@ export const changepassword = require('../assets/icons/changepassword.png');
 export const password = require('../assets/icons/password.png');
 export const key = require('../assets/icons/key.png');
 export const edit = require('../assets/icons/edit.png');
+export const post = require('../assets/icons/post.png');
+export const area = require('../assets/icons/area.png');
+export const price = require('../assets/icons/price.png');
+export const address = require('../assets/icons/address.png');
+export const title = require('../assets/icons/title.png');
+export const image = require('../assets/icons/image.png');
+export const coordinate = require('../assets/icons/coordinate.png');
+export const focus = require('../assets/icons/focus.png');
+export const right_turn = require('../assets/icons/right-turn.png');
+export const fb = require('../assets/icons/fb.png');
+export const instagram = require('../assets/icons/instagram.png');
+export const twitter = require('../assets/icons/twitter.png');
+export const marker = require('../assets/icons/marker.png');
 
 export default {
   home,
@@ -90,4 +103,17 @@ export default {
   password,
   key,
   edit,
+  post,
+  area,
+  price,
+  address,
+  title,
+  image,
+  coordinate,
+  focus,
+  right_turn,
+  fb,
+  instagram,
+  twitter,
+  marker,
 };

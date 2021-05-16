@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View, TouchableOpacity,Image} from 'react-native';
-import {SIZES, COLORS,FONTS} from '../constants';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
+import {SIZES, COLORS, FONTS} from '../constants';
 import {useNavigation} from '@react-navigation/native';
 
 const MenuItem = ({icon, name, target}) => {
@@ -10,7 +10,7 @@ const MenuItem = ({icon, name, target}) => {
       <TouchableOpacity
         style={{flex: 0.7, justifyContent: 'center', alignItems: 'center'}}
         onPress={() => {
-          navigation.navigate(target)
+          navigation.navigate(target);
         }}>
         <View
           style={{
@@ -20,7 +20,7 @@ const MenuItem = ({icon, name, target}) => {
             height: 45,
             backgroundColor: COLORS.lightGray,
             borderRadius: 15,
-            padding: SIZES.base,
+            padding: SIZES.base
           }}>
           <Image
             source={icon}
@@ -29,8 +29,10 @@ const MenuItem = ({icon, name, target}) => {
           />
         </View>
       </TouchableOpacity>
-      <View style={{flex: 0.3,alignItems:"center"}}>
-        <Text style={{marginTop:0,color: COLORS.black, ...FONTS.body5}}>{name}</Text>
+      <View style={{flex: 0.3, alignItems: 'center'}}>
+        <Text style={{marginTop: 0, color: COLORS.black, ...FONTS.body5}}>
+          {name}
+        </Text>
       </View>
     </View>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useEffect} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import {images, icons, SIZES, FONTS, COLORS} from '../constants';
 import {dummyRentData} from '../data/Data';
@@ -6,6 +6,9 @@ import RentIntroItem from './RentIntroItem';
 import {useNavigation} from '@react-navigation/native';
 
 const RentIntro = () => {
+  useEffect(()=>{
+    console.log("Đã didmount rent");
+  },[])
   const navigation = useNavigation()
   return (
     <View style={{flex: 1}}>

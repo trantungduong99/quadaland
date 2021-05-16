@@ -6,40 +6,27 @@ import {readMyProfile} from '../services/authService';
 import asyncStorage from '@react-native-community/async-storage';
 
 const Account = ({navigation}) => {
-  // const [name, setName] = useState('anonymous');
-  // const getName = async () => {
+  // const handleDataToProfile = async () => {
   //   readMyProfile()
-  //     .then((r) => {
-  //       console.log(r.data)
-  //       setName(r.data.full_name);
+  //     .then((response) => {
+  //       const {full_name, phone, email, address} = response.data;
+  //       navigation.navigate('MyProfile', {
+  //         full_name: full_name,
+  //         phone: phone,
+  //         email: email,
+  //         address: address,
+  //       });
   //     })
   //     .catch((e) => {
-  //       setName("anonymous")
-  //       console.log('error in Account.js:16', e);
+  //       navigation.navigate('MyProfile', {
+  //         full_name: "",
+  //         phone: "",
+  //         email: "",
+  //         address: "",
+  //       });
+  //       console.log(e);
   //     });
   // };
-  // getName();
-  const handleDataToProfile = async () => {
-    readMyProfile()
-      .then((response) => {
-        const {full_name, phone, email, address} = response.data;
-        navigation.navigate('MyProfile', {
-          full_name: full_name,
-          phone: phone,
-          email: email,
-          address: address,
-        });
-      })
-      .catch((e) => {
-        navigation.navigate('MyProfile', {
-          full_name: "",
-          phone: "",
-          email: "",
-          address: "",
-        });
-        console.log(e);
-      });
-  };
   return (
     <View
       style={{flex: 1, backgroundColor: '#D8D8D8', flexDirection: 'column'}}>
@@ -87,7 +74,7 @@ const Account = ({navigation}) => {
             alignItems: 'center',
           }}
           onPress={() => {
-            handleDataToProfile();
+            navigation.navigate('MyProfile')
           }}>
           <Image
             source={icons.user}

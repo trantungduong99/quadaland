@@ -1,11 +1,26 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import {images, icons, SIZES, FONTS, COLORS} from '../constants';
 import {dummmyShoppingData} from '../data/Data';
 import ShoppingItem from './ShoppingItem';
 import {useNavigation} from '@react-navigation/native';
+import {getIntroSale} from '../services/authService';
+import {useAuthState,useAuthDispatch} from '../contexts/authContext';
+import {GET_INTRO_SALE} from '../actions/actionTypes';
 
-const Shopping = () => {
+const ShoppingIntro = () => {
+  const dispatch = useAuthDispatch();
+  const {introSale} = useAuthState();
+  useEffect(()=>{
+    console.log("đi lấy dữ liệu ở màn hình home");
+    getIntroSale().then((r)=>{
+      console.log(r.data.result);
+      dispatch({type:GET_INTRO_SALE,introSale:r.data.result})
+    }).catch((e)=>{
+      return;
+    })
+  },[])
+  console.log("Intro sale",introSale);
   const navigation = useNavigation()
   return (
     <View style={{flex: 1}}>
@@ -58,4 +73,4 @@ const Shopping = () => {
   );
 };
 
-export default Shopping;
+export default ShoppingIntro;

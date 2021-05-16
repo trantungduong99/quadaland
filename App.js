@@ -16,6 +16,8 @@ import {
   RootStackScreen,
   ChangePassword,
   MyProfile,
+  Posting,
+  Coordinate,
 } from './screens/';
 import {useAuthDispatch, useAuthState} from './contexts/authContext';
 import {checkAuth} from './services/authService';
@@ -70,6 +72,8 @@ const App = () => {
             <Stack.Screen name="ShoppingDetail" component={ShoppingDetail} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} />
             <Stack.Screen name="MyProfile" component={MyProfile} />
+            <Stack.Screen name="Posting" component={Posting} />
+            <Stack.Screen name="Coordinate" component={Coordinate} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

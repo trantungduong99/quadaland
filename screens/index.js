@@ -19,6 +19,8 @@ import RootStackScreen from './RootStackScreen';
 import PerInfoRegistScreen from './PerInfoRegistScreen';
 import ChangePassword from './ChangePassword';
 import MyProfile from './MyProfile';
+import Posting from './Posting';
+import Coordinate from './Coordinate';
 
 export {
   Home,
@@ -42,4 +44,6 @@ export {
   PerInfoRegistScreen,
   ChangePassword,
   MyProfile,
+  Posting,
+  Coordinate,
 };
