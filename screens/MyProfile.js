@@ -329,6 +329,7 @@ const MyProfile = ({navigation}) => {
               autoCapitalize="none"
               editable={checkEditFullName}
               ref={ref_FullName}
+              multiline={true}
               value={fullnameText}
               onChangeText={(val) => {
                 text_FullNameChange(val);
@@ -368,6 +369,7 @@ const MyProfile = ({navigation}) => {
               editable={checkEditPhone}
               ref={ref_Phone}
               value={phoneText}
+              multiline={true}
               onChangeText={(val) => {
                 text_PhoneChange(val);
               }}
@@ -404,6 +406,7 @@ const MyProfile = ({navigation}) => {
               editable={checkEditEmail}
               ref={ref_Email}
               value={emailText}
+              multiline={true}
               onChangeText={(val) => {
                 text_EmailChange(val);
               }}
@@ -443,6 +446,7 @@ const MyProfile = ({navigation}) => {
                   placeholderTextColor="#666666"
                   autoCapitalize="none"
                   editable={checkEditFacebook}
+                  multiline={true}
                   ref={ref_Facebook}
                   value={facebookText}
                   onChangeText={(val) => {
@@ -486,6 +490,7 @@ const MyProfile = ({navigation}) => {
                   editable={checkEditInstagram}
                   ref={ref_Instagram}
                   value={instagramText}
+                  multiline={true}
                   onChangeText={(val) => {
                     text_InstagramChange(val);
                   }}
@@ -527,6 +532,7 @@ const MyProfile = ({navigation}) => {
                   editable={checkEditTwitter}
                   ref={ref_Twitter}
                   value={twitterText}
+                  multiline={true}
                   onChangeText={(val) => {
                     text_TwitterChange(val);
                   }}
@@ -692,7 +698,6 @@ const styles = StyleSheet.create({
   name_container: {marginTop: SIZES.padding, justifyContent: 'center'},
   text_name: {color: COLORS.black, ...FONTS.h2},
   action: {
-    height: 50,
     borderRadius: 5,
     borderWidth: 1,
     borderColor: COLORS.darkgray,

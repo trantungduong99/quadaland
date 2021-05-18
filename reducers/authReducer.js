@@ -3,11 +3,18 @@ import {
   SIGN_IN,
   SIGN_OUT,
   SET_COORDINATE,
-  GET_INTRO_SALE,
+  GET_SUB_RENT,
   GET_PROP_BYCOOR,
+  GET_SUB_SALE,
+  GET_SALE_PROPERTY,
+  GET_RENT_PROPERTY,
+  GET_MY_PROPERTY,
 } from '../actions/actionTypes';
 
+import _ from 'lodash';
+
 export const authReducer = (prevState, action) => {
+  console.log('prevState:', prevState);
   switch (action.type) {
     case RESTORE_TOKEN:
       return {
@@ -28,21 +35,53 @@ export const authReducer = (prevState, action) => {
         ...prevState,
         isSignOut: true,
         userToken: null,
+        username: '',
+        role: '',
+        coordinate: {
+          latitude: '',
+          longitude: '',
+        },
+        subSaleArray: [],
+        subRentArray: [],
+        saleArray: [],
+        rentArray: [],
+        myPropery: [],
+        searchList: [],
       };
     case SET_COORDINATE:
       return {
         ...prevState,
         coordinate: action.coordinate,
       };
-    case GET_INTRO_SALE:
+    case GET_SUB_SALE:
       return {
         ...prevState,
-        introSale: action.introSale,
+        subSaleArray: action.subSaleArray,
+      };
+    case GET_SUB_RENT:
+      return {
+        ...prevState,
+        subRentArray: action.subRentArray,
       };
     case GET_PROP_BYCOOR:
       return {
         ...prevState,
         searchList: action.searchList,
+      };
+    case GET_SALE_PROPERTY:
+      return {
+        ...prevState,
+        saleArray: action.saleArray,
+      };
+    case GET_RENT_PROPERTY:
+      return {
+        ...prevState,
+        rentArray: action.rentArray,
+      };
+    case GET_MY_PROPERTY:
+      return {
+        ...prevState,
+        myProperty: action.myProperty,
       };
     default:
       return prevState;

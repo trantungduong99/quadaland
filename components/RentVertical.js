@@ -2,8 +2,11 @@ import React from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {SIZES, FONTS, COLORS, icons} from '../constants';
 import {useNavigation} from '@react-navigation/native';
+import asyncStorage from '@react-native-community/async-storage';
 const RentVertical = ({item}) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const {details} = item;
+  // console.log(details.price);
   return (
     <View>
       <View style={{flex: 1}}>
@@ -11,7 +14,7 @@ const RentVertical = ({item}) => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            height: 120,
+            height: 320,
             marginBottom: SIZES.padding,
             marginHorizontal: SIZES.padding,
           }}>
@@ -26,56 +29,111 @@ const RentVertical = ({item}) => {
               shadowOpacity: 0.5,
               shadowRadius: 2.62,
               elevation: 3,
-              flex: 1,
-              flexDirection: 'row',
-              width: SIZES.width - 2 * SIZES.padding,
             }}
             onPress={() => {
-              navigation.navigate("RentDetail", {item:item})
+              navigation.navigate('PropertyDetail', {item: item});
             }}>
             <Image
-              source={item.img}
+              source={{uri: 'https://random.imagecdn.app/1200/800'}}
               style={{
+                width: SIZES.width - 2 * SIZES.padding,
                 height: '100%',
-                width: 120,
-                borderTopLeftRadius: 10,
-                borderBottomLeftRadius: 10,
+                borderRadius: 10,
               }}
               resizeMode="cover"
             />
+
             <View
               style={{
+                position: 'absolute',
+                bottom: 0,
+                height: '50%',
                 backgroundColor: '#FAFAFA',
-                borderTopRightRadius: 10,
+                width: SIZES.width - 2 * SIZES.padding,
+                borderBottomLeftRadius: 10,
                 borderBottomRightRadius: 10,
-                flex: 1,
-                padding:SIZES.padding
+                padding: SIZES.padding,
               }}>
-              <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>
-              {item.title}
-            </Text>
-            <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={2}>
-              {item.address}
-            </Text>
-            <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-            <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.price}</Text>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.acreage}</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                <Text style={{color: COLORS.primary, ...FONTS.body5}}>
+                  {details.price ? details.price + ' triệu' : 'Thương lượng'}
+                </Text>
+                <Text
+                  style={{color: COLORS.primary, ...FONTS.body5}}
+                  numberOfLines={1}>
+                  {details.area ? details.area + 'm²' : '...'}
+                </Text>
+              </View>
+              <Text
+                style={{color: COLORS.black, ...FONTS.h4}}
+                numberOfLines={2}>
+                {details.title}
+              </Text>
+              <Text
+                style={{color: COLORS.black, ...FONTS.body4}}
+                numberOfLines={2}>
+                {details.address}
+              </Text>
             </View>
+            <View
+              style={{
+                position: 'absolute',
+                top: 8,
+                left: 8,
+                backgroundColor:
+                  item.approval_status == true ? '#0D9B06' : '#D86519',
+                padding: 2,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 10,
+              }}>
+              <Text
+                style={{
+                  color: COLORS.white,
+                  ...FONTS.body4,
+                  marginHorizontal: 2,
+                }}>
+                {item.approval_status == true ? 'Đang mở bán' : 'Sắp mở bán'}
+              </Text>
             </View>
-            <View style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-              backgroundColor:'#D86519',
-              padding: 2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius:10
-            }}>
-                <Text style={{color: COLORS.white, ...FONTS.body4,marginHorizontal:2}}>
-              Hot
-            </Text>
-            </View>
+            <TouchableOpacity
+              style={{position: 'absolute', bottom: 12, left: 24}}
+              onPress={() => {
+                console.log('Favorite on Pressed');
+              }}>
+              <Image
+                source={icons.heart_outline}
+                resizeMode="contain"
+                style={{width: 27, height: 27, tintColor: COLORS.primary}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{position: 'absolute', bottom: 12, right: 24}}
+              onPress={() => {
+                console.log('Save on Pressed');
+              }}>
+              <Image
+                source={icons.save_outline}
+                resizeMode="contain"
+                style={{width: 27, height: 27, tintColor: COLORS.primary}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{position: 'absolute', bottom: 12, left: 24}}
+              onPress={() => {
+                console.log('Favorite on Pressed');
+              }}>
+              <Image
+                source={icons.heart_outline}
+                resizeMode="contain"
+                style={{width: 27, height: 27, tintColor: COLORS.primary}}
+              />
+            </TouchableOpacity>
           </TouchableOpacity>
         </View>
       </View>

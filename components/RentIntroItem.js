@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import {SIZES, FONTS, COLORS, icons, images} from '../constants';
 import {useNavigation} from '@react-navigation/native';
-const ShoppingItem = ({item}) => {
+const RentIntroItem = ({item}) => {
   const navigation = useNavigation()
   return (
     <View style={{marginRight: SIZES.padding, marginLeft: 1}}>
@@ -21,10 +21,10 @@ const ShoppingItem = ({item}) => {
            
           }}
           onPress={() => {
-            navigation.navigate("RentDetail",{item:item})
+            navigation.navigate("PropertyDetail",{item:item})
           }}>
           <Image
-            source={item.img}
+            source={{uri:'https://random.imagecdn.app/1200/800'}}
             style={{width: SIZES.width * 0.8, height: "97%", borderRadius: 10}}
             resizeMode="cover"
           />
@@ -40,14 +40,14 @@ const ShoppingItem = ({item}) => {
               padding: SIZES.padding,
             }}>
             <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.price}</Text>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.acreage}</Text>
+              <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.details.price}triệu</Text>
+              <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.details.area}m²</Text>
             </View>
             <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>
-              {item.title}
+              {item.details.title}
             </Text>
             <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={2}>
-              {item.address}
+              {item.details.address}
             </Text>
           </View>
           <View
@@ -71,4 +71,4 @@ const ShoppingItem = ({item}) => {
   );
 };
 
-export default ShoppingItem;
+export default RentIntroItem;

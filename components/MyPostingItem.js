@@ -2,9 +2,20 @@ import React from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {SIZES, FONTS, COLORS, icons} from '../constants';
 import {useNavigation} from '@react-navigation/native';
-const ShoppingVertical = ({item}) => {
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
+import {deleteProperty} from '../services/authService';
+const MyPostingItem = ({item}) => {
   const navigation = useNavigation();
-
+  const dispatch = useAuthDispatch();
+  const {username} = useAuthState();
+  const handleDetete = async (slug) => {
+    console.log(slug);
+    deleteProperty(slug).then((r) => {
+      console.log(r);
+    }).catch((e)=>{
+      console.log(e);
+    });
+  };
   return (
     <View>
       <View style={{flex: 1}}>
@@ -12,7 +23,7 @@ const ShoppingVertical = ({item}) => {
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            height: 330,
+            height: 320,
             marginBottom: SIZES.padding,
             marginHorizontal: SIZES.padding,
           }}>
@@ -100,7 +111,7 @@ const ShoppingVertical = ({item}) => {
               </Text>
             </View>
             <TouchableOpacity
-              style={{position: 'absolute', bottom: 12, left: 24}}
+              style={{position: 'absolute', bottom: 12, left: 12}}
               onPress={() => {
                 console.log('Favorite on Pressed');
               }}>
@@ -111,7 +122,7 @@ const ShoppingVertical = ({item}) => {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={{position: 'absolute', bottom: 12, right: 24}}
+              style={{position: 'absolute', bottom: 12, right: 12}}
               onPress={() => {
                 console.log('Save on Pressed');
               }}>
@@ -121,10 +132,23 @@ const ShoppingVertical = ({item}) => {
                 style={{width: 27, height: 27, tintColor: COLORS.primary}}
               />
             </TouchableOpacity>
+            {item.company.user == username ? (
+              <TouchableOpacity
+                style={{position: 'absolute', top: 12, right: 12}}
+                onPress={() => {
+                  handleDetete(item.slug);
+                }}>
+                <Image
+                  source={icons.delete_icon}
+                  resizeMode="contain"
+                  style={{width: 27, height: 27, tintColor: COLORS.black}}
+                />
+              </TouchableOpacity>
+            ) : null}
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
 };
-export default ShoppingVertical;
+export default MyPostingItem;

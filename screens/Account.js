@@ -1,32 +1,24 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
 import {COLORS, FONTS, icons, images, SIZES} from '../constants';
 import {AccountItem} from '../components';
 import {readMyProfile} from '../services/authService';
 import asyncStorage from '@react-native-community/async-storage';
+import {useAuthState} from '../contexts/authContext';
 
 const Account = ({navigation}) => {
-  // const handleDataToProfile = async () => {
-  //   readMyProfile()
-  //     .then((response) => {
-  //       const {full_name, phone, email, address} = response.data;
-  //       navigation.navigate('MyProfile', {
-  //         full_name: full_name,
-  //         phone: phone,
-  //         email: email,
-  //         address: address,
-  //       });
+  // const [role, setRole] = useState('customer');
+  // useEffect(() => {
+  //   asyncStorage
+  //     .getItem('role')
+  //     .then((r) => {
+  //       setRole(r);
   //     })
   //     .catch((e) => {
-  //       navigation.navigate('MyProfile', {
-  //         full_name: "",
-  //         phone: "",
-  //         email: "",
-  //         address: "",
-  //       });
   //       console.log(e);
   //     });
-  // };
+  // }, []);
+  const {role} = useAuthState()
   return (
     <View
       style={{flex: 1, backgroundColor: '#D8D8D8', flexDirection: 'column'}}>
@@ -74,7 +66,7 @@ const Account = ({navigation}) => {
             alignItems: 'center',
           }}
           onPress={() => {
-            navigation.navigate('MyProfile')
+            navigation.navigate('MyProfile');
           }}>
           <Image
             source={icons.user}
@@ -87,7 +79,6 @@ const Account = ({navigation}) => {
           />
           <View
             style={{
-              
               justifyContent: 'center',
               height: '100%',
             }}>
@@ -117,9 +108,15 @@ const Account = ({navigation}) => {
           title="Nội dung đã lưu"
           target="noidungdaluu"
         />
+        {role === 'company' ? (
+          <AccountItem
+            item={icons.posting}
+            title="Bài đăng của bạn"
+            target="MyProperty"
+          />
+        ) : null}
         <AccountItem item={icons.account} title="Tiện ích" target="tienich" />
         <AccountItem item={icons.headphones} title="Liên hệ" target="lienhe" />
-        <AccountItem item={icons.settings} title="Cài đặt" target="caidat" />
         <AccountItem
           item={icons.password}
           title="Đổi mật khẩu"

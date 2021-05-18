@@ -56,7 +56,9 @@ export const fb = require('../assets/icons/fb.png');
 export const instagram = require('../assets/icons/instagram.png');
 export const twitter = require('../assets/icons/twitter.png');
 export const marker = require('../assets/icons/marker.png');
-
+export const posting = require('../assets/icons/posting.png');
+export const delete_icon = require('../assets/icons/delete.png');
+export const warning = require('../assets/icons/warning.png');
 export default {
   home,
   community,
@@ -116,4 +118,7 @@ export default {
   instagram,
   twitter,
   marker,
+  posting,
+  delete_icon,
+  warning,
 };

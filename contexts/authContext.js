@@ -15,7 +15,11 @@ const AuthProvider = ({children}) => {
       latitude: '',
       longitude: '',
     },
-    introSale:{},
+    subSaleArray:[],
+    subRentArray:[],
+    saleArray:[],
+    rentArray:[],
+    myPropery:[],
     searchList:[],
   });
 
@@ -30,7 +34,7 @@ const AuthProvider = ({children}) => {
 
 const useAuthState = () => {
   const context = React.useContext(AuthStateContext);
-  // console.log(context);
+  // console.log(context.username);
   if (context === undefined) {
     throw new Error('useAuthState must be used within a AuthProvider');
   }

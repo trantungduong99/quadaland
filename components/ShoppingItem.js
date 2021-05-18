@@ -21,10 +21,10 @@ const ShoppingItem = ({item}) => {
            
           }}
           onPress={() => {
-            navigation.navigate("ShoppingDetail",{item:item})
+            navigation.navigate("PropertyDetail",{item:item})
           }}>
           <Image
-            source={item.img}
+            source={{uri:'https://random.imagecdn.app/1200/800'}}
             style={{width: SIZES.width * 0.8, height: "97%", borderRadius: 10}}
             resizeMode="cover"
           />
@@ -40,14 +40,14 @@ const ShoppingItem = ({item}) => {
               padding: SIZES.padding,
             }}>
             <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.price}</Text>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.acreage}</Text>
+              <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.details.price}</Text>
+              <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.details.area}</Text>
             </View>
             <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>
-              {item.title}
+              {item.details.title}
             </Text>
             <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={2}>
-              {item.address}
+              {item.details.address}
             </Text>
           </View>
           <View

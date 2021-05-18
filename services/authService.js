@@ -174,7 +174,7 @@ const createProperty = async (values) => {
   const token = await asyncStorage.getItem('token');
   const role = await asyncStorage.getItem('role');
   console.log('called to create');
-  if (role === 'company') {
+  if (role === 'company' || role === 'super_user') {
     try {
       const response = await axios.post(API.CREAT_PROPERTY_URL, values, {
         headers: {Authorization: `Bearer ${token}`},
@@ -189,27 +189,12 @@ const createProperty = async (values) => {
   }
 };
 
-const getIntroSale = async () => {
-  const token = await asyncStorage.getItem('token');
-  try {
-    const response = await axios.get(API.GET_INTROSALE_URL, {
-      headers: {Authorization: `Bearer ${token}`},
-    });
-    return response;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
 const getPropertyByCoordinate = async (coordinate, radius) => {
-  console.log('cood', coordinate);
-  console.log(radius);
   const {latitude, longitude} = coordinate;
   const token = await asyncStorage.getItem('token');
-  console.log(`${API.GET_PROPERTY_BYCOORDINATE_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`);
   try {
     const response = await axios.get(
-      `${API.GET_PROPERTY_BYCOORDINATE_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`,
+      `${API.GET_PROPERTY_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`,
       {
         headers: {Authorization: `Bearer ${token}`},
       },
@@ -220,6 +205,135 @@ const getPropertyByCoordinate = async (coordinate, radius) => {
   }
 };
 
+const getPropertyByOption = async (option, query, page) => {
+  const token = await asyncStorage.getItem('token');
+  // By sale_method
+  if (option == 'sale_method') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}sale_method=${query}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  // By username
+  if (option == 'username') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}username=${query}&per_page=10&page=${page}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  //By min_price
+  if (option == 'min_price') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}min_price=${query}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  //By max_price
+  if (option == 'max_price') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}max_price=${query}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  // By min_area
+  if (option == 'min_area') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}min_area=${query}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  //By max_area
+  if (option == 'max_area') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}max_area=${query}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  //by sort_by
+  if (option == 'sort_by') {
+    try {
+      const response = await axios.get(
+        `${API.GET_PROPERTY_URL}sort_by=${query}`,
+        {
+          headers: {Authorization: `Bearer ${token}`},
+        },
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+  return new Error('Option không phù hợp');
+};
+const deleteProperty = async (slug) => {
+  const token = await asyncStorage.getItem('token');
+  console.log(`${API.DELETE_PROPERTY_URL}${slug}`);
+  try {
+    const response = axios.delete(`${API.DELETE_PROPERTY_URL}${slug}`, {
+      headers: {Authorization: `Bearer ${token}`},
+    });
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+const getProperty = async (query) => {
+  {
+    const token = await asyncStorage.getItem('token');
+    try {
+      const response = axios.get(API.GET_PROPERTY_URL, {
+        headers: {Authorization: `Bearer ${token}`},
+        params: query,
+      });
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+};
 export {
   signIn,
   signOut,
@@ -229,6 +343,8 @@ export {
   updateCustomer,
   readMyProfile,
   createProperty,
-  getIntroSale,
   getPropertyByCoordinate,
+  getPropertyByOption,
+  deleteProperty,
+  getProperty,
 };

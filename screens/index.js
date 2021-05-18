@@ -10,8 +10,6 @@ import Project from './Project';
 import Rent from './Rent';
 import Shopping from './Shopping';
 import ProjectDetail from './ProjectDetail';
-import RentDetail from './RentDetail';
-import ShoppingDetail from './ShoppingDetail';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
 import SplashScreen from './SplashScreen';
@@ -21,7 +19,9 @@ import ChangePassword from './ChangePassword';
 import MyProfile from './MyProfile';
 import Posting from './Posting';
 import Coordinate from './Coordinate';
-
+import PropertyDetail from './PropertyDetail';
+import CustomerProfile from './CustomerProfile';
+import MyProperty from './MyProperty';
 export {
   Home,
   Community,
@@ -35,8 +35,6 @@ export {
   Rent,
   Shopping,
   ProjectDetail,
-  RentDetail,
-  ShoppingDetail,
   SignInScreen,
   SignUpScreen,
   SplashScreen,
@@ -46,4 +44,7 @@ export {
   MyProfile,
   Posting,
   Coordinate,
+  PropertyDetail,
+  CustomerProfile,
+  MyProperty,
 };

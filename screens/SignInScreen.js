@@ -64,7 +64,7 @@ const SignInScreen = ({navigation}) => {
           type: SIGN_IN,
           token: r.token,
           role: r.role,
-          username: r.username,
+          username: email,
         });
       })
       .catch((e) => {

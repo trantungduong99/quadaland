@@ -1,27 +1,37 @@
-import React,{useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import {images, icons, SIZES, FONTS, COLORS} from '../constants';
 import {dummmyShoppingData} from '../data/Data';
 import ShoppingItem from './ShoppingItem';
 import {useNavigation} from '@react-navigation/native';
-import {getIntroSale} from '../services/authService';
-import {useAuthState,useAuthDispatch} from '../contexts/authContext';
-import {GET_INTRO_SALE} from '../actions/actionTypes';
+import {getProperty} from '../services/authService';
+import {useAuthState, useAuthDispatch} from '../contexts/authContext';
+import {GET_SUB_SALE} from '../actions/actionTypes';
 
 const ShoppingIntro = () => {
   const dispatch = useAuthDispatch();
-  const {introSale} = useAuthState();
-  useEffect(()=>{
-    console.log("đi lấy dữ liệu ở màn hình home");
-    getIntroSale().then((r)=>{
-      console.log(r.data.result);
-      dispatch({type:GET_INTRO_SALE,introSale:r.data.result})
-    }).catch((e)=>{
-      return;
-    })
-  },[])
-  console.log("Intro sale",introSale);
-  const navigation = useNavigation()
+  const {subSaleArray} = useAuthState();
+  useEffect(() => {
+    const query = {
+      sale_method: 'for_sale',
+      sort_by: '-created_at',
+      per_page: 10,
+      page: 1,
+    };
+    getProperty(query)
+      .then((r) => {
+        if (r.status === 200) {
+          const subSaleArray = r.data.result;
+          dispatch({type: GET_SUB_SALE, subSaleArray: subSaleArray});
+        } else {
+          return;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1}}>
       <View style={{marginTop: SIZES.font}}>
@@ -40,7 +50,7 @@ const ShoppingIntro = () => {
               justifyContent: 'flex-end',
             }}
             onPress={() => {
-              navigation.navigate("Shopping")
+              navigation.navigate('Shopping');
             }}>
             <Text style={{color: COLORS.primary, ...FONTS.body4}}>
               Xem tất cả
@@ -58,14 +68,16 @@ const ShoppingIntro = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{flex:1,marginTop:SIZES.base,height:"100%"}}>
-        <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-          <FlatList 
+      <View style={{flex: 1, marginTop: SIZES.base, height: '100%'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={dummmyShoppingData}
-            keyExtractor={(item)=>"keyShopping"+item.id}
-            renderItem={({item})=>{return(<ShoppingItem item={item} />)}}
+            data={subSaleArray}
+            keyExtractor={(item) => 'keySubSale' + item.slug}
+            renderItem={({item}) => {
+              return <ShoppingItem item={item} />;
+            }}
           />
         </View>
       </View>

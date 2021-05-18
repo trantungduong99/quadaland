@@ -1,15 +1,28 @@
-import React ,{useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {View, FlatList, Text, TouchableOpacity, Image} from 'react-native';
 import {images, icons, SIZES, FONTS, COLORS} from '../constants';
-import {dummyRentData} from '../data/Data';
 import RentIntroItem from './RentIntroItem';
 import {useNavigation} from '@react-navigation/native';
-
+import {GET_SUB_RENT} from '../actions/actionTypes';
+import {getProperty} from '../services/authService';
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
 const RentIntro = () => {
-  useEffect(()=>{
-    console.log("Đã didmount rent");
-  },[])
-  const navigation = useNavigation()
+  const dispatch = useAuthDispatch();
+  const {subRentArray} = useAuthState();
+  useEffect(() => {
+    const query = {sale_method:"for_rent",sort_by:"-created_at",per_page:10,page:1}
+    getProperty(query).then((r) => {
+      if (r.status === 200) {
+        const subRentArray = r.data.result;
+        dispatch({type: GET_SUB_RENT, subRentArray: subRentArray});
+      } else {
+        return;
+      }
+    }).catch((e)=>{
+      console.log(e);
+    });
+  }, []);
+  const navigation = useNavigation();
   return (
     <View style={{flex: 1}}>
       <View style={{marginTop: SIZES.font}}>
@@ -28,7 +41,7 @@ const RentIntro = () => {
               justifyContent: 'flex-end',
             }}
             onPress={() => {
-              navigation.navigate("Rent")
+              navigation.navigate('Rent');
             }}>
             <Text style={{color: COLORS.primary, ...FONTS.body4}}>
               Xem tất cả
@@ -46,14 +59,16 @@ const RentIntro = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={{flex:1,marginTop:SIZES.base,height:"100%"}}>
-        <View style={{flex:1,justifyContent:"center",alignItems:"center"}}>
-          <FlatList 
+      <View style={{flex: 1, marginTop: SIZES.base, height: '100%'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <FlatList
             horizontal
             showsHorizontalScrollIndicator={false}
-            data={dummyRentData}
-            keyExtractor={(item)=>"keyShopping"+item.id}
-            renderItem={({item})=>{return(<RentIntroItem item={item} />)}}
+            data={subRentArray}
+            keyExtractor={(item) => 'keySubRent' + item.slug}
+            renderItem={({item}) => {
+              return <RentIntroItem item={item} />;
+            }}
           />
         </View>
       </View>

@@ -110,7 +110,7 @@ const Posting = ({navigation}) => {
   };
   const text_DescriptionChange = (val) => {
     setEdited(true);
-    if (val.trim().length >= 50 && val.trim().length <= 500) {
+    if (val.trim().length >= 50 && val.trim().length <= 1000) {
       setDescription(val);
       setIsValidDescription(true);
     } else {
