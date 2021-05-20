@@ -22,6 +22,7 @@ import Coordinate from './Coordinate';
 import PropertyDetail from './PropertyDetail';
 import CustomerProfile from './CustomerProfile';
 import MyProperty from './MyProperty';
+import EditProperty from './EditProperty';
 export {
   Home,
   Community,
@@ -47,4 +48,5 @@ export {
   PropertyDetail,
   CustomerProfile,
   MyProperty,
+  EditProperty,
 };

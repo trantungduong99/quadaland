@@ -8,19 +8,27 @@ import {getProperty} from '../services/authService';
 import {useAuthDispatch, useAuthState} from '../contexts/authContext';
 const RentIntro = () => {
   const dispatch = useAuthDispatch();
-  const {subRentArray} = useAuthState();
+  const {subRentArray, userToken} = useAuthState();
   useEffect(() => {
-    const query = {sale_method:"for_rent",sort_by:"-created_at",per_page:10,page:1}
-    getProperty(query).then((r) => {
-      if (r.status === 200) {
-        const subRentArray = r.data.result;
-        dispatch({type: GET_SUB_RENT, subRentArray: subRentArray});
-      } else {
-        return;
-      }
-    }).catch((e)=>{
-      console.log(e);
-    });
+    const query = {
+      sale_method: 'for_rent',
+      sort_by: '-created_at',
+      per_page: 10,
+      page: 1,
+    };
+
+    getProperty(query)
+      .then((r) => {
+        if (r.status === 200) {
+          const subRentArray = r.data.result;
+          dispatch({type: GET_SUB_RENT, subRentArray: subRentArray});
+        } else {
+          return;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }, []);
   const navigation = useNavigation();
   return (

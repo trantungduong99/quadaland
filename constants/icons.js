@@ -59,6 +59,10 @@ export const marker = require('../assets/icons/marker.png');
 export const posting = require('../assets/icons/posting.png');
 export const delete_icon = require('../assets/icons/delete.png');
 export const warning = require('../assets/icons/warning.png');
+export const down = require('../assets/icons/down.png');
+export const filter1 = require('../assets/icons/filter1.png');
+export const filter2 = require('../assets/icons/filter2.png');
+export const cancel = require('../assets/icons/cancel.png');
 export default {
   home,
   community,
@@ -121,4 +125,8 @@ export default {
   posting,
   delete_icon,
   warning,
+  down,
+  filter1,
+  filter2,
+  cancel,
 };

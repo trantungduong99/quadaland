@@ -19,6 +19,7 @@ import {
   PropertyDetail,
   CustomerProfile,
   MyProperty,
+  EditProperty,
 } from './screens/';
 import {useAuthDispatch, useAuthState} from './contexts/authContext';
 import {checkAuth} from './services/authService';
@@ -28,11 +29,6 @@ import {SafeAreaProvider} from 'react-native-safe-area-context';
 const Stack = createStackNavigator();
 
 const App = () => {
-  // const [isSignedIn, setIsSignedIn] = useState(false)
-
-  // useEffect(() => {
-  //   isSignedIn = true;
-  // }, [store.get(user)])
   const {isLoading, isSignOut, userToken} = useAuthState();
   const dispatch = useAuthDispatch();
   React.useEffect(() => {
@@ -76,6 +72,7 @@ const App = () => {
             <Stack.Screen name="PropertyDetail" component={PropertyDetail} />
             <Stack.Screen name="CustomerProfile" component={CustomerProfile} />
             <Stack.Screen name="MyProperty" component={MyProperty} />
+            <Stack.Screen name="EditProperty" component={EditProperty} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

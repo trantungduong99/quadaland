@@ -9,6 +9,7 @@ import {
   GET_SALE_PROPERTY,
   GET_RENT_PROPERTY,
   GET_MY_PROPERTY,
+  DELETE_MY_PROPERTY
 } from '../actions/actionTypes';
 
 import _ from 'lodash';
@@ -79,6 +80,11 @@ export const authReducer = (prevState, action) => {
         rentArray: action.rentArray,
       };
     case GET_MY_PROPERTY:
+      return {
+        ...prevState,
+        myProperty: action.myProperty,
+      };
+    case DELETE_MY_PROPERTY:
       return {
         ...prevState,
         myProperty: action.myProperty,

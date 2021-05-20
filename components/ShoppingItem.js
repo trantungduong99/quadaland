@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import {SIZES, FONTS, COLORS, icons, images} from '../constants';
 import {useNavigation} from '@react-navigation/native';
 const ShoppingItem = ({item}) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={{marginRight: SIZES.padding, marginLeft: 1}}>
       <View style={{flex: 1}}>
@@ -18,14 +18,13 @@ const ShoppingItem = ({item}) => {
             shadowOpacity: 0.5,
             shadowRadius: 2.62,
             elevation: 3,
-           
           }}
           onPress={() => {
-            navigation.navigate("PropertyDetail",{item:item})
+            navigation.navigate('PropertyDetail', {item: item});
           }}>
           <Image
-            source={{uri:'https://random.imagecdn.app/1200/800'}}
-            style={{width: SIZES.width * 0.8, height: "97%", borderRadius: 10}}
+            source={{uri: 'https://random.imagecdn.app/1200/800'}}
+            style={{width: SIZES.width * 0.8, height: '97%', borderRadius: 10}}
             resizeMode="cover"
           />
           <View
@@ -39,14 +38,31 @@ const ShoppingItem = ({item}) => {
               borderBottomRightRadius: 10,
               padding: SIZES.padding,
             }}>
-            <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} >{item.details.price}</Text>
-              <Text style={{color:COLORS.primary,...FONTS.body5}} numberOfLines={1}>{item.details.area}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text style={{color: COLORS.primary, ...FONTS.body5}}>
+                {item.details.price
+                  ? parseFloat(item.details.price) < 1000
+                    ? item.details.price + 'triệu'
+                    : (parseFloat(item.details.price) / 1000).toString() + 'tỷ'
+                  : 'Đang cập nhật...'}
+              </Text>
+              <Text
+                style={{color: COLORS.primary, ...FONTS.body5}}
+                numberOfLines={1}>
+                {item.details.area}m²
+              </Text>
             </View>
             <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>
               {item.details.title}
             </Text>
-            <Text style={{color: COLORS.black, ...FONTS.body4}} numberOfLines={2}>
+            <Text
+              style={{color: COLORS.black, ...FONTS.body4}}
+              numberOfLines={2}>
               {item.details.address}
             </Text>
           </View>
@@ -55,16 +71,44 @@ const ShoppingItem = ({item}) => {
               position: 'absolute',
               top: 8,
               left: 8,
-              backgroundColor:'#D86519',
+              backgroundColor: '#D86519',
               padding: 2,
               justifyContent: 'center',
               alignItems: 'center',
-              borderRadius:10
+              borderRadius: 10,
             }}>
-            <Text style={{color: COLORS.white, ...FONTS.body4,marginHorizontal:2}}>
+            <Text
+              style={{
+                color: COLORS.white,
+                ...FONTS.body4,
+                marginHorizontal: 2,
+              }}>
               Hot
             </Text>
           </View>
+          <TouchableOpacity
+            style={{position: 'absolute', bottom: 12, left: 12}}
+            onPress={() => {
+              console.log('Favorite on Pressed');
+            }}>
+            <Image
+              source={icons.heart_outline}
+              resizeMode="contain"
+              style={{width: 27, height: 27, tintColor: COLORS.primary}}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{position: 'absolute', bottom: 12, right: 12}}
+            onPress={() => {
+              console.log('Favorite On Pressed');
+            }}>
+            <Image
+              source={icons.save_outline}
+              resizeMode="contain"
+              style={{width: 27, height: 27, tintColor: COLORS.primary}}
+            />
+          </TouchableOpacity>
         </TouchableOpacity>
       </View>
     </View>

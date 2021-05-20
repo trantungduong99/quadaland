@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Linking,
   Modal,
+  Alert,
 } from 'react-native';
 import {FONTS, SIZES, COLORS, images, icons} from '../constants';
 const HEADER_MAX_HEIGHT = 300;
@@ -17,6 +18,9 @@ const HEADER_MIN_HEIGHT = 0.07 * SIZES.height;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 import MapView, {Circle, Marker, Polygon} from 'react-native-maps';
 import asyncStorage from '@react-native-community/async-storage';
+import {deleteProperty} from '../services/authService';
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
+import {DELETE_MY_PROPERTY} from '../actions/actionTypes';
 
 function hidePhoneNumber(phoneNumber) {
   const cleaned = ('' + phoneNumber).replace(/\D/g, '');
@@ -29,7 +33,6 @@ function hidePhoneNumber(phoneNumber) {
   }
   return null;
 }
-
 export default class PropertyDetail extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +43,9 @@ export default class PropertyDetail extends Component {
       ),
       refreshing: false,
       username: '',
-      modalVisible: true,
+      modalVisible: false,
+      modalDeleteVisible: false,
+      error: null,
     };
   }
   componentDidMount() {
@@ -57,10 +62,42 @@ export default class PropertyDetail extends Component {
   setModalVisible = (visible) => {
     this.setState({modalVisible: visible});
   };
+  handleDelete = () => {
+    this.setState({modalDeleteVisible: true, modalVisible: false});
+  };
+  handleEdit = () => {
+    this.setState({modalVisible: false});
+    this.props.navigation.navigate('EditProperty', {
+      property: this.props.route.params.item,
+    });
+  };
+  _deleteProperty = (slug) => {
+    deleteProperty(slug)
+      .then((r) => {
+        this.setState({modalDeleteVisible: false});
+        if (r.status === 200) {
+          Alert.alert('Thông báo', 'Đã xóa thành công', [
+            {text: 'OK', onPress: () => this.props.navigation.goBack()},
+          ]);
+        } else {
+          Alert.alert('Thông báo', 'Đã xảy ra lỗi, thử lại sau!', [
+            {text: 'OK', onPress: () => this.props.navigation.goBack()},
+          ]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        Alert.alert('Thông báo', 'Đã xảy ra lỗi, thử lại sau!', [
+          {text: 'OK', onPress: () => this.props.navigation.goBack()},
+        ]);
+      });
+  };
   render() {
-    const {company, details, sale_method} = this.props.route.params.item;
-    console.log({company, details, sale_method});
-    console.log(this.state.username);
+    const {company, details, sale_method, slug} = this.props.route.params.item;
+    console.log('Vị trí ở thông tin chi tiết:', details.coordinate);
+    const {modalVisible, modalDeleteVisible} = this.state;
+    // console.log({company, details, sale_method});
+    // console.log(this.state.username);
     const scrollY = Animated.add(
       this.state.scrollY,
       Platform.OS === 'ios' ? HEADER_MAX_HEIGHT : 0,
@@ -142,7 +179,11 @@ export default class PropertyDetail extends Component {
             </View>
             <View style={styles.price_area_container}>
               <Text style={styles.price_area}>
-                {details.price ? details.price : 'Đang cập nhật...'}
+                {details.price
+                  ? parseFloat(details.price) < 1000
+                    ? details.price + 'triệu'
+                    : (parseFloat(details.price) / 1000).toString() + 'tỷ'
+                  : 'Đang cập nhật...'}
               </Text>
               <Text style={styles.price_area}>
                 {details.area ? details.area : 'Đang cập nhật...'}
@@ -284,38 +325,155 @@ export default class PropertyDetail extends Component {
             </View>
           </TouchableOpacity>
           {/* {company && this.state.username == company.user && (  */}
-          <TouchableOpacity
-            style={{width: 0.035 * SIZES.height}}
-            onPress={() => {
-              console.log('MoreAction in ProjectDetail on Pressed');
-            }}>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-              <Image
-                source={icons.more}
-                resizeMode="contain"
-                style={styles.button_header}
-              />
-            </View>
-          </TouchableOpacity>
+          {company && this.state.username == company.user && (
+            <TouchableOpacity
+              style={{width: 0.035 * SIZES.height}}
+              onPress={() => {
+                this.setModalVisible(!modalVisible);
+              }}>
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Image
+                  source={icons.more}
+                  resizeMode="contain"
+                  style={styles.button_header}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
         {/* Modal edit & delete  */}
-        {/* <Modal
+        <Modal
           animationType="none"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
             this.setModalVisible(!modalVisible);
           }}>
-            <TouchableOpacity>
+          <TouchableOpacity
+            style={{flex: 1}}
+            onPressOut={() => {
+              this.setModalVisible(!modalVisible);
+            }}>
+            <View style={styles.action_modal}>
+              <TouchableOpacity
+                style={styles.button_action}
+                onPress={() => {
+                  this.handleEdit();
+                }}>
+                <Text style={{color: COLORS.black, ...FONTS.body3}}>
+                  Chỉnh sửa
+                </Text>
+                <Image
+                  source={icons.edit}
+                  style={styles.icon_action}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+              <View style={styles.line_action}></View>
+              <TouchableOpacity
+                style={styles.button_action}
+                onPress={() => {
+                  this.handleDelete();
+                }}>
+                <Text style={{color: COLORS.black, ...FONTS.body3}}>Xóa</Text>
+                <Image
+                  source={icons.delete_icon}
+                  style={[styles.icon_action, {marginLeft: 30}]}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
 
-            </TouchableOpacity>
-          </Modal> */}
+        {/* Modal Delete  */}
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalDeleteVisible}
+          onRequestClose={() => {
+            this.setState({modalDeleteVisible: !modalDeleteVisible});
+          }}>
+          <View style={styles.delete_modal_container}>
+            <View style={styles.delete_modal}>
+              <View style={styles.delete_title}>
+                <Text style={{color: COLORS.black, ...FONTS.h3}}>
+                  Xóa bài đăng này?
+                </Text>
+              </View>
+              <View style={styles.delete_confirm}>
+                <TouchableOpacity
+                  style={styles.delete_button}
+                  onPress={() => {
+                    this._deleteProperty(slug);
+                  }}>
+                  <Text>XÓA</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.cancel_button}
+                  onPress={() => {
+                    this.setState({modalDeleteVisible: false});
+                  }}>
+                  <Text>HỦY</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  cancel_button: {
+    height: 50,
+    width: 110,
+    backgroundColor: '#BCF5A9',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  delete_confirm: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: SIZES.padding,
+    flexDirection: 'row',
+  },
+  delete_button: {
+    height: 50,
+    width: 110,
+    backgroundColor: '#FA5858',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  delete_title: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  delete_modal: {
+    width: 250,
+    height: 120,
+    borderRadius: 10,
+    marginTop: 250,
+    flexDirection: 'column',
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  delete_modal_container: {
+    alignItems: 'center',
+    flex: 1,
+  },
   fill: {
     flex: 1,
   },
@@ -526,5 +684,36 @@ const styles = StyleSheet.create({
     height: 0.035 * SIZES.height,
     width: 0.035 * SIZES.height,
     tintColor: COLORS.orange,
+  },
+  action_modal: {
+    position: 'absolute',
+    height: 80,
+    width: 120,
+    backgroundColor: '#F2F2F2',
+    top: 66,
+    right: 12,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingHorizontal: SIZES.base,
+    borderRadius: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+  },
+  button_action: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginVertical: SIZES.base,
+  },
+  icon_action: {height: 23, width: 23, marginLeft: SIZES.base},
+  line_action: {
+    height: 2,
+    width: '100%',
+    backgroundColor: '#CCCCCC',
   },
 });

@@ -11,7 +11,13 @@ import {
   FlatList,
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants';
-import {Carousel, Menu, ProductIntro, RentIntro, ShoppingIntro} from '../components';
+import {
+  Carousel,
+  Menu,
+  ProductIntro,
+  RentIntro,
+  ShoppingIntro,
+} from '../components';
 import {dummyImageData} from '../data/Data';
 
 const Home = ({navigation}) => {
@@ -32,7 +38,7 @@ const Home = ({navigation}) => {
                 <TouchableOpacity
                   style={{width: '85%'}}
                   onPress={() => {
-                    navigation.navigate('Search', {searchOption: 'project'});
+                    navigation.navigate('Search', {searchOption: 'for_sale'});
                   }}>
                   <View
                     style={{
@@ -97,10 +103,10 @@ const Home = ({navigation}) => {
         <View style={{height: 0.26 * SIZES.height}}>
           <Menu />
         </View>
-        <View style={{height: 0.4 * SIZES.height}}>
+        <View style={{height: 0.45 * SIZES.height}}>
           <ShoppingIntro />
         </View>
-        <View style={{height: 0.4 * SIZES.height}}>
+        <View style={{height: 0.45 * SIZES.height}}>
           <RentIntro />
         </View>
         <View style={{height: 0.4 * SIZES.height}}>

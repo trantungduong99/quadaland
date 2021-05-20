@@ -4,9 +4,9 @@ import MapView, {Circle, Marker, Polygon} from 'react-native-maps';
 import {COLORS, SIZES, icons, images, FONTS} from '../constants';
 import Geolocation from '@react-native-community/geolocation';
 import {SET_COORDINATE} from '../actions/actionTypes';
-import {useAuthDispatch} from '../contexts/authContext';
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
 
-const Coordinate = ({navigation}) => {
+const Coordinate = ({navigation, route}) => {
   const latlngDelta = {latitudeDelta: 0.00922, longitudeDelta: 0.00421};
   const [error, setError] = useState(null);
   const [isChange, setIsChange] = useState(false);
@@ -19,31 +19,43 @@ const Coordinate = ({navigation}) => {
     longitude: 108.151134,
   });
   const dispatch = useAuthDispatch();
+  const {coordinate} = useAuthState();
+  console.log(route.params.option);
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        setCoordinateCreate(position.coords);
-        setCurrentCoordinate(position.coords);
-        setError(false);
-      },
-      (error) => {
-        setError(error.message);
-      },
-      {enableHighAccuracy: true, timeout: 2000, maximumAge: 2000},
-    );
+    if (route.params.option === 'update') {
+      setCoordinateCreate(coordinate);
+      setCurrentCoordinate(coordinate);
+      setError(false);
+    } else {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          setCoordinateCreate(position.coords);
+          setCurrentCoordinate(position.coords);
+          setError(false);
+        },
+        (error) => {
+          setError(error.message);
+        },
+        {enableHighAccuracy: true, timeout: 2000, maximumAge: 2000},
+      );
+    }
   }, []);
   const onMapPress = async (e) => {
     const {latitude, longitude} = e.nativeEvent.coordinate;
     setIsChange(true);
-    console.log({latitude, longitude})
+    console.log({latitude, longitude});
     setCoordinateCreate({latitude, longitude});
   };
   const focusCurrentPosition = () => {
     setCoordinateCreate(currentCoordinate);
   };
   const handleCreateCoordinate = () => {
-    navigation.navigate('Posting');
     dispatch({type: SET_COORDINATE, coordinate: coordinateCreate});
+    if (route.params.option === 'update') {
+      navigation.navigate('EditProperty');
+    } else {
+      navigation.navigate('Posting');
+    }
     console.log('coordinate sau: ', coordinateCreate);
   };
   return (

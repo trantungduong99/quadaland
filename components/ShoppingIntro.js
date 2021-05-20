@@ -10,7 +10,7 @@ import {GET_SUB_SALE} from '../actions/actionTypes';
 
 const ShoppingIntro = () => {
   const dispatch = useAuthDispatch();
-  const {subSaleArray} = useAuthState();
+  const {subSaleArray, userToken} = useAuthState();
   useEffect(() => {
     const query = {
       sale_method: 'for_sale',
@@ -18,6 +18,7 @@ const ShoppingIntro = () => {
       per_page: 10,
       page: 1,
     };
+
     getProperty(query)
       .then((r) => {
         if (r.status === 200) {

@@ -55,7 +55,7 @@ const Map = ({navigation}) => {
     console.log('đi gửi thông tin tìm kiếm cho server');
     getPropertyByCoordinate(coordinateCreate, radius)
       .then((r) => {
-        console.log("datasearch",r.data);
+        console.log('datasearch', r.data);
         setIsLoading(false);
         dispatch({type: GET_PROP_BYCOOR, searchList: r.data});
       })
@@ -65,12 +65,11 @@ const Map = ({navigation}) => {
   };
   const gotoDetail = (property) => {
     console.log(property);
-    if(property.sale_method==='for_sale'){
-      navigation.navigate('ShoppingDetail', {item: property});
-    }else{
-     navigation.navigate('RentDetail',{item:property})
+    if (property.sale_method === 'for_sale') {
+      navigation.navigate('PropertyDetail', {item: property});
+    } else {
+      navigation.navigate('PropertyDetail', {item: property});
     }
-   
   };
   return (
     <View style={styles.container}>

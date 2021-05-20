@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import asyncStorage from '@react-native-community/async-storage';
 const RentVertical = ({item}) => {
   const navigation = useNavigation();
-  const {details} = item;
+  const {details, deleted_at} = item;
   // console.log(details.price);
   return (
     <View>
@@ -17,6 +17,7 @@ const RentVertical = ({item}) => {
             height: 320,
             marginBottom: SIZES.padding,
             marginHorizontal: SIZES.padding,
+            opacity: deleted_at ? 0.7 : 1,
           }}>
           <TouchableOpacity
             style={{
@@ -30,6 +31,7 @@ const RentVertical = ({item}) => {
               shadowRadius: 2.62,
               elevation: 3,
             }}
+            disabled={deleted_at ? true : false}
             onPress={() => {
               navigation.navigate('PropertyDetail', {item: item});
             }}>
@@ -61,7 +63,11 @@ const RentVertical = ({item}) => {
                   alignItems: 'center',
                 }}>
                 <Text style={{color: COLORS.primary, ...FONTS.body5}}>
-                  {details.price ? details.price + ' triệu' : 'Thương lượng'}
+                  {details.price
+                    ? parseFloat(details.price) < 1000
+                      ? details.price + 'triệu'
+                      : (parseFloat(details.price) / 1000).toString() + 'tỷ'
+                    : 'Đang cập nhật...'}
                 </Text>
                 <Text
                   style={{color: COLORS.primary, ...FONTS.body5}}
@@ -134,6 +140,19 @@ const RentVertical = ({item}) => {
                 style={{width: 27, height: 27, tintColor: COLORS.primary}}
               />
             </TouchableOpacity>
+            {deleted_at && (
+              <View
+                style={{
+                  top: 0,
+                  right: 0,
+                  position: 'absolute',
+                  height: 330,
+                  width: '100%',
+                  borderRadius: 10,
+                  backgroundColor: '#CCCCCC',
+                  opacity: 0.8,
+                }}></View>
+            )}
           </TouchableOpacity>
         </View>
       </View>

@@ -110,7 +110,7 @@ export default class Rent extends Component {
                 style={{width: '75%'}}
                 onPress={() => {
                   this.props.navigation.navigate('Search', {
-                    searchOption: 'rent',
+                    searchOption: 'for_rent',
                   });
                 }}>
                 <View

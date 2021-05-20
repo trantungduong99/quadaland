@@ -7,18 +7,18 @@ import asyncStorage from '@react-native-community/async-storage';
 import {useAuthState} from '../contexts/authContext';
 
 const Account = ({navigation}) => {
-  // const [role, setRole] = useState('customer');
-  // useEffect(() => {
-  //   asyncStorage
-  //     .getItem('role')
-  //     .then((r) => {
-  //       setRole(r);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // }, []);
-  const {role} = useAuthState()
+  const [role, setRole] = useState('customer');
+  useEffect(() => {
+    asyncStorage
+      .getItem('role')
+      .then((r) => {
+        setRole(r);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  // const {role} = useAuthState()
   return (
     <View
       style={{flex: 1, backgroundColor: '#D8D8D8', flexDirection: 'column'}}>

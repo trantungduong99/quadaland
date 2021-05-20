@@ -5,6 +5,8 @@ import RentIntro from './RentIntro';
 import Carousel from './Carousel';
 import AccountItem from './AccountItem';
 import MyPostingItem from './MyPostingItem';
+import FilterOption from './FilterOption';
+import SearchTag from './SearchTag';
 
 export {
   Menu,
@@ -14,4 +16,6 @@ export {
   Carousel,
   AccountItem,
   MyPostingItem,
+  FilterOption,
+  SearchTag,
 };

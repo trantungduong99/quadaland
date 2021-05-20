@@ -1,4 +1,4 @@
-const base_url = 'http://9d2e00e0a689.ngrok.io/api/v1';
+const base_url = 'https://e9df296690cb.ngrok.io/api/v1';
 export const LOGIN_URL = `${base_url}/auth/sign-in`;
 export const REGISTER_URL = `${base_url}/auth/sign-up`;
 export const LOGOUT_URL = `${base_url}/auth/sign-out`;
@@ -8,7 +8,9 @@ export const UPDATE_COMPANY_URL = `${base_url}/companies`;
 export const CREAT_PROPERTY_URL = `${base_url}/properties`;
 export const GET_INTROSALE_URL = `${base_url}/properties?per_page=10`;
 export const GET_PROPERTY_URL = `${base_url}/properties?`;
+export const GET_ONE_PROPERTY_URL = `${base_url}/properties/`;
 export const DELETE_PROPERTY_URL = `${base_url}/properties/`;
+export const UPDATE_PROPERTY_URL = `${base_url}/properties/`;
 export default {
   LOGIN_URL,
   REGISTER_URL,
@@ -20,4 +22,6 @@ export default {
   GET_INTROSALE_URL,
   GET_PROPERTY_URL,
   DELETE_PROPERTY_URL,
+  UPDATE_PROPERTY_URL,
+  GET_ONE_PROPERTY_URL,
 };

@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -9,11 +9,13 @@ import {
   Modal,
 } from 'react-native';
 import {icons, COLORS, SIZES, FONTS, API} from '../constants';
-import {createProperty} from '../services/authService';
-import {useAuthState} from '../contexts/authContext';
-import {Picker} from '@react-native-picker/picker';
-const Posting = ({navigation}) => {
-  const [saleMethod, setSaleMethod] = useState('for_sale');
+import {updateProperty, getOneProperty} from '../services/authService';
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
+import {SET_COORDINATE} from '../actions/actionTypes';
+
+const EditProperty = ({navigation, route}) => {
+  const {slug} = route.params.property;
+  const [saleMethod, setSaleMethod] = useState('for_rent');
   const [area, setArea] = useState('');
   const [price, setPrice] = useState('');
   const [address, setAddress] = useState('');
@@ -24,13 +26,59 @@ const Posting = ({navigation}) => {
   const [isValidAddress, setIsValidAddress] = useState(false);
   const [isValidTitle, setIsValidTitle] = useState(false);
   const [isValidDescription, setIsValidDescription] = useState(false);
-  const [edited, setEdited] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(true);
   const {coordinate} = useAuthState();
   const [currencyUnit, setCurrencyUnit] = useState('triệu');
   const [modalUnitVisible, setModalUnitVisible] = useState(false);
-  const handleCreateProperty = async () => {
+  const dispatch = useAuthDispatch();
+  useEffect(() => {
+    getOneProperty(slug)
+      .then((r) => {
+        const propertyCoordinate = {
+          latitude: parseFloat(r.data.details.coordinate.latitude),
+          longitude: parseFloat(r.data.details.coordinate.longitude),
+        };
+        dispatch({type: SET_COORDINATE, coordinate: propertyCoordinate});
+        const {sale_method} = r.data;
+        const {price, area, title, address, description} = r.data.details;
+        console.log({price, area, title, address, description});
+        setSaleMethod(sale_method);
+        if (parseFloat(price) < 1000) {
+          setCurrencyUnit('triệu');
+          setPrice(parseFloat(price));
+        } else {
+          setCurrencyUnit('tỷ');
+          setPrice(parseFloat(price) / 1000);
+        }
+        setAddress(address);
+        setArea(parseFloat(area));
+        setTitle(title);
+        setDescription(description);
+        if (parseFloat(area) > 0 && !isNaN(area)) {
+          setIsValidArea(true);
+        }
+        if (parseFloat(price) > 0 && !isNaN(price)) {
+          setIsValidPrice(true);
+        }
+        if (address?.trim().length >= 10) {
+          setIsValidAddress(true);
+        }
+        if (title.trim().length >= 10) {
+          setIsValidTitle(true);
+        }
+        if (
+          description.trim().length >= 10 &&
+          description.trim().length <= 1000
+        ) {
+          setIsValidDescription(true);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+  const handleUpdateProperty = async () => {
     var property = {};
     if (
       saleMethod &&
@@ -52,23 +100,23 @@ const Posting = ({navigation}) => {
         currencyUnit === 'tỷ'
           ? property.details.price * 1000
           : property.details.price;
-      console.log('property :', property);
-      createProperty(property)
+      updateProperty(property, slug)
         .then((r) => {
-          if (r.data.created_at) {
-            console.log('Create Thành công');
+          console.log(r);
+          if (r.data.updated_at) {
+            console.log('Update Thành công');
             setSubmitSuccess(true);
             setModalVisible(true);
           } else {
-            console.log('Create Thất bại');
+            console.log('Update Thất bại');
             setSubmitSuccess(false);
             setModalVisible(true);
           }
         })
         .catch((e) => {
+          console.log(e);
           setSubmitSuccess(false);
           setModalVisible(true);
-          console.log(e);
         });
     } else {
       setSubmitSuccess(false);
@@ -76,9 +124,9 @@ const Posting = ({navigation}) => {
     }
   };
   const text_AreaChange = (val) => {
-    setEdited(true);
     if (val > 0 && !isNaN(val)) {
       setArea(parseFloat(val));
+      console.log(val);
       setIsValidArea(true);
     } else {
       setArea(parseFloat(val));
@@ -86,9 +134,9 @@ const Posting = ({navigation}) => {
     }
   };
   const text_PriceChange = (val) => {
-    setEdited(true);
     if (val > 0 && !isNaN(val)) {
       setPrice(parseFloat(val));
+      console.log(val);
       setIsValidPrice(true);
     } else {
       setPrice(parseFloat(val));
@@ -96,7 +144,6 @@ const Posting = ({navigation}) => {
     }
   };
   const text_AddressChange = (val) => {
-    setEdited(true);
     if (val.trim().length >= 10) {
       setAddress(val);
       setIsValidAddress(true);
@@ -106,7 +153,6 @@ const Posting = ({navigation}) => {
     }
   };
   const text_TitleChange = (val) => {
-    setEdited(true);
     if (val.trim().length >= 10) {
       setTitle(val);
       setIsValidTitle(true);
@@ -116,7 +162,6 @@ const Posting = ({navigation}) => {
     }
   };
   const text_DescriptionChange = (val) => {
-    setEdited(true);
     if (val.trim().length >= 50 && val.trim().length <= 1000) {
       setDescription(val);
       setIsValidDescription(true);
@@ -145,21 +190,16 @@ const Posting = ({navigation}) => {
               resizeMode="contain"
             />
           </TouchableOpacity>
-          <Text style={styles.text_title}>Tạo bài viết</Text>
+          <Text style={styles.text_title}>Chỉnh sửa bài viết</Text>
         </View>
-        {edited ? (
-          <TouchableOpacity
-            style={styles.button_post_onEdit}
-            onPress={() => {
-              handleCreateProperty();
-            }}>
-            <Text style={styles.text_button_post_onEdit}>Đăng</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.button_post}>
-            <Text style={styles.text_button_post}>Đăng</Text>
-          </TouchableOpacity>
-        )}
+
+        <TouchableOpacity
+          style={styles.button_post_onEdit}
+          onPress={() => {
+            handleUpdateProperty();
+          }}>
+          <Text style={styles.text_button_post_onEdit}>Cập nhật</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.content_container}>
         <View style={styles.sale_method_container}>
@@ -210,6 +250,7 @@ const Posting = ({navigation}) => {
               resizeMode="contain"
             />
             <TextInput
+              value={area.toString()}
               placeholder="Diện tích"
               placeholderTextColor="#666666"
               autoCapitalize="none"
@@ -242,6 +283,7 @@ const Posting = ({navigation}) => {
               resizeMode="contain"
             />
             <TextInput
+              value={price.toString()}
               placeholder="Giá"
               placeholderTextColor="#666666"
               autoCapitalize="none"
@@ -290,6 +332,7 @@ const Posting = ({navigation}) => {
               resizeMode="contain"
             />
             <TextInput
+              value={address}
               placeholder="Địa chỉ"
               placeholderTextColor="#666666"
               autoCapitalize="none"
@@ -315,7 +358,7 @@ const Posting = ({navigation}) => {
               marginLeft: SIZES.small,
             }}
             onPress={() => {
-              navigation.navigate('Coordinate', {option: 'create'});
+              navigation.navigate('Coordinate', {option: 'update'});
             }}>
             <Image
               source={icons.coordinate}
@@ -332,6 +375,7 @@ const Posting = ({navigation}) => {
               resizeMode="contain"
             />
             <TextInput
+              value={title}
               placeholder="Tiêu đề"
               placeholderTextColor="#666666"
               autoCapitalize="none"
@@ -352,6 +396,7 @@ const Posting = ({navigation}) => {
         <View style={{height: 230, marginTop: SIZES.small}}>
           <View style={styles.action_content}>
             <TextInput
+              value={description}
               placeholder="Nội dung bài đăng ..."
               placeholderTextColor="#666666"
               autoCapitalize="none"
@@ -663,4 +708,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Posting;
+export default EditProperty;

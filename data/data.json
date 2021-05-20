@@ -1,0 +1,36 @@
+{
+  "district": {
+    "district1": {
+      "key": 1,
+      "name": "Hải Châu"
+    },
+    "district2": {
+      "key": 2,
+      "name": "Cẩm Lệ"
+    },
+    "district3": {
+      "key": 3,
+      "name": "Thanh Khê"
+    },
+    "district4": {
+      "key": 4,
+      "name": "Liên Chiểu"
+    },
+    "district5": {
+      "key": 5,
+      "name": "Ngũ Hành Sơn"
+    },
+    "district6": {
+      "key": 6,
+      "name": "Sơn Trà"
+    },
+    "district7": {
+      "key": 7,
+      "name": "Hòa Vang"
+    },
+    "district8": {
+      "key": 8,
+      "name": "Hoàng Sa"
+    }
+  }
+}

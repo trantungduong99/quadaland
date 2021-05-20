@@ -10,9 +10,9 @@ import {
   TouchableHighlightBase,
 } from 'react-native';
 import {icons, SIZES, COLORS, FONTS} from '../constants';
-import RentVertical from '../components/RentVertical';
+import ShoppingVertical from '../components/ShoppingVertical';
 import _ from 'lodash';
-export default class Rent extends Component {
+export default class Shopping extends Component {
   state = {
     data: [],
     page: 1,
@@ -110,7 +110,7 @@ export default class Rent extends Component {
                 style={{width: '75%'}}
                 onPress={() => {
                   this.props.navigation.navigate('Search', {
-                    searchOption: 'shopping',
+                    searchOption: 'for_sale',
                   });
                 }}>
                 <View
@@ -201,7 +201,7 @@ export default class Rent extends Component {
                     }}
                     showsVerticalScrollIndicator={false}
                     renderItem={({item}) => {
-                      return <RentVertical item={item} />;
+                      return <ShoppingVertical item={item} />;
                     }}
                     initialNumToRender={10}
                     ListFooterComponent={this._renderFooter}
