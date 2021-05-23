@@ -1,4 +1,4 @@
-const base_url = 'https://e9df296690cb.ngrok.io/api/v1';
+const base_url = 'https://f47feccf4d54.ap.ngrok.io/api/v1';
 export const LOGIN_URL = `${base_url}/auth/sign-in`;
 export const REGISTER_URL = `${base_url}/auth/sign-up`;
 export const LOGOUT_URL = `${base_url}/auth/sign-out`;
@@ -11,6 +11,7 @@ export const GET_PROPERTY_URL = `${base_url}/properties?`;
 export const GET_ONE_PROPERTY_URL = `${base_url}/properties/`;
 export const DELETE_PROPERTY_URL = `${base_url}/properties/`;
 export const UPDATE_PROPERTY_URL = `${base_url}/properties/`;
+export const CREATE_MEDIA_URL = `${base_url}/media`;
 export default {
   LOGIN_URL,
   REGISTER_URL,
@@ -24,4 +25,5 @@ export default {
   DELETE_PROPERTY_URL,
   UPDATE_PROPERTY_URL,
   GET_ONE_PROPERTY_URL,
+  CREATE_MEDIA_URL,
 };

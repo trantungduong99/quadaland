@@ -54,7 +54,7 @@ const Coordinate = ({navigation, route}) => {
     if (route.params.option === 'update') {
       navigation.navigate('EditProperty');
     } else {
-      navigation.navigate('Posting');
+      navigation.navigate('CreateProperty');
     }
     console.log('coordinate sau: ', coordinateCreate);
   };

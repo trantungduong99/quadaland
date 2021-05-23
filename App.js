@@ -14,12 +14,13 @@ import {
   RootStackScreen,
   ChangePassword,
   MyProfile,
-  Posting,
+  CreateProperty,
   Coordinate,
   PropertyDetail,
   CustomerProfile,
   MyProperty,
   EditProperty,
+  MyGallery,
 } from './screens/';
 import {useAuthDispatch, useAuthState} from './contexts/authContext';
 import {checkAuth} from './services/authService';
@@ -67,12 +68,13 @@ const App = () => {
             <Stack.Screen name="ProjectDetail" component={ProjectDetail} />
             <Stack.Screen name="ChangePassword" component={ChangePassword} />
             <Stack.Screen name="MyProfile" component={MyProfile} />
-            <Stack.Screen name="Posting" component={Posting} />
+            <Stack.Screen name="CreateProperty" component={CreateProperty} />
             <Stack.Screen name="Coordinate" component={Coordinate} />
             <Stack.Screen name="PropertyDetail" component={PropertyDetail} />
             <Stack.Screen name="CustomerProfile" component={CustomerProfile} />
             <Stack.Screen name="MyProperty" component={MyProperty} />
             <Stack.Screen name="EditProperty" component={EditProperty} />
+            <Stack.Screen name="MyGallery" component={MyGallery} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

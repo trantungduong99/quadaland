@@ -15,12 +15,14 @@ const AuthProvider = ({children}) => {
       latitude: '',
       longitude: '',
     },
-    subSaleArray:[],
-    subRentArray:[],
-    saleArray:[],
-    rentArray:[],
-    myPropery:[],
-    searchList:[],
+    subSaleArray: [],
+    subRentArray: [],
+    saleArray: [],
+    rentArray: [],
+    myPropery: [],
+    searchList: [],
+    galleryList: [],
+    imagesSelected: [],
   });
 
   return (

@@ -7,12 +7,15 @@ import {
   View,
   RefreshControl,
   Image,
-  TouchableOpacity,Linking
+  TouchableOpacity,
+  Linking,
+  FlatList,
 } from 'react-native';
-import {FONTS, SIZES, COLORS, images, icons} from '../constants';
+import {FONTS, SIZES, COLORS, images, icons, API} from '../constants';
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 0.07 * SIZES.height;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
+import {media} from '../data/Data';
 
 const phoneNumber = '0935028053';
 function hidePhoneNumber(phoneNumber) {
@@ -380,9 +383,32 @@ export default class ProjectDetail extends Component {
           </View>
         </View>
         <Animated.View
-          pointerEvents="none"
+          // pointerEvents="none"
           style={[styles.header, {transform: [{translateY: headerTranslate}]}]}>
-          <Animated.Image
+          <Animated.FlatList
+            data={media}
+            keyExtractor={(item) => item.slug}
+            horizontal
+            snapToAlignment="end"
+            scrollEventThrottle={16}
+            decelerationRate={'fast'}
+            pagingEnabled
+            renderItem={({item}) => {
+              return (
+                <Animated.Image
+                  style={{
+                    height: HEADER_MAX_HEIGHT,
+                    width: SIZES.width,
+                    resizeMode: 'cover',
+                    opacity: imageOpacity,
+                    transform: [{translateY: imageTranslate}],
+                  }}
+                  source={{uri: API.CREATE_MEDIA_URL + '/' + item.slug}}
+                />
+              );
+            }}
+          />
+          {/* <Animated.Image
             style={[
               styles.backgroundImage,
               {
@@ -391,7 +417,7 @@ export default class ProjectDetail extends Component {
               },
             ]}
             source={require('../assets/images/project1.jpg')}
-          />
+          /> */}
         </Animated.View>
         <View style={styles.bar}>
           <TouchableOpacity

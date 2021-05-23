@@ -12,7 +12,7 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-import {FONTS, SIZES, COLORS, images, icons} from '../constants';
+import {FONTS, SIZES, COLORS, images, icons,API} from '../constants';
 const HEADER_MAX_HEIGHT = 300;
 const HEADER_MIN_HEIGHT = 0.07 * SIZES.height;
 const HEADER_SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
@@ -21,6 +21,7 @@ import asyncStorage from '@react-native-community/async-storage';
 import {deleteProperty} from '../services/authService';
 import {useAuthDispatch, useAuthState} from '../contexts/authContext';
 import {DELETE_MY_PROPERTY} from '../actions/actionTypes';
+import { media } from '../data/Data';
 
 function hidePhoneNumber(phoneNumber) {
   const cleaned = ('' + phoneNumber).replace(/\D/g, '');
@@ -120,7 +121,7 @@ export default class PropertyDetail extends Component {
     });
 
     const project = this.props.route.params.item;
-
+    console.log(project.details);
     // console.log(project.company.user);
     const latlngDelta = {latitudeDelta: 0.02922, longitudeDelta: 0.02421};
     return (
@@ -186,7 +187,7 @@ export default class PropertyDetail extends Component {
                   : 'Đang cập nhật...'}
               </Text>
               <Text style={styles.price_area}>
-                {details.area ? details.area : 'Đang cập nhật...'}
+                {details.area ? details.area+"m²" : 'Đang cập nhật...'}
               </Text>
             </View>
           </View>
@@ -297,9 +298,32 @@ export default class PropertyDetail extends Component {
           </View>
         </View>
         <Animated.View
-          pointerEvents="none"
+          // pointerEvents="none"
           style={[styles.header, {transform: [{translateY: headerTranslate}]}]}>
-          <Animated.Image
+          <Animated.FlatList
+            data={details.media?details.media:media}
+            keyExtractor={(item) => item.slug}
+            horizontal
+            snapToAlignment="end"
+            scrollEventThrottle={16}
+            decelerationRate={'fast'}
+            pagingEnabled
+            renderItem={({item}) => {
+              return (
+                <Animated.Image
+                  style={{
+                    height: HEADER_MAX_HEIGHT,
+                    width: SIZES.width,
+                    resizeMode: 'cover',
+                    opacity: imageOpacity,
+                    transform: [{translateY: imageTranslate}],
+                  }}
+                  source={{uri: API.CREATE_MEDIA_URL + '/' + item.slug}}
+                />
+              );
+            }}
+          />
+          {/* <Animated.Image
             style={[
               styles.backgroundImage,
               {
@@ -308,7 +332,7 @@ export default class PropertyDetail extends Component {
               },
             ]}
             source={require('../assets/images/project1.jpg')}
-          />
+          /> */}
         </Animated.View>
         <View style={styles.bar}>
           <TouchableOpacity

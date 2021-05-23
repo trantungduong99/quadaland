@@ -1,10 +1,12 @@
 import React from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
-import {SIZES, FONTS, COLORS, icons} from '../constants';
+import {SIZES, FONTS, COLORS, icons,API} from '../constants';
 import {useNavigation} from '@react-navigation/native';
+import {media} from '../data/Data';
 const ShoppingVertical = ({item}) => {
   const navigation = useNavigation();
   const {details, deleted_at} = item;
+  const slug = item.details.media.length>0?item.details.media[0].slug:media[0].slug
   return (
     <View>
       <View style={{flex: 1}}>
@@ -33,7 +35,7 @@ const ShoppingVertical = ({item}) => {
               navigation.navigate('PropertyDetail', {item: item});
             }}>
             <Image
-              source={{uri: 'https://random.imagecdn.app/1200/800'}}
+              source={{uri: API.CREATE_MEDIA_URL+"/"+slug ,}}
               style={{
                 width: SIZES.width - 2 * SIZES.padding,
                 height: '100%',

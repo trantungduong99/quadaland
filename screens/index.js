@@ -17,12 +17,13 @@ import RootStackScreen from './RootStackScreen';
 import PerInfoRegistScreen from './PerInfoRegistScreen';
 import ChangePassword from './ChangePassword';
 import MyProfile from './MyProfile';
-import Posting from './Posting';
+import CreateProperty from './CreateProperty';
 import Coordinate from './Coordinate';
 import PropertyDetail from './PropertyDetail';
 import CustomerProfile from './CustomerProfile';
 import MyProperty from './MyProperty';
 import EditProperty from './EditProperty';
+import MyGallery from './MyGallery';
 export {
   Home,
   Community,
@@ -43,10 +44,11 @@ export {
   PerInfoRegistScreen,
   ChangePassword,
   MyProfile,
-  Posting,
+  CreateProperty,
   Coordinate,
   PropertyDetail,
   CustomerProfile,
   MyProperty,
   EditProperty,
+  MyGallery,
 };

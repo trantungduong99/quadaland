@@ -14,6 +14,38 @@ export const dummyImageData = [
     img: images.banner3,
   },
 ];
+export const media = [
+  {
+    created_at: '2021-05-21T07:54:09.454Z',
+    updated_at: '2021-05-21T07:54:09.454Z',
+    deleted_at: null,
+    type: 'image',
+    slug: '5155492901-gXjQsTJTe-.jpg',
+    visibility: 'public',
+    file_name: '5155492901.jpg',
+    file_size: 11715,
+  },
+  {
+    created_at: '2021-05-21T07:54:09.455Z',
+    updated_at: '2021-05-21T07:54:09.455Z',
+    deleted_at: null,
+    type: 'image',
+    slug: '7214238959-b4DCycWm3C.jpg',
+    visibility: 'public',
+    file_name: '7214238959.jpg',
+    file_size: 11172,
+  },
+  {
+    created_at: '2021-05-21T07:54:09.455Z',
+    updated_at: '2021-05-21T07:54:09.455Z',
+    deleted_at: null,
+    type: 'image',
+    slug: '2278018617-qhCqa3-WUK.jpg',
+    visibility: 'public',
+    file_name: '2278018617.jpg',
+    file_size: 67061,
+  },
+];
 export const dummyProjectData = [
   {
     id: 0,

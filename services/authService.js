@@ -1,6 +1,7 @@
 import {API} from '../constants';
 import asyncStorage from '@react-native-community/async-storage';
 const axios = require('axios');
+const _ = require('lodash');
 const signIn = async (email, password) => {
   await asyncStorage.clear();
   try {
@@ -257,6 +258,68 @@ const getOneProperty = async (slug) => {
     console.log(error);
   }
 };
+const createMedia = async (localPhotos) => {
+  if (localPhotos && localPhotos.length > 0) {
+    let formData = new FormData();
+    localPhotos.forEach((image) => {
+      const file = {
+        uri: image.path,
+        name:
+          image.filename ||
+          Math.floor(Math.random() * Math.floor(9999999999)) + '.jpg',
+        type: image.mime || 'image/jpeg',
+      };
+      formData.append('files', file);
+    });
+    try {
+      const response = await axios.post(API.CREATE_MEDIA_URL, formData, {
+        headers: {Authorization: `Bearer ${token}`},
+      });
+
+      return response;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+
+const getMedia = async (values) => {
+  const token = await asyncStorage.getItem('token');
+  const username = await asyncStorage.getItem('username');
+  const {page} = values;
+  const query = {
+    username: username,
+    per_page: 25,
+    page: page,
+    sort_by: '-created_at',
+  };
+  try {
+    const response = await axios.get(API.CREATE_MEDIA_URL, {
+      headers: {Authorization: `Bearer ${token}`},
+      params: query,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const deleteMedia = async (slugs) => {
+  const token = await asyncStorage.getItem('token');
+  // console.log('Data gui di', {slugs: slugs});
+  try {
+    const response = await axios.delete(API.CREATE_MEDIA_URL, {
+      headers: {Authorization: `Bearer ${token}`},
+      data: {slugs: slugs},
+    });
+    console.log('res tra ve', response);
+    return response;
+  } catch (error) {
+    console.log('Loi tra ve', error);
+  }
+};
 export {
   signIn,
   signOut,
@@ -271,4 +334,7 @@ export {
   getProperty,
   updateProperty,
   getOneProperty,
+  createMedia,
+  getMedia,
+  deleteMedia,
 };

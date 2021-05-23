@@ -1,9 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
-import {SIZES, FONTS, COLORS, icons, images} from '../constants';
+import {SIZES, FONTS, COLORS, icons, images,API} from '../constants';
 import {useNavigation} from '@react-navigation/native';
+import {media} from '../data/Data';
 const ShoppingItem = ({item}) => {
   const navigation = useNavigation();
+  const slug =
+    item.details.media.length > 0 ? item.details.media[0].slug : media[0].slug;
   return (
     <View style={{marginRight: SIZES.padding, marginLeft: 1}}>
       <View style={{flex: 1}}>
@@ -23,7 +26,7 @@ const ShoppingItem = ({item}) => {
             navigation.navigate('PropertyDetail', {item: item});
           }}>
           <Image
-            source={{uri: 'https://random.imagecdn.app/1200/800'}}
+            source={{uri: API.CREATE_MEDIA_URL + '/' + slug}}
             style={{width: SIZES.width * 0.8, height: '97%', borderRadius: 10}}
             resizeMode="cover"
           />
@@ -47,14 +50,16 @@ const ShoppingItem = ({item}) => {
               <Text style={{color: COLORS.primary, ...FONTS.body5}}>
                 {item.details.price
                   ? parseFloat(item.details.price) < 1000
-                    ? item.details.price + 'triệu'
+                    ? item.details.price + ' triệu'
                     : (parseFloat(item.details.price) / 1000).toString() + 'tỷ'
                   : 'Đang cập nhật...'}
               </Text>
               <Text
                 style={{color: COLORS.primary, ...FONTS.body5}}
                 numberOfLines={1}>
-                {item.details.area}m²
+                {item.details.area
+                  ? item.details.area + ' m²'
+                  : 'Đang cập nhật...'}
               </Text>
             </View>
             <Text style={{color: COLORS.black, ...FONTS.h4}} numberOfLines={1}>

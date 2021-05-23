@@ -28,6 +28,9 @@ const AccountItem = ({item, title, target}) => {
       const username = await asyncStorage.getItem('username');
       navigation.navigate('MyProperty', {username: username});
     }
+    if (target == 'mygallery') {
+      navigation.navigate('MyGallery');
+    }
   };
   return (
     <View>

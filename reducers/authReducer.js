@@ -9,7 +9,9 @@ import {
   GET_SALE_PROPERTY,
   GET_RENT_PROPERTY,
   GET_MY_PROPERTY,
-  DELETE_MY_PROPERTY
+  DELETE_MY_PROPERTY,
+  CHOOSE_MANY_PHOTOS,
+  GET_MEDIA,
 } from '../actions/actionTypes';
 
 import _ from 'lodash';
@@ -48,6 +50,8 @@ export const authReducer = (prevState, action) => {
         rentArray: [],
         myPropery: [],
         searchList: [],
+        galleryList: [],
+        imagesSelected: [],
       };
     case SET_COORDINATE:
       return {
@@ -88,6 +92,17 @@ export const authReducer = (prevState, action) => {
       return {
         ...prevState,
         myProperty: action.myProperty,
+      };
+    case CHOOSE_MANY_PHOTOS:
+      console.log('action imagesSelecte', action.imagesSelected);
+      return {
+        ...prevState,
+        imagesSelected: action.imagesSelected,
+      };
+    case GET_MEDIA:
+      return {
+        ...prevState,
+        galleryList: action.galleryList,
       };
     default:
       return prevState;

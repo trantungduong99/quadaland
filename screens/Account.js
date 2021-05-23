@@ -115,7 +115,7 @@ const Account = ({navigation}) => {
             target="MyProperty"
           />
         ) : null}
-        <AccountItem item={icons.account} title="Tiện ích" target="tienich" />
+        <AccountItem item={icons.account} title="Kho ảnh" target="mygallery" />
         <AccountItem item={icons.headphones} title="Liên hệ" target="lienhe" />
         <AccountItem
           item={icons.password}

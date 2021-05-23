@@ -7,12 +7,14 @@ import {
   Image,
   TextInput,
   Modal,
+  ScrollView,
 } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 import {icons, COLORS, SIZES, FONTS, API} from '../constants';
-import {createProperty} from '../services/authService';
+import {createProperty, createMedia} from '../services/authService';
 import {useAuthState} from '../contexts/authContext';
-import {Picker} from '@react-native-picker/picker';
-const Posting = ({navigation}) => {
+const _ = require('lodash');
+const CreateProperty = ({navigation}) => {
   const [saleMethod, setSaleMethod] = useState('for_sale');
   const [area, setArea] = useState('');
   const [price, setPrice] = useState('');
@@ -26,10 +28,14 @@ const Posting = ({navigation}) => {
   const [isValidDescription, setIsValidDescription] = useState(false);
   const [edited, setEdited] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalOptionVisible, setModalOptionVisible] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(true);
   const {coordinate} = useAuthState();
   const [currencyUnit, setCurrencyUnit] = useState('triệu');
   const [modalUnitVisible, setModalUnitVisible] = useState(false);
+  const [localPhotos, setLocalPhotos] = useState([]);
+  const [media, setMedia] = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleCreateProperty = async () => {
     var property = {};
     if (
@@ -46,35 +52,62 @@ const Posting = ({navigation}) => {
       isValidPrice &&
       isValidTitle
     ) {
-      property.sale_method = saleMethod;
-      property.details = {area, price, address, title, description, coordinate};
-      property.details.price =
-        currencyUnit === 'tỷ'
-          ? property.details.price * 1000
-          : property.details.price;
-      console.log('property :', property);
-      createProperty(property)
+      setLoading(true);
+      createMedia(localPhotos)
         .then((r) => {
-          if (r.data.created_at) {
-            console.log('Create Thành công');
-            setSubmitSuccess(true);
-            setModalVisible(true);
-          } else {
-            console.log('Create Thất bại');
-            setSubmitSuccess(false);
-            setModalVisible(true);
-          }
+          const slugArray = r.data.map((a) => a.slug);
+          console.log('Slug Array', slugArray);
+          setMedia(slugArray);
+
+          property.sale_method = saleMethod;
+          property.details = {
+            area,
+            price,
+            address,
+            title,
+            description,
+            coordinate,
+            media,
+          };
+          property.details.price =
+            currencyUnit === 'tỷ'
+              ? property.details.price * 1000
+              : property.details.price;
+          property.details.media = slugArray;
+          console.log('property :', property);
+          const validProperty = _.pickBy(property, _.identity);
+          console.log(validProperty.details.media);
+          createProperty(validProperty)
+            .then((r) => {
+              if (r.data.created_at) {
+                console.log('Create Thành công');
+                setLoading(false);
+                setSubmitSuccess(true);
+                setModalVisible(true);
+              } else {
+                console.log('Create Thất bại');
+                setLoading(false);
+                setSubmitSuccess(false);
+                setModalVisible(true);
+              }
+            })
+            .catch((e) => {
+              setLoading(false);
+              setSubmitSuccess(false);
+              setModalVisible(true);
+              console.log(e);
+            });
         })
         .catch((e) => {
-          setSubmitSuccess(false);
-          setModalVisible(true);
           console.log(e);
         });
     } else {
+      setLoading(false);
       setSubmitSuccess(false);
       setModalVisible(true);
     }
   };
+
   const text_AreaChange = (val) => {
     setEdited(true);
     if (val > 0 && !isNaN(val)) {
@@ -125,7 +158,73 @@ const Posting = ({navigation}) => {
       setIsValidDescription(false);
     }
   };
-
+  const handleSelectPhoto = () => {
+    setModalOptionVisible(false);
+    ImagePicker.openPicker({
+      multiple: true,
+      maxFiles: 5,
+      mediaType: 'any',
+    })
+      .then((images) => {
+        const newLocalPhotos = _.concat(...localPhotos, images);
+        setLocalPhotos(newLocalPhotos);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const handleTakePhoto = () => {
+    setModalOptionVisible(false);
+    ImagePicker.openCamera({
+      mediaType: 'photo',
+      path: 'my-file-quadaland-' + Math.random() + '.jpg',
+    }).then((image) => {
+      setLocalPhotos([...localPhotos, image]);
+    });
+  };
+  const renderSelectPhotosControl = (localPhotos) => {
+    return (
+      <View style={styles.section_container}>
+        <ScrollView horizontal style={styles.photoList}>
+          {renderListPhotos(localPhotos)}
+        </ScrollView>
+      </View>
+    );
+  };
+  const renderListPhotos = (localPhotos) => {
+    const photos = localPhotos.map((photo, index) => {
+      return (
+        <View key={index}>
+          <Image
+            source={{uri: photo.path}}
+            style={styles.photo}
+            resizeMode="cover"
+          />
+          <TouchableOpacity
+            style={styles.delete_icon}
+            onPress={() => {
+              deleteImage(index);
+            }}>
+            <Image
+              style={styles.delete_icon_image}
+              resizeMode="contain"
+              source={icons.cancel}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    });
+    return photos;
+  };
+  const deleteImage = (index) => {
+    const array = [...localPhotos];
+    array.splice(index, 1);
+    setLocalPhotos(array);
+  };
+  const handleGallerySelect = () => {
+    setModalOptionVisible(false);
+    navigation.navigate('MyGallery');
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header_container}>
@@ -381,6 +480,9 @@ const Posting = ({navigation}) => {
               alignItems: 'center',
               justifyContent: 'flex-start',
               flexDirection: 'row',
+            }}
+            onPress={() => {
+              setModalOptionVisible(true);
             }}>
             <Image
               source={icons.image}
@@ -397,6 +499,8 @@ const Posting = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+        {renderSelectPhotosControl(localPhotos)}
+
         {/* Modal Thong bao  */}
 
         <Modal
@@ -505,7 +609,58 @@ const Posting = ({navigation}) => {
             </View>
           </TouchableOpacity>
         </Modal>
+        {/* Modal Option gallery to select Images  */}
+        <Modal
+          animationType="none"
+          transparent={true}
+          visible={modalOptionVisible}
+          onRequestClose={() => {
+            setModalOptionVisible(false);
+          }}>
+          <TouchableOpacity
+            style={{flex: 1}}
+            onPressOut={() => {
+              setModalOptionVisible(false);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <TouchableOpacity
+                  style={styles.district_modal_button}
+                  onPress={() => {
+                    handleTakePhoto();
+                  }}>
+                  <Text style={[styles.text_tag, {color: 'green'}]}>
+                    Take photo...
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.district_modal_button}
+                  onPress={() => {
+                    handleSelectPhoto();
+                  }}>
+                  <Text style={[styles.text_tag, {color: 'red'}]}>
+                    Choose from Library...
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.district_modal_button}
+                  onPress={() => {
+                    handleGallerySelect();
+                  }}>
+                  <Text style={[styles.text_tag, {color: COLORS.primary}]}>
+                    Choose from YourHomedy gallery
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
+      {loading && (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text>Loading...</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -661,6 +816,68 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: '#CCCCCC',
   },
+  photo: {
+    marginRight: 10,
+    width: 75,
+    height: 75,
+    borderRadius: 10,
+  },
+  section_container: {
+    marginTop: SIZES.base,
+    paddingHorizontal: SIZES.padding,
+  },
+  photoList: {
+    height: 80,
+    marginTop: 15,
+    marginBottom: 15,
+    marginRight: 10,
+  },
+  delete_icon: {
+    position: 'absolute',
+    top: 5,
+    right: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  delete_icon_image: {
+    height: 20,
+    width: 20,
+
+    tintColor: COLORS.white,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    flexDirection: 'column',
+    position: 'absolute',
+    width: '100%',
+    bottom: 0,
+    paddingHorizontal: SIZES.padding,
+    paddingBottom: SIZES.padding,
+    backgroundColor: '#FAFAFA',
+    borderTopRightRadius: 20,
+    borderTopLeftRadius: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.75,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  text_tag: {
+    color: COLORS.black,
+    ...FONTS.body4,
+    margin: SIZES.padding2,
+  },
+  district_modal_button: {
+    marginHorizontal: SIZES.base,
+  },
 });
 
-export default Posting;
+export default CreateProperty;

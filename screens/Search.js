@@ -340,7 +340,9 @@ class Search extends Component {
                   onChangeText={this.handleChangeInput}
                   value={input}
                   onSubmitEditing={() => {
-                    this._fetchProperty();
+                    this.setState({lastPage: 1, page: 1}, () => {
+                      this._fetchProperty();
+                    });
                   }}></TextInput>
               </View>
             </View>

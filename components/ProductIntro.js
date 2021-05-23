@@ -8,7 +8,7 @@ const ProductIntro = ()=>{
  
   const navigation = useNavigation();
   return(
-    <View style={{flex:1}}>
+    <View style={{flex:1,}}>
       <View style={{marginTop:SIZES.font}}>
                   <View style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
                       <Text style={{color:COLORS.black,...FONTS.h2}}>Dự án</Text>

@@ -1,12 +1,14 @@
 import React from 'react';
 import {Text, TouchableOpacity, View, Image} from 'react-native';
-import {SIZES, FONTS, COLORS, icons} from '../constants';
+import {SIZES, FONTS, COLORS, icons,API} from '../constants';
 import {useNavigation} from '@react-navigation/native';
 import asyncStorage from '@react-native-community/async-storage';
+import {media} from '../data/Data';
 const RentVertical = ({item}) => {
   const navigation = useNavigation();
   const {details, deleted_at} = item;
   // console.log(details.price);
+  const slug = item.details.media.length>0?item.details.media[0].slug:media[0].slug
   return (
     <View>
       <View style={{flex: 1}}>
@@ -36,7 +38,7 @@ const RentVertical = ({item}) => {
               navigation.navigate('PropertyDetail', {item: item});
             }}>
             <Image
-              source={{uri: 'https://random.imagecdn.app/1200/800'}}
+              source={{uri: API.CREATE_MEDIA_URL+"/"+slug ,}}
               style={{
                 width: SIZES.width - 2 * SIZES.padding,
                 height: '100%',
@@ -66,13 +68,13 @@ const RentVertical = ({item}) => {
                   {details.price
                     ? parseFloat(details.price) < 1000
                       ? details.price + 'triệu'
-                      : (parseFloat(details.price) / 1000).toString() + 'tỷ'
+                      : (parseFloat(details.price) / 1000).toString() + ' tỷ'
                     : 'Đang cập nhật...'}
                 </Text>
                 <Text
                   style={{color: COLORS.primary, ...FONTS.body5}}
                   numberOfLines={1}>
-                  {details.area ? details.area + 'm²' : '...'}
+                  {details.area ? details.area + ' m²' : 'Đang cập nhật...'}
                 </Text>
               </View>
               <Text

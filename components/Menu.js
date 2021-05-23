@@ -14,7 +14,7 @@ const Menu = ({navigation}) => {
       {/* Hang tren */}
       <View
         style={{flex: 1, flexDirection: 'row', width: '100%', height: '50%'}}>
-        <MenuItem icon={icons.post} name="Đăng tin" target="Posting" />
+        <MenuItem icon={icons.post} name="Đăng tin" target="CreateProperty" />
         <MenuItem icon={icons.building} name="Dự án" target="Project" />
         <MenuItem icon={icons.buy} name="Mua bán" target="Shopping" />
         <MenuItem icon={icons.rent} name="Cho thuê" target="Rent" />

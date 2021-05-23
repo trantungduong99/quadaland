@@ -2,6 +2,7 @@
   package="com.homedyapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+   
 
     <application
       android:name=".MainApplication"
@@ -27,4 +28,8 @@
         android:value="AIzaSyDH_1p4gpDFgk9pyJO39nYc0vWmfwTvwHo"/>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>  
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 </manifest>
