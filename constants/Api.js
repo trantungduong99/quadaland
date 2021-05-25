@@ -1,4 +1,4 @@
-const base_url = 'https://f47feccf4d54.ap.ngrok.io/api/v1';
+const base_url = 'http://ae50810611ea.ap.ngrok.io/api/v1';
 export const LOGIN_URL = `${base_url}/auth/sign-in`;
 export const REGISTER_URL = `${base_url}/auth/sign-up`;
 export const LOGOUT_URL = `${base_url}/auth/sign-out`;

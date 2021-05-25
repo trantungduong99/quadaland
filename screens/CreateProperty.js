@@ -12,7 +12,8 @@ import {
 import ImagePicker from 'react-native-image-crop-picker';
 import {icons, COLORS, SIZES, FONTS, API} from '../constants';
 import {createProperty, createMedia} from '../services/authService';
-import {useAuthState} from '../contexts/authContext';
+import {useAuthState, useAuthDispatch} from '../contexts/authContext';
+import {CHOOSE_MANY_PHOTOS} from '../actions/actionTypes';
 const _ = require('lodash');
 const CreateProperty = ({navigation}) => {
   const [saleMethod, setSaleMethod] = useState('for_sale');
@@ -36,6 +37,8 @@ const CreateProperty = ({navigation}) => {
   const [localPhotos, setLocalPhotos] = useState([]);
   const [media, setMedia] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {imagesSelected} = useAuthState();
+  const dispatch = useAuthDispatch();
   const handleCreateProperty = async () => {
     var property = {};
     if (
@@ -57,7 +60,9 @@ const CreateProperty = ({navigation}) => {
         .then((r) => {
           const slugArray = r.data.map((a) => a.slug);
           console.log('Slug Array', slugArray);
-          setMedia(slugArray);
+          const mediaSlugArray = _.concat(slugArray, imagesSelected);
+          console.log('mediaSlug', mediaSlugArray);
+          setMedia(mediaSlugArray);
 
           property.sale_method = saleMethod;
           property.details = {
@@ -73,7 +78,7 @@ const CreateProperty = ({navigation}) => {
             currencyUnit === 'tỷ'
               ? property.details.price * 1000
               : property.details.price;
-          property.details.media = slugArray;
+          property.details.media = mediaSlugArray;
           console.log('property :', property);
           const validProperty = _.pickBy(property, _.identity);
           console.log(validProperty.details.media);
@@ -191,6 +196,15 @@ const CreateProperty = ({navigation}) => {
       </View>
     );
   };
+  const renderSelectPhotoFromGallery = (imagesSelect) => {
+    return (
+      <View style={styles.section_container}>
+        <ScrollView horizontal style={styles.photoList}>
+          {renderListPhotosFromGallery(imagesSelect)}
+        </ScrollView>
+      </View>
+    );
+  };
   const renderListPhotos = (localPhotos) => {
     const photos = localPhotos.map((photo, index) => {
       return (
@@ -216,10 +230,42 @@ const CreateProperty = ({navigation}) => {
     });
     return photos;
   };
+  const renderListPhotosFromGallery = (imagesSelect) => {
+    const photos = imagesSelected.map((photo, index) => {
+      return (
+        <View key={index}>
+          <Image
+            source={{uri: API.CREATE_MEDIA_URL + '/' + photo}}
+            style={styles.photo}
+            resizeMode="cover"
+          />
+          <TouchableOpacity
+            style={styles.delete_icon}
+            onPress={() => {
+              deleteImageGallery(index);
+            }}>
+            <Image
+              style={styles.delete_icon_image}
+              resizeMode="contain"
+              source={icons.cancel}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    });
+    return photos;
+  };
   const deleteImage = (index) => {
     const array = [...localPhotos];
     array.splice(index, 1);
     setLocalPhotos(array);
+  };
+  const deleteImageGallery = (index) => {
+    console.log(index);
+    const array = [...imagesSelected];
+    array.splice(index, 1);
+    console.log(array);
+    dispatch({type: CHOOSE_MANY_PHOTOS, imagesSelected: array});
   };
   const handleGallerySelect = () => {
     setModalOptionVisible(false);
@@ -236,6 +282,7 @@ const CreateProperty = ({navigation}) => {
           <TouchableOpacity
             style={styles.button_back}
             onPress={() => {
+              dispatch({type: CHOOSE_MANY_PHOTOS, imagesSelected: []});
               navigation.goBack();
             }}>
             <Image
@@ -499,7 +546,16 @@ const CreateProperty = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
-        {renderSelectPhotosControl(localPhotos)}
+        {localPhotos.length > 0 && (
+          <Text style={{marginTop: SIZES.base, color: COLORS.primary}}>
+            Tải lên:
+          </Text>
+        )}
+        {localPhotos.length > 0 ? renderSelectPhotosControl(localPhotos) : null}
+        {imagesSelected.length > 0 && (
+          <Text style={{color: COLORS.primary}}>QuadaLand store:</Text>
+        )}
+        {imagesSelected && renderSelectPhotoFromGallery(imagesSelected)}
 
         {/* Modal Thong bao  */}
 
@@ -536,6 +592,7 @@ const CreateProperty = ({navigation}) => {
                   <TouchableOpacity
                     onPress={() => {
                       setModalVisible(false);
+                      dispatch({type: CHOOSE_MANY_PHOTOS, imagesSelected: []});
                       navigation.goBack();
                     }}
                     style={{
@@ -828,8 +885,8 @@ const styles = StyleSheet.create({
   },
   photoList: {
     height: 80,
-    marginTop: 15,
-    marginBottom: 15,
+    marginTop: 4,
+    marginBottom: 4,
     marginRight: 10,
   },
   delete_icon: {

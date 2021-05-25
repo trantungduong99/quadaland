@@ -232,7 +232,11 @@ const MyGallery = ({navigation}) => {
             />
             <Text style={{color: COLORS.black, ...FONTS.body5}}>Xóa</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button_delete}>
+          <TouchableOpacity
+            style={styles.button_delete}
+            onPress={() => {
+              navigation.navigate('CreateProperty');
+            }}>
             <Image
               source={icons.add_image}
               style={{height: 20, width: 20}}
