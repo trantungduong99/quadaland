@@ -56,6 +56,7 @@ const CreateProperty = ({navigation}) => {
       isValidTitle
     ) {
       setLoading(true);
+      console.log(saleMethod,address);
       createMedia(localPhotos)
         .then((r) => {
           const slugArray = r.data.map((a) => a.slug);

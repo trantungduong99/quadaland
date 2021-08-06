@@ -15,7 +15,8 @@ const AccountItem = ({item, title, target}) => {
       const token = await asyncStorage.getItem('token');
       console.log('token logout: ', token);
       try {
-        await signOut(token);
+        // await signOut(token);
+        await asyncStorage.clear()
         dispatch({type: SIGN_OUT});
       } catch (e) {
         console.log('Log out error. Component AcountItem.js');

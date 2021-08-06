@@ -24,7 +24,8 @@ import {
 } from './screens/';
 import {useAuthDispatch, useAuthState} from './contexts/authContext';
 import {checkAuth} from './services/authService';
-import {RESTORE_TOKEN} from './actions/actionTypes';
+import {GET_ROLE, RESTORE_TOKEN} from './actions/actionTypes';
+import asyncStorage from '@react-native-community/async-storage';
 // import {AuthProvider} from './contexts/authContext';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 const Stack = createStackNavigator();
@@ -45,6 +46,13 @@ const App = () => {
     };
     bootstrapAsync();
   }, [userToken]);
+  React.useEffect(() => {
+    const getRole = async () => {
+      const role = await asyncStorage.getItem('role');
+      dispatch({type: GET_ROLE, role});
+    };
+    getRole();
+  }, []);
 
   return (
     <SafeAreaProvider>

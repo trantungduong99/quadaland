@@ -12,6 +12,7 @@ import {
   DELETE_MY_PROPERTY,
   CHOOSE_MANY_PHOTOS,
   GET_MEDIA,
+  GET_ROLE,
 } from '../actions/actionTypes';
 
 import _ from 'lodash';
@@ -103,6 +104,11 @@ export const authReducer = (prevState, action) => {
       return {
         ...prevState,
         galleryList: action.galleryList,
+      };
+    case GET_ROLE:
+      return {
+        ...prevState,
+        role: action.role,
       };
     default:
       return prevState;

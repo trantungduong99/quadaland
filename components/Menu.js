@@ -2,8 +2,9 @@ import React from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {icons, SIZES, COLORS} from '../constants';
 import MenuItem from './MenuItem';
-
+import {useAuthState} from '../contexts/authContext';
 const Menu = ({navigation}) => {
+  const {role} = useAuthState();
   return (
     <View
       style={{
@@ -14,7 +15,9 @@ const Menu = ({navigation}) => {
       {/* Hang tren */}
       <View
         style={{flex: 1, flexDirection: 'row', width: '100%', height: '50%'}}>
-        <MenuItem icon={icons.post} name="Đăng tin" target="CreateProperty" />
+        {role === 'company' && (
+          <MenuItem icon={icons.post} name="Đăng tin" target="CreateProperty" />
+        )}
         <MenuItem icon={icons.building} name="Dự án" target="Project" />
         <MenuItem icon={icons.buy} name="Mua bán" target="Shopping" />
         <MenuItem icon={icons.rent} name="Cho thuê" target="Rent" />
