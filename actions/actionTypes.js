@@ -12,3 +12,4 @@ export const DELETE_MY_PROPERTY = 'DELETE_MY_PROPERTY';
 export const CHOOSE_MANY_PHOTOS = 'CHOOSE_MANY_PHOTOS';
 export const GET_MEDIA = 'GET_MEDIA';
 export const GET_ROLE = ' GET_ROLE';
+export const REFRESH = ' REFRESH';

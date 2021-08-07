@@ -53,6 +53,7 @@ class Search extends Component {
       area_isChoose: false,
       min_price_isChoose: false,
       max_price_isChoose: false,
+      sort_by:'-created_at'
     };
   }
 
@@ -67,6 +68,7 @@ class Search extends Component {
       max_area,
       min_price,
       max_price,
+      sort_by
     } = this.state;
 
     if (page <= lastPage) {
@@ -83,6 +85,7 @@ class Search extends Component {
           max_area,
           min_price,
           max_price,
+          sort_by
         },
         _.identity,
       );

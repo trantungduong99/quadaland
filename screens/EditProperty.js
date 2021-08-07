@@ -129,7 +129,7 @@ const EditProperty = ({navigation, route}) => {
       console.log(val);
       setIsValidArea(true);
     } else {
-      setArea(parseFloat(val));
+      setArea('');
       setIsValidArea(false);
     }
   };
@@ -139,7 +139,7 @@ const EditProperty = ({navigation, route}) => {
       console.log(val);
       setIsValidPrice(true);
     } else {
-      setPrice(parseFloat(val));
+      setPrice('');
       setIsValidPrice(false);
     }
   };

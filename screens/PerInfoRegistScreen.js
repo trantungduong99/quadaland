@@ -128,17 +128,16 @@ const PerInfoRegistScreen = ({route, navigation}) => {
       signIn(username, password)
         .then((r) => {
           console.log(r);
-          updateCustomer(fullName, phone, address, email)
+          const full_name = fullName;
+          updateCustomer({full_name, phone, address, email})
             .then((res) => {
-              if (res.data.updated_at) {
+              if (res.data) {
                 console.log('Da thuc hien update');
                 dispatch({type: SIGN_IN, token: r.token});
-              } else {
-                console.log('update that bai ', res);
               }
             })
             .catch((e) => {
-              console.log('loi khi update ', e);
+              console.log('loi khi update ', e.message);
               handleValidAddress(address);
               handleValidEmail(email);
               handleValidFullName(fullName);

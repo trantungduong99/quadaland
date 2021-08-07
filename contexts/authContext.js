@@ -22,6 +22,7 @@ const AuthProvider = ({children}) => {
     myPropery: [],
     searchList: [],
     galleryList: [],
+    refresh:false,
     imagesSelected: [],
   });
 

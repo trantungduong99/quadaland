@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
   Image,
   SafeAreaView,
   FlatList,
+  RefreshControl,
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants';
 import {
@@ -21,11 +22,21 @@ import {
 import {dummyImageData} from '../data/Data';
 
 const Home = ({navigation}) => {
+  const [refresh, setRefresh] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView
         style={{marginHorizontal: SIZES.padding}}
-        showsVerticalScrollIndicator={false}>
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refresh}
+            onRefresh={() => {
+              setRefresh(true);
+              setRefresh(false);
+            }}
+          />
+        }>
         <View style={{height: 0.05 * SIZES.height}}>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <View>

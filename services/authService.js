@@ -193,7 +193,9 @@ const createProperty = async (values) => {
 const getPropertyByCoordinate = async (coordinate, radius) => {
   const {latitude, longitude} = coordinate;
   const token = await asyncStorage.getItem('token');
-  console.log(`${API.GET_PROPERTY_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`);
+  console.log(
+    `${API.GET_PROPERTY_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`,
+  );
   try {
     const response = await axios.get(
       `${API.GET_PROPERTY_URL}coordinates[]=${latitude},${longitude}&radius=${radius}`,
@@ -283,7 +285,7 @@ const createMedia = async (localPhotos) => {
       return null;
     }
   } else {
-    return null;
+    return [];
   }
 };
 

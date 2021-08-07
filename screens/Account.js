@@ -4,19 +4,22 @@ import {COLORS, FONTS, icons, images, SIZES} from '../constants';
 import {AccountItem} from '../components';
 import {readMyProfile} from '../services/authService';
 import asyncStorage from '@react-native-community/async-storage';
-import {useAuthState} from '../contexts/authContext';
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
 
 const Account = ({navigation}) => {
+  const dispatch = useAuthDispatch()
   const [role, setRole] = useState('customer');
   useEffect(() => {
     asyncStorage
       .getItem('role')
       .then((r) => {
         setRole(r);
+        dispatch({type: GET_ROLE, role});
       })
       .catch((e) => {
         console.log(e);
       });
+      
   }, []);
   // const {role} = useAuthState()
   return (
@@ -115,7 +118,7 @@ const Account = ({navigation}) => {
             target="MyProperty"
           />
         ) : null}
-        <AccountItem item={icons.account} title="Kho ảnh" target="mygallery" />
+        {role === 'company' &&<AccountItem item={icons.account} title="Kho ảnh" target="mygallery" />}
         <AccountItem item={icons.headphones} title="Liên hệ" target="lienhe" />
         <AccountItem
           item={icons.password}

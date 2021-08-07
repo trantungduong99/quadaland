@@ -13,6 +13,7 @@ import {
   CHOOSE_MANY_PHOTOS,
   GET_MEDIA,
   GET_ROLE,
+  REFRESH,
 } from '../actions/actionTypes';
 
 import _ from 'lodash';
@@ -109,6 +110,11 @@ export const authReducer = (prevState, action) => {
       return {
         ...prevState,
         role: action.role,
+      };
+    case REFRESH:
+      return {
+        ...prevState,
+        refresh: action.refresh,
       };
     default:
       return prevState;

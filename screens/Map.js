@@ -15,12 +15,12 @@ const Map = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [radius, setRadius] = useState(1);
   const [coordinateCreate, setCoordinateCreate] = useState({
-    latitude: 16.066627,
-    longitude: 108.151134,
+    latitude: 15.812036,
+    longitude: 108.135440,
   });
   const [currentCoordinate, setCurrentCoordinate] = useState({
-    latitude: 16.066627,
-    longitude: 108.151134,
+    latitude: 15.812036,
+    longitude: 108.135440,
   });
   const dispatch = useAuthDispatch();
   useEffect(() => {

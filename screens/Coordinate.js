@@ -11,12 +11,12 @@ const Coordinate = ({navigation, route}) => {
   const [error, setError] = useState(null);
   const [isChange, setIsChange] = useState(false);
   const [coordinateCreate, setCoordinateCreate] = useState({
-    latitude: 16.066627,
-    longitude: 108.151134,
+    latitude: 15.812036,
+    longitude: 108.135440,
   });
   const [currentCoordinate, setCurrentCoordinate] = useState({
-    latitude: 16.066627,
-    longitude: 108.151134,
+    latitude: 15.812036,
+    longitude: 108.135440,
   });
   const dispatch = useAuthDispatch();
   const {coordinate} = useAuthState();
