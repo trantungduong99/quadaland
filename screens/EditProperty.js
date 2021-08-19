@@ -102,7 +102,7 @@ const EditProperty = ({navigation, route}) => {
           : property.details.price;
       updateProperty(property, slug)
         .then((r) => {
-          console.log(r);
+          // console.log(r);
           if (r.data.updated_at) {
             console.log('Update Thành công');
             setSubmitSuccess(true);
@@ -126,7 +126,7 @@ const EditProperty = ({navigation, route}) => {
   const text_AreaChange = (val) => {
     if (val > 0 && !isNaN(val)) {
       setArea(parseFloat(val));
-      console.log(val);
+      // console.log(val);
       setIsValidArea(true);
     } else {
       setArea('');
@@ -136,7 +136,7 @@ const EditProperty = ({navigation, route}) => {
   const text_PriceChange = (val) => {
     if (val > 0 && !isNaN(val)) {
       setPrice(parseFloat(val));
-      console.log(val);
+      // console.log(val);
       setIsValidPrice(true);
     } else {
       setPrice('');

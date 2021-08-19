@@ -17,6 +17,7 @@ export default class MyProfile extends Component {
     data: [],
     page: 1,
     loading: true,
+    sort_by: '-created_at',
     error: null,
     loadingMore: false,
     lastPage: 1,
@@ -26,12 +27,17 @@ export default class MyProfile extends Component {
     this._fetchProperty();
   }
   _fetchProperty = () => {
-    const {page, lastPage} = this.state;
+    const {page, lastPage,sort_by} = this.state;
     console.log({page, lastPage});
     const {username} = this.props.route.params;
     console.log('Đi lấy dữ liệu page ', page);
     if (page <= lastPage) {
-      const query = {username: username, per_page: 10, page: page};
+      const query = {
+        username: username,
+        per_page: 10,
+        page: page,
+        sort_by: sort_by,
+      };
       getProperty(query)
         .then((response) => {
           console.log(response);
@@ -50,7 +56,7 @@ export default class MyProfile extends Component {
         });
     } else {
       console.log('hết trang');
-      this.setState({loadingMore:false})
+      this.setState({loadingMore: false});
       return;
     }
   };
@@ -111,7 +117,7 @@ export default class MyProfile extends Component {
                     }}
                     showsVerticalScrollIndicator={false}
                     renderItem={({item}) => {
-                      return <RentVertical item={item}/>;
+                      return <RentVertical item={item} />;
                     }}
                     initialNumToRender={10}
                     ListFooterComponent={this._renderFooter}

@@ -16,7 +16,7 @@ const AccountItem = ({item, title, target}) => {
       console.log('token logout: ', token);
       try {
         // await signOut(token);
-        await asyncStorage.clear()
+        await asyncStorage.clear();
         dispatch({type: SIGN_OUT});
       } catch (e) {
         console.log('Log out error. Component AcountItem.js');
@@ -31,6 +31,9 @@ const AccountItem = ({item, title, target}) => {
     }
     if (target == 'mygallery') {
       navigation.navigate('MyGallery');
+    }
+    if (target == 'MyBookmark') {
+      navigation.navigate('MyBookmark');
     }
   };
   return (

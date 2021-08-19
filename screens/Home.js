@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   FlatList,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import {SIZES, COLORS, icons, FONTS, images} from '../constants';
 import {
@@ -20,9 +21,93 @@ import {
   ShoppingIntro,
 } from '../components';
 import {dummyImageData} from '../data/Data';
-
+import {useAuthDispatch, useAuthState} from '../contexts/authContext';
+import asyncStorage from '@react-native-community/async-storage';
+import Pusher from 'pusher-js';
+import {getOneProperty} from '../services/authService';
+import {GET_USERNAME, IS_RECEIVE_NOTI} from '../actions/actionTypes';
 const Home = ({navigation}) => {
   const [refresh, setRefresh] = useState(false);
+  const {userToken, username} = useAuthState();
+  const dispatch = useAuthDispatch();
+  const createTwoButtonAlert = (data) => {
+    dispatch({
+      type: IS_RECEIVE_NOTI,
+      isReceiveNoti: true,
+      noti: data.target_id,
+    });
+    // Alert.alert('Thông báo', 'Bài viết của bạn đã được duyệt', [
+    //   {
+    //     text: 'Tắt',
+    //     onPress: () => console.log('Cancel Pressed'),
+    //     style: 'cancel',
+    //   },
+    //   {
+    //     text: 'Xem chi tiết',
+    //     style: 'default',
+    //     onPress: () => {
+    //       getOneProperty(data.target_id)
+    //         .then((r) => {
+    //           navigation.navigate('PropertyDetail', {item: r.data});
+    //         })
+    //         .catch((e) => {
+    //           console.log(e);
+    //         });
+    //     },
+    //   },
+    // ]);
+  };
+  useEffect(() => {
+    asyncStorage
+      .getItem('username')
+      .then((r) => {
+        dispatch({type: GET_USERNAME, username: r});
+        if (username !== '') {
+          const pusher = new Pusher('31228d6611e35745a3c9', {
+            cluster: 'ap1',
+            authEndpoint: 'http://123.19.51.38:3000/api/v1/pusher/auth',
+            auth: {
+              headers: {Authorization: `Bearer ${userToken}`},
+            },
+          });
+          const channel = pusher.subscribe(`private-user-${username}`);
+          channel.bind('property-approved', (data) => {
+            // console.log(data);
+            createTwoButtonAlert(data);
+          });
+          if (pusher.connection.state !== 'connected') {
+            console.log('connect');
+            const channel = pusher.subscribe(`private-user-${username}`);
+            channel.bind('property-approved', (data) => {
+              // console.log(data);
+              createTwoButtonAlert(data);
+            });
+          }
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, []);
+
+  useEffect(() => {
+    console.log(username);
+    const pusher = new Pusher('31228d6611e35745a3c9', {
+      cluster: 'ap1',
+      authEndpoint: 'http://123.19.51.38:2999/api/v1/pusher/auth',
+      auth: {
+        headers: {Authorization: `Bearer ${userToken}`},
+      },
+    });
+    if (pusher.connection.state !== 'connected') {
+      console.log('connect');
+      const channel = pusher.subscribe(`private-user-${username}`);
+      channel.bind('property-approved', (data) => {
+        // console.log(data);
+        createTwoButtonAlert(data);
+      });
+    }
+  }, [username]);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView

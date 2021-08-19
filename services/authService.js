@@ -323,6 +323,32 @@ const deleteMedia = async (slugs) => {
     console.log('Loi tra ve', error);
   }
 };
+const getBookmarks = async (pagination) => {
+  const token = await asyncStorage.getItem('token');
+  try {
+    const response = await axios.get(API.GET_BOOKMARKS, {
+      headers: {Authorization: `Bearer ${token}`},
+      params: {...pagination, sort_by: '-created_at'},
+    });
+    return response;
+  } catch (error) {
+    return error.message;
+  }
+};
+const createBookmark = async (property_id) => {
+  const token = await asyncStorage.getItem('token');
+  try {
+    const response = await axios.post(API.GET_BOOKMARKS, {property_id: property_id}, {
+      headers: {Authorization: `Bearer ${token}`},
+    
+    });
+    console.log('thanh cong');
+    return response.data;
+  } catch (error) {
+    console.log('that bai');
+    return error.message;
+  }
+};
 export {
   signIn,
   signOut,
@@ -340,4 +366,6 @@ export {
   createMedia,
   getMedia,
   deleteMedia,
+  getBookmarks,
+  createBookmark,
 };

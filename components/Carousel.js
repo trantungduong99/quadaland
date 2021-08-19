@@ -80,7 +80,7 @@ const Carousel = ({data}) => {
       </View>
     );
   }
-  console.log('Please provide Images');
+  // console.log('Please provide Images');
   return null;
 };
 

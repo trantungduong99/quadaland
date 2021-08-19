@@ -58,5 +58,5 @@ export default {
   avatar,
   logo,
   supportTeam,
-  logoSplash
+  logoSplash,
 };

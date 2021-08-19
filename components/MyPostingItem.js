@@ -9,11 +9,11 @@ const MyPostingItem = ({item}) => {
   const dispatch = useAuthDispatch();
   const {username} = useAuthState();
   const handleDetete = async (slug) => {
-    console.log(slug);
+    // console.log(slug);
     deleteProperty(slug).then((r) => {
-      console.log(r);
+      // console.log(r);
     }).catch((e)=>{
-      console.log(e);
+      // console.log(e);
     });
   };
   return (

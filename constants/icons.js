@@ -64,6 +64,8 @@ export const filter1 = require('../assets/icons/filter1.png');
 export const filter2 = require('../assets/icons/filter2.png');
 export const cancel = require('../assets/icons/cancel.png');
 export const add_image = require('../assets/icons/add-image.png');
+export const notification1 = require('../assets/icons/notification1.png');
+export const dot = require('../assets/icons/dot.png');
 export default {
   home,
   community,
@@ -131,4 +133,6 @@ export default {
   filter2,
   cancel,
   add_image,
+  notification1,
+  dot,
 };

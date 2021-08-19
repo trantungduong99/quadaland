@@ -14,12 +14,15 @@ import {
   GET_MEDIA,
   GET_ROLE,
   REFRESH,
+  IS_RECEIVE_NOTI,
+  GET_USERNAME,
+  VIEWNOTI,
 } from '../actions/actionTypes';
 
 import _ from 'lodash';
 
 export const authReducer = (prevState, action) => {
-  console.log('prevState:', prevState);
+  // console.log('prevState:', prevState);
   switch (action.type) {
     case RESTORE_TOKEN:
       return {
@@ -54,6 +57,8 @@ export const authReducer = (prevState, action) => {
         searchList: [],
         galleryList: [],
         imagesSelected: [],
+        isReceiveNoti: false,
+        noti: '',
       };
     case SET_COORDINATE:
       return {
@@ -96,7 +101,7 @@ export const authReducer = (prevState, action) => {
         myProperty: action.myProperty,
       };
     case CHOOSE_MANY_PHOTOS:
-      console.log('action imagesSelecte', action.imagesSelected);
+      // console.log('action imagesSelecte', action.imagesSelected);
       return {
         ...prevState,
         imagesSelected: action.imagesSelected,
@@ -116,6 +121,23 @@ export const authReducer = (prevState, action) => {
         ...prevState,
         refresh: action.refresh,
       };
+    case IS_RECEIVE_NOTI:
+      return {
+        ...prevState,
+        isReceiveNoti: action.isReceiveNoti,
+        noti: action.noti,
+      };
+    case GET_USERNAME:
+      return {
+        ...prevState,
+        username: action.username,
+      };
+    case VIEWNOTI:
+      return {
+        ...prevState,
+        isReceiveNoti: action.isReceiveNoti,
+      };
+
     default:
       return prevState;
   }

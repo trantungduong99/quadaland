@@ -5,21 +5,20 @@ import {AccountItem} from '../components';
 import {readMyProfile} from '../services/authService';
 import asyncStorage from '@react-native-community/async-storage';
 import {useAuthDispatch, useAuthState} from '../contexts/authContext';
+import {GET_ROLE} from '../actions/actionTypes';
 
 const Account = ({navigation}) => {
-  const dispatch = useAuthDispatch()
-  const [role, setRole] = useState('customer');
+  const dispatch = useAuthDispatch();
+  const {role} = useAuthState();
   useEffect(() => {
     asyncStorage
       .getItem('role')
       .then((r) => {
-        setRole(r);
         dispatch({type: GET_ROLE, role});
       })
       .catch((e) => {
         console.log(e);
       });
-      
   }, []);
   // const {role} = useAuthState()
   return (
@@ -109,7 +108,7 @@ const Account = ({navigation}) => {
         <AccountItem
           item={icons.save}
           title="Nội dung đã lưu"
-          target="noidungdaluu"
+          target="MyBookmark"
         />
         {role === 'company' ? (
           <AccountItem
@@ -118,7 +117,13 @@ const Account = ({navigation}) => {
             target="MyProperty"
           />
         ) : null}
-        {role === 'company' &&<AccountItem item={icons.account} title="Kho ảnh" target="mygallery" />}
+        {role === 'company' && (
+          <AccountItem
+            item={icons.account}
+            title="Kho ảnh"
+            target="mygallery"
+          />
+        )}
         <AccountItem item={icons.headphones} title="Liên hệ" target="lienhe" />
         <AccountItem
           item={icons.password}

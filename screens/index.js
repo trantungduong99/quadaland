@@ -24,6 +24,7 @@ import CustomerProfile from './CustomerProfile';
 import MyProperty from './MyProperty';
 import EditProperty from './EditProperty';
 import MyGallery from './MyGallery';
+import MyBookmark from './MyBookmark';
 export {
   Home,
   Community,
@@ -51,4 +52,5 @@ export {
   MyProperty,
   EditProperty,
   MyGallery,
+  MyBookmark,
 };

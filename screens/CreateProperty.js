@@ -56,13 +56,13 @@ const CreateProperty = ({navigation}) => {
       isValidTitle
     ) {
       setLoading(true);
-      console.log(saleMethod,address);
+      // console.log(saleMethod,address);
       createMedia(localPhotos)
         .then((r) => {
           const slugArray = r.data.map((a) => a.slug);
-          console.log('Slug Array', slugArray);
+          // console.log('Slug Array', slugArray);
           const mediaSlugArray = _.concat(slugArray, imagesSelected);
-          console.log('mediaSlug', mediaSlugArray);
+          // console.log('mediaSlug', mediaSlugArray);
           setMedia(mediaSlugArray);
 
           property.sale_method = saleMethod;
@@ -80,18 +80,18 @@ const CreateProperty = ({navigation}) => {
               ? property.details.price * 1000
               : property.details.price;
           property.details.media = mediaSlugArray;
-          console.log('property :', property);
+          // console.log('property :', property);
           const validProperty = _.pickBy(property, _.identity);
-          console.log(validProperty.details.media);
+          // console.log(validProperty.details.media);
           createProperty(validProperty)
             .then((r) => {
               if (r.data.created_at) {
-                console.log('Create Thành công');
+                // console.log('Create Thành công');
                 setLoading(false);
                 setSubmitSuccess(true);
                 setModalVisible(true);
               } else {
-                console.log('Create Thất bại');
+                // console.log('Create Thất bại');
                 setLoading(false);
                 setSubmitSuccess(false);
                 setModalVisible(true);
@@ -262,10 +262,10 @@ const CreateProperty = ({navigation}) => {
     setLocalPhotos(array);
   };
   const deleteImageGallery = (index) => {
-    console.log(index);
+    // console.log(index);
     const array = [...imagesSelected];
     array.splice(index, 1);
-    console.log(array);
+    // console.log(array);
     dispatch({type: CHOOSE_MANY_PHOTOS, imagesSelected: array});
   };
   const handleGallerySelect = () => {

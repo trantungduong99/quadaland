@@ -26,6 +26,7 @@ const Map = ({navigation}) => {
   useEffect(() => {
     Geolocation.getCurrentPosition(
       (position) => {
+        console.log(position);
         setCoordinateCreate(position.coords);
         setCurrentCoordinate(position.coords);
         setError(false);

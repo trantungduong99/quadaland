@@ -7,7 +7,7 @@ import AccountItem from './AccountItem';
 import MyPostingItem from './MyPostingItem';
 import FilterOption from './FilterOption';
 import SearchTag from './SearchTag';
-
+import BookmarkItem from './BookmarkItem';
 export {
   Menu,
   ProductIntro,
@@ -18,4 +18,5 @@ export {
   MyPostingItem,
   FilterOption,
   SearchTag,
+  BookmarkItem,
 };

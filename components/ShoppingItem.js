@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
-import {SIZES, FONTS, COLORS, icons, images,API} from '../constants';
+import {SIZES, FONTS, COLORS, icons, images, API} from '../constants';
 import {useNavigation} from '@react-navigation/native';
 import {media} from '../data/Data';
+import {createBookmark} from '../services/authService';
 const ShoppingItem = ({item}) => {
   const navigation = useNavigation();
+  const [save, setSave] = useState(false);
   const slug =
     item.details.media.length > 0 ? item.details.media[0].slug : media[0].slug;
+  const handleSavePost = async () => {
+    setSave(true);
+    console.log(item.id);
+    await createBookmark(item.id);
+  };
   return (
     <View style={{marginRight: SIZES.padding, marginLeft: 1}}>
       <View style={{flex: 1}}>
@@ -106,10 +113,10 @@ const ShoppingItem = ({item}) => {
           <TouchableOpacity
             style={{position: 'absolute', bottom: 12, right: 12}}
             onPress={() => {
-              console.log('Favorite On Pressed');
+              handleSavePost();
             }}>
             <Image
-              source={icons.save_outline}
+              source={save ? icons.save : icons.save_outline}
               resizeMode="contain"
               style={{width: 27, height: 27, tintColor: COLORS.primary}}
             />

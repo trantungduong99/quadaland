@@ -12,6 +12,7 @@ export const GET_ONE_PROPERTY_URL = `${base_url}/properties/`;
 export const DELETE_PROPERTY_URL = `${base_url}/properties/`;
 export const UPDATE_PROPERTY_URL = `${base_url}/properties/`;
 export const CREATE_MEDIA_URL = `${base_url}/media`;
+export const GET_BOOKMARKS = `${base_url}/bookmarks`;
 export default {
   LOGIN_URL,
   REGISTER_URL,
@@ -26,4 +27,5 @@ export default {
   UPDATE_PROPERTY_URL,
   GET_ONE_PROPERTY_URL,
   CREATE_MEDIA_URL,
+  GET_BOOKMARKS,
 };

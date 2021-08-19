@@ -21,15 +21,18 @@ import {
   MyProperty,
   EditProperty,
   MyGallery,
+  MyBookmark
 } from './screens/';
 import {useAuthDispatch, useAuthState} from './contexts/authContext';
 import {checkAuth} from './services/authService';
-import {GET_ROLE, RESTORE_TOKEN} from './actions/actionTypes';
+import {GET_ROLE, GET_USERNAME, RESTORE_TOKEN} from './actions/actionTypes';
 import asyncStorage from '@react-native-community/async-storage';
 // import {AuthProvider} from './contexts/authContext';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 const Stack = createStackNavigator();
+import {LogBox} from 'react-native';
 
+LogBox.ignoreAllLogs();
 const App = () => {
   const {isLoading, isSignOut, userToken} = useAuthState();
   const dispatch = useAuthDispatch();
@@ -39,10 +42,10 @@ const App = () => {
         const user = await checkAuth();
         console.log('39:app.js', userToken);
         token = user.token;
+        dispatch({type: RESTORE_TOKEN, token});
       } catch (e) {
         console.log(e.message);
       }
-      dispatch({type: RESTORE_TOKEN, token});
     };
     bootstrapAsync();
   }, [userToken]);
@@ -83,6 +86,7 @@ const App = () => {
             <Stack.Screen name="MyProperty" component={MyProperty} />
             <Stack.Screen name="EditProperty" component={EditProperty} />
             <Stack.Screen name="MyGallery" component={MyGallery} />
+            <Stack.Screen name="MyBookmark" component={MyBookmark} />
           </Stack.Navigator>
         )}
       </NavigationContainer>

@@ -6,13 +6,6 @@ const Message = () => {
   return (
     <View>
       <Text>Message</Text>
-      <Slider
-        style={{width: 200, height: 40}}
-        minimumValue={1}
-        maximumValue={10}
-        minimumTrackTintColor="#00AEDD"
-        maximumTrackTintColor="#000000"
-      />
     </View>
   );
 };

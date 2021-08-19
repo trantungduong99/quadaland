@@ -13,3 +13,6 @@ export const CHOOSE_MANY_PHOTOS = 'CHOOSE_MANY_PHOTOS';
 export const GET_MEDIA = 'GET_MEDIA';
 export const GET_ROLE = ' GET_ROLE';
 export const REFRESH = ' REFRESH';
+export const IS_RECEIVE_NOTI = ' IS_RECEIVE_NOTI';
+export const VIEWNOTI = 'VIEWNOTI';
+export const GET_USERNAME = ' GET_USERNAME';

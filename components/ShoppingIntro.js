@@ -29,7 +29,7 @@ const ShoppingIntro = () => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        // console.log(e);
       });
   }, []);
   const navigation = useNavigation();

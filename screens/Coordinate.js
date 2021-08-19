@@ -20,7 +20,7 @@ const Coordinate = ({navigation, route}) => {
   });
   const dispatch = useAuthDispatch();
   const {coordinate} = useAuthState();
-  console.log(route.params.option);
+  // console.log(route.params.option);
   useEffect(() => {
     if (route.params.option === 'update') {
       setCoordinateCreate(coordinate);
@@ -43,7 +43,7 @@ const Coordinate = ({navigation, route}) => {
   const onMapPress = async (e) => {
     const {latitude, longitude} = e.nativeEvent.coordinate;
     setIsChange(true);
-    console.log({latitude, longitude});
+    // console.log({latitude, longitude});
     setCoordinateCreate({latitude, longitude});
   };
   const focusCurrentPosition = () => {

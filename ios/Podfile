@@ -3,7 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '10.0'
 
-target 'HomedyApp' do
+target 'QuadaLand' do
   config = use_native_modules!
 
   use_react_native!(:path => config["reactNativePath"])
@@ -14,7 +14,7 @@ target 'HomedyApp' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
-  target 'HomedyAppTests' do
+  target 'QuadaLandTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -29,10 +29,10 @@ target 'HomedyApp' do
   end
 end
 
-target 'HomedyApp-tvOS' do
-  # Pods for HomedyApp-tvOS
+target 'QuadaLand-tvOS' do
+  # Pods for QuadaLand-tvOS
 
-  target 'HomedyApp-tvOSTests' do
+  target 'QuadaLand-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

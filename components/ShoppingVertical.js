@@ -121,7 +121,7 @@ const ShoppingVertical = ({item}) => {
             <TouchableOpacity
               style={{position: 'absolute', bottom: 12, right: 24}}
               onPress={() => {
-                console.log('Save on Pressed');
+                // console.log(item.id);
               }}>
               <Image
                 source={icons.save_outline}

@@ -99,7 +99,7 @@ export default class ProjectDetail extends Component {
               refreshing={this.state.refreshing}
               onRefresh={() => {
                 this.setState({refreshing: true});
-                setTimeout(() => this.setState({refreshing: false}), 1000);
+                setTimeout(() => this.setState({refreshing: false}), 3000);
               }}
               // Android offset for RefreshControl
               progressViewOffset={HEADER_MAX_HEIGHT}
