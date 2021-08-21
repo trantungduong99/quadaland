@@ -17,13 +17,16 @@ import {SIGN_IN} from '../actions/actionTypes';
 const SignUpScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [check_textInputChange, setCheckTextInputChange] = useState(false);
+  const [check_textEmailChange, setChechTextEmailChange] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [secureTextEntryConfirm, setSecureTextEntryConfirm] = useState(true);
   const [isValidUser, setIsValidUser] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(true);
   const [isValidPasswordConfirm, setIsValidPasswordConfirm] = useState(true);
+  const [isValidEmail, setIsValidEmail] = useState(true);
   const [signUpLoading, setSignUpLoading] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(true);
 
@@ -40,7 +43,28 @@ const SignUpScreen = ({navigation}) => {
       setIsValidUser(false);
     }
   };
-
+  const textEmailChange = (val) => {
+    if (emailValid(val)) {
+      setEmail(val);
+      setChechTextEmailChange(true);
+      setIsValidEmail(true);
+    } else {
+      setEmail(val);
+      setChechTextEmailChange(false);
+      setIsValidEmail(false);
+    }
+  };
+  const handleValidEmail = (val) => {
+    if (emailValid(val)) {
+      setIsValidEmail(true);
+    } else {
+      setIsValidEmail(false);
+    }
+  };
+  const emailValid = (val) => {
+    const emailRegex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+    return emailRegex.test(val);
+  };
   const handleValidUser = (val) => {
     if (val.trim().length >= 8) {
       setIsValidUser(true);
@@ -57,15 +81,15 @@ const SignUpScreen = ({navigation}) => {
       setIsValidPassword(false);
     }
   };
-  const handlePasswordConfirmChange =(val)=>{
-    if(val==password){
+  const handlePasswordConfirmChange = (val) => {
+    if (val == password) {
       setPasswordConfirm(val);
-      setIsValidPasswordConfirm(true)
-    }else{
+      setIsValidPasswordConfirm(true);
+    } else {
       setPasswordConfirm(val);
-      setIsValidPasswordConfirm(false)
+      setIsValidPasswordConfirm(false);
     }
-  }
+  };
   const signUpUser = async (values) => {
     const {email, password} = values;
     setSignUpLoading(true);
@@ -81,14 +105,19 @@ const SignUpScreen = ({navigation}) => {
         setSignUpLoading(false);
       })
       .finally(() => {
-        if(signUpSuccess){
-          console.log('Thực hiện navigate sang trang đăng kí thông tin cá nhân');
-          navigation.navigate("PerInfoRegistScreen",{username:email, password:password})
+        if (signUpSuccess) {
+          console.log(
+            'Thực hiện navigate sang trang đăng kí thông tin cá nhân',
+          );
+          navigation.navigate('PerInfoRegistScreen', {
+            username: email,
+            password: password,
+          });
         }
       });
   };
   const handleSignUp = async (values) => {
-    if (isValidPassword && isValidUser&&password&&username) {
+    if (isValidPassword && isValidUser && password && username) {
       await signUpUser(values);
     } else {
       return;
@@ -96,7 +125,8 @@ const SignUpScreen = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      {signUpLoading?(<View
+      {signUpLoading ? (
+        <View
           style={{
             flex: 1,
             justifyContent: 'center',
@@ -106,10 +136,12 @@ const SignUpScreen = ({navigation}) => {
           <StatusBar backgroundColor="#00AEDD" barStyle="light-content" />
           <Image
             source={images.supportTeam}
-            style={{height: "100%", width: "100%"}}
+            style={{height: '100%', width: '100%'}}
             resizeMode="contain"
           />
-        </View>):(<>
+        </View>
+      ) : (
+        <>
           <StatusBar backgroundColor="#00AEDD" barStyle="light-content" />
           <View style={styles.header}>
             <Image
@@ -153,6 +185,39 @@ const SignUpScreen = ({navigation}) => {
               <Text style={styles.errMsg}>
                 Username must be 8 characters long.
               </Text>
+            )}
+            <Text style={styles.text_footer}>Email</Text>
+            <View style={styles.action}>
+              <Image
+                source={icons.user}
+                style={{height: 20, width: 20}}
+                resizeMode="contain"
+              />
+              <TextInput
+                placeholder="Email"
+                placeholderTextColor="#666666"
+                autoCapitalize="none"
+                style={styles.TextInput}
+                onChangeText={(val) => {
+                  textEmailChange(val);
+                }}
+                onEndEditing={(e) => {
+                  handleValidEmail(e.nativeEvent.text);
+                }}
+              />
+
+              {check_textEmailChange ? (
+                <Image
+                  source={icons.checkmark}
+                  style={{height: 20, width: 20, tintColor: 'green'}}
+                  resizeMode="contain"
+                />
+              ) : null}
+            </View>
+            {isValidEmail ? (
+              <View style={{height: 22}}></View>
+            ) : (
+              <Text style={styles.errMsg}>Email format is incorrect</Text>
             )}
             <Text style={[styles.text_footer, {marginTop: 2}]}>Password</Text>
             <View style={styles.action}>
@@ -200,7 +265,9 @@ const SignUpScreen = ({navigation}) => {
                 </Text>
               )}
             </View>
-            <Text style={[styles.text_footer, {marginTop: 2}]}>Confirm Password</Text>
+            <Text style={[styles.text_footer, {marginTop: 2}]}>
+              Confirm Password
+            </Text>
             <View style={styles.action}>
               <Image
                 source={icons.padlock}
@@ -242,15 +309,23 @@ const SignUpScreen = ({navigation}) => {
                 <View style={{height: 22, width: 30}}></View>
               ) : (
                 <Text style={styles.errMsg}>
-                Password & Confirm Password must be same.
+                  Password & Confirm Password must be same.
                 </Text>
               )}
             </View>
             <View>
-              <Text style={styles.errMsg}>{signUpSuccess==false?"Đăng kí thất bại! Xin vui lòng thử lại.":""}</Text>
+              <Text style={styles.errMsg}>
+                {signUpSuccess == false
+                  ? 'Đăng kí thất bại! Xin vui lòng thử lại.'
+                  : ''}
+              </Text>
             </View>
             <View style={styles.button}>
-              <TouchableOpacity style={styles.signIn} onPress={()=>{handleSignUp({email:username,password:passwordConfirm})}}>
+              <TouchableOpacity
+                style={styles.signIn}
+                onPress={() => {
+                  handleSignUp({email: username, password: passwordConfirm});
+                }}>
                 <Text style={styles.textSignIn}>Sign Up</Text>
               </TouchableOpacity>
             </View>
@@ -267,7 +342,8 @@ const SignUpScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </Animatable.View>
-        </>)}
+        </>
+      )}
     </View>
   );
   // }
@@ -291,7 +367,7 @@ const styles = StyleSheet.create({
     ...FONTS.h2,
   },
   footer: {
-    flex: 3,
+    flex: 4,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
